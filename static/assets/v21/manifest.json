@@ -1,0 +1,48 @@
+{
+  "pack": "DeveloperHCR V2.1 Visual & Offline Asset Pack",
+  "version": "2.1-beta",
+  "wallpapers": [
+    {
+      "id": "aurora-lattice",
+      "name": "Aurora Lattice",
+      "path": "/static/assets/v21/aurora-lattice.png",
+      "size": "1600x900"
+    },
+    {
+      "id": "neon-city",
+      "name": "Neon City",
+      "path": "/static/assets/v21/neon-city.png",
+      "size": "1600x900"
+    },
+    {
+      "id": "deep-ocean",
+      "name": "Deep Ocean",
+      "path": "/static/assets/v21/deep-ocean.png",
+      "size": "1600x900"
+    },
+    {
+      "id": "solar-flare",
+      "name": "Solar Flare",
+      "path": "/static/assets/v21/solar-flare.png",
+      "size": "1600x900"
+    },
+    {
+      "id": "quantum-grid",
+      "name": "Quantum Grid",
+      "path": "/static/assets/v21/quantum-grid.png",
+      "size": "1600x900"
+    },
+    {
+      "id": "crystal-night",
+      "name": "Crystal Night",
+      "path": "/static/assets/v21/crystal-night.png",
+      "size": "1600x900"
+    }
+  ],
+  "features": [
+    "offline wallpaper library",
+    "visual theme metadata",
+    "local asset catalog",
+    "no external CDN dependency"
+  ]
+}

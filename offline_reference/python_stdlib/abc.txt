@@ -1,0 +1,389 @@
+Help on module abc:
+
+NAME
+    abc - Abstract Base Classes (ABCs) according to PEP 3119.
+
+MODULE REFERENCE
+    https://docs.python.org/3.13/library/abc.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+CLASSES
+    builtins.classmethod(builtins.object)
+        abstractclassmethod
+    builtins.object
+        ABC
+    builtins.property(builtins.object)
+        abstractproperty
+    builtins.staticmethod(builtins.object)
+        abstractstaticmethod
+    builtins.type(builtins.object)
+        ABCMeta
+
+    class ABC(builtins.object)
+     |  Helper class that provides a standard way to create an ABC using
+     |  inheritance.
+     |
+     |  Data and other attributes defined here:
+     |
+     |  __abstractmethods__ = frozenset()
+
+    class ABCMeta(builtins.type)
+     |  ABCMeta(name, bases, namespace, /, **kwargs)
+     |
+     |  Metaclass for defining Abstract Base Classes (ABCs).
+     |
+     |  Use this metaclass to create an ABC.  An ABC can be subclassed
+     |  directly, and then acts as a mix-in class.  You can also register
+     |  unrelated concrete classes (even built-in classes) and unrelated
+     |  ABCs as 'virtual subclasses' -- these and their descendants will
+     |  be considered subclasses of the registering ABC by the built-in
+     |  issubclass() function, but the registering ABC won't show up in
+     |  their MRO (Method Resolution Order) nor will method
+     |  implementations defined by the registering ABC be callable (not
+     |  even via super()).
+     |
+     |  Method resolution order:
+     |      ABCMeta
+     |      builtins.type
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __instancecheck__(cls, instance)
+     |      Override for isinstance(instance, cls).
+     |
+     |  __subclasscheck__(cls, subclass)
+     |      Override for issubclass(subclass, cls).
+     |
+     |  register(cls, subclass)
+     |      Register a virtual subclass of an ABC.
+     |
+     |      Returns the subclass, to allow usage as a class decorator.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |
+     |  __new__(mcls, name, bases, namespace, /, **kwargs)
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __annotations__ = {}
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.type:
+     |
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |
+     |  __dir__(self, /)
+     |      Specialized __dir__ implementation for types.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __or__(self, value, /)
+     |      Return self|value.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __ror__(self, value, /)
+     |      Return value|self.
+     |
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |
+     |  __sizeof__(self, /)
+     |      Return memory consumption of the type object.
+     |
+     |  __subclasses__(self, /)
+     |      Return a list of immediate subclasses.
+     |
+     |  mro(self, /)
+     |      Return a type's method resolution order.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.type:
+     |
+     |  __prepare__(name, bases, /, **kwds)
+     |      Create the namespace for the class statement
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.type:
+     |
+     |  __abstractmethods__
+     |
+     |  __dict__
+     |
+     |  __text_signature__
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.type:
+     |
+     |  __base__ = <class 'type'>
+     |      type(object) -> the object's type
+     |      type(name, bases, dict, **kwds) -> a new type
+     |
+     |
+     |  __bases__ = (<class 'type'>,)
+     |
+     |  __basicsize__ = 928
+     |
+     |  __dictoffset__ = 264
+     |
+     |  __flags__ = 2155896320
+     |
+     |  __itemsize__ = 40
+     |
+     |  __mro__ = (<class 'abc.ABCMeta'>, <class 'type'>, <class 'object'>)
+     |
+     |  __type_params__ = ()
+     |
+     |  __weakrefoffset__ = 368
+
+    class abstractclassmethod(builtins.classmethod)
+     |  abstractclassmethod(callable)
+     |
+     |  A decorator indicating abstract classmethods.
+     |
+     |  Deprecated, use 'classmethod' with 'abstractmethod' instead:
+     |
+     |      class C(ABC):
+     |          @classmethod
+     |          @abstractmethod
+     |          def my_abstract_classmethod(cls, ...):
+     |              ...
+     |
+     |  Method resolution order:
+     |      abstractclassmethod
+     |      builtins.classmethod
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, callable)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __isabstractmethod__ = True
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.classmethod:
+     |
+     |  __get__(self, instance, owner=None, /)
+     |      Return an attribute of instance, which is of type owner.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.classmethod:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.classmethod
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.classmethod:
+     |
+     |  __dict__
+     |
+     |  __func__
+     |
+     |  __wrapped__
+
+    class abstractproperty(builtins.property)
+     |  abstractproperty(fget=None, fset=None, fdel=None, doc=None)
+     |
+     |  A decorator indicating abstract properties.
+     |
+     |  Deprecated, use 'property' with 'abstractmethod' instead:
+     |
+     |      class C(ABC):
+     |          @property
+     |          @abstractmethod
+     |          def my_abstract_property(self):
+     |              ...
+     |
+     |  Method resolution order:
+     |      abstractproperty
+     |      builtins.property
+     |      builtins.object
+     |
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __isabstractmethod__ = True
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.property:
+     |
+     |  __delete__(self, instance, /)
+     |      Delete an attribute of instance.
+     |
+     |  __get__(self, instance, owner=None, /)
+     |      Return an attribute of instance, which is of type owner.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __set__(self, instance, value, /)
+     |      Set an attribute of instance to value.
+     |
+     |  __set_name__(self, owner, name, /)
+     |      Method to set name of a property.
+     |
+     |  deleter(self, object, /)
+     |      Descriptor to obtain a copy of the property with a different deleter.
+     |
+     |  getter(self, object, /)
+     |      Descriptor to obtain a copy of the property with a different getter.
+     |
+     |  setter(self, object, /)
+     |      Descriptor to obtain a copy of the property with a different setter.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.property:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.property
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.property:
+     |
+     |  fdel
+     |
+     |  fget
+     |
+     |  fset
+
+    class abstractstaticmethod(builtins.staticmethod)
+     |  abstractstaticmethod(callable)
+     |
+     |  A decorator indicating abstract staticmethods.
+     |
+     |  Deprecated, use 'staticmethod' with 'abstractmethod' instead:
+     |
+     |      class C(ABC):
+     |          @staticmethod
+     |          @abstractmethod
+     |          def my_abstract_staticmethod(...):
+     |              ...
+     |
+     |  Method resolution order:
+     |      abstractstaticmethod
+     |      builtins.staticmethod
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, callable)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __isabstractmethod__ = True
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.staticmethod:
+     |
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |
+     |  __get__(self, instance, owner=None, /)
+     |      Return an attribute of instance, which is of type owner.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.staticmethod:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.staticmethod
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.staticmethod:
+     |
+     |  __dict__
+     |
+     |  __func__
+     |
+     |  __wrapped__
+
+FUNCTIONS
+    abstractmethod(funcobj)
+        A decorator indicating abstract methods.
+
+        Requires that the metaclass is ABCMeta or derived from it.  A
+        class that has a metaclass derived from ABCMeta cannot be
+        instantiated unless all of its abstract methods are overridden.
+        The abstract methods can be called using any of the normal
+        'super' call mechanisms.  abstractmethod() may be used to declare
+        abstract methods for properties and descriptors.
+
+        Usage:
+
+            class C(metaclass=ABCMeta):
+                @abstractmethod
+                def my_abstract_method(self, arg1, arg2, argN):
+                    ...
+
+    update_abstractmethods(cls)
+        Recalculate the set of abstract methods of an abstract class.
+
+        If a class has had one of its abstract methods implemented after the
+        class was created, the method will not be considered implemented until
+        this function is called. Alternatively, if a new abstract method has been
+        added to the class, it will only be considered an abstract method of the
+        class after this function is called.
+
+        This function should be called before any use is made of the class,
+        usually in class decorators that add methods to the subject class.
+
+        Returns cls, to allow usage as a class decorator.
+
+        If cls is not an instance of ABCMeta, does nothing.
+
+FILE
+    /usr/lib/python3.13/abc.py
+
+

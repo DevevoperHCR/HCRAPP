@@ -1,0 +1,13 @@
+Help on package games:
+
+NAME
+    games
+
+PACKAGE CONTENTS
+    engine
+    registry
+
+FILE
+    /tmp/hcr_work/HCRAPP/games/__init__.py
+
+

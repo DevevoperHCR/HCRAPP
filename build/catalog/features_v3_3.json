@@ -1,0 +1,43 @@
+{
+  "version": "3.3.0-beta",
+  "new_apps": [
+    "environment",
+    "search"
+  ],
+  "new_toolchains": [
+    "git",
+    "make",
+    "curl",
+    "wget",
+    "openssh"
+  ],
+  "new_settings": [
+    "environment",
+    "network",
+    "privacy",
+    "power"
+  ],
+  "store_additions": [
+    "wallpaper",
+    "theme",
+    "environment",
+    "network-tools",
+    "system-info",
+    "downloads",
+    "json-viewer",
+    "markdown"
+  ],
+  "beta_2_additions": [
+    {
+      "id": "wallpaper_hd_pack",
+      "name": "HD Wallpaper Pack",
+      "status": "bundled",
+      "assets": [
+        "nebula.png",
+        "circuit.png",
+        "aurora-hd.png",
+        "sunset-hd.png"
+      ]
+    }
+  ]
+}

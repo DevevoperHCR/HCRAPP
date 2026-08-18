@@ -1,0 +1,12 @@
+{
+  "product": "DeveloperHCR:AI Agent",
+  "version": "1.0-beta",
+  "release": "NEXT_ALL_FIX_2",
+  "status": "BETA",
+  "platform": "cross-platform",
+  "tests": {"passed": 20, "total": 20},
+  "runtime_database_included": false,
+  "admin_reset_ui": false,
+  "owner_reset_ui": false,
+  "privacy_modes": ["standard", "private"]
+}

@@ -1,0 +1,14 @@
+Help on package ai:
+
+NAME
+    ai
+
+PACKAGE CONTENTS
+    errors
+    manager
+    providers (package)
+
+FILE
+    /tmp/hcr_work/HCRAPP/ai/__init__.py
+
+

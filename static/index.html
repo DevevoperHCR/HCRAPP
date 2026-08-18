@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeveloperHCR:AI Agent — BETA v2.0</title>
+<link rel="stylesheet" href="/static/style.css?v=2.0-beta-persist-paidapps2">
+</head>
+<body class="theme-dark">
+
+  <div id="boot-screen">
+    <div class="boot-logo"><img src="/static/developerhcr-logo.jpg" alt="DeveloperHCR logo"></div>
+    <div class="boot-sub">AI Agent — BETA v2.0</div>
+    <div class="boot-progress"><div id="boot-progress-bar"></div></div>
+    <div id="boot-status">Loading…</div>
+    <div id="boot-countdown" class="boot-countdown" aria-live="polite">5</div>
+  </div>
+
+  <div id="auth-screen" style="display:none">
+    <div class="auth-box auth-minimal">
+      <div class="boot-logo"><img src="/static/developerhcr-logo.jpg" alt="DeveloperHCR logo"></div>
+      <div class="login-brand">DeveloperHCR</div>
+      <div id="login-form" class="stack">
+        <input id="login-username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Admin username" aria-label="Username">
+        <input id="login-password" type="password" autocomplete="off" placeholder="Password" aria-label="Password">
+        <div class="login-action-row">
+          <button class="btn primary login-start" id="login-submit" type="button">Start</button>
+          <button class="btn login-troubleshoot" id="login-troubleshoot" type="button">Troubleshoot</button>
+          <button class="btn" id="login-create-admin" type="button" title="Create the first Admin account on a fresh installation">Create Admin</button>
+          <button class="btn" id="login-quick-unlock" type="button" title="Unlock quickly with your PIN (must be enabled first in Security Center)">Quick Unlock (PIN)</button>
+        </div>
+        <div class="login-utility-row">
+          <button class="btn login-readme" id="login-readme" type="button">README.txt</button>
+          <button class="btn" id="show-agreement" type="button">Privacy & Terms</button>
+          <button class="btn danger" id="login-factory-reset" type="button" title="Erase DeveloperHCR app data and start first-run setup again">Reset System</button>
+          <label class="remember-me"><input id="login-remember" type="checkbox" checked> <span>Remember me</span></label>
+        </div>
+        <div class="login-guest-row">
+          <button class="btn" id="guest-friends">Friends Only</button>
+          <button class="btn" id="guest-subscribers">Subscribers Only</button>
+        </div>
+        <div id="guest-status" class="dim" aria-live="polite"></div>
+        <div id="login-error" class="auth-error" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="agreement-screen" style="display:none">
+    <div class="auth-box auth-minimal">
+      <div class="login-brand">Privacy & Sync Agreement</div>
+      <div class="dim" style="text-align:left;margin-bottom:10px">DeveloperHCR runs locally on this device. Optional Admin sync is off unless you choose to enable it below, and private user content is never exposed without your explicit consent.</div>
+      <label style="text-align:left;display:block">Privacy mode
+        <select id="agreement-privacy">
+          <option value="standard">Standard</option>
+          <option value="private">Private (no optional sync)</option>
+        </select>
+      </label>
+      <label class="remember-me" style="text-align:left"><input id="agreement-sync" type="checkbox"> <span>Allow optional Admin sync (can be changed anytime in Settings)</span></label>
+      <button class="btn primary" id="agreement-accept">Accept & Continue</button>
+      <button class="btn" id="agreement-close" type="button">Close</button>
+      <div id="agreement-error" class="auth-error"></div>
+    </div>
+  </div>
+
+  <div id="desktop" style="display:none">
+    <div id="desktop-icons" aria-label="Desktop shortcuts"></div>
+    <div id="desktop-drop-hint" class="desktop-drop-hint">Drag apps here to create desktop shortcuts</div>
+    <div id="windows-layer"></div>
+
+    <div id="taskbar">
+      <button id="launcher-btn" type="button" title="Start / Applications" aria-label="Start menu" aria-expanded="false">
+        <img class="launcher-logo-img" src="/static/developerhcr-logo.jpg" alt="DeveloperHCR" /><span class="logo-mark">HCR</span><span class="launcher-text">Start</span>
+      </button>
+      <div id="open-apps-tray"></div><div id="hcr-quick-rail" aria-label="Quick launch"></div><button class="tbtn" id="desktop-clear-btn" title="Clear all desktop apps" aria-label="Clear all desktop apps">🧹</button><div class="taskbar-search"><button class="tbtn" id="taskbar-search-btn" title="Search apps">🔎</button><input id="taskbar-search-input" placeholder="Search" aria-label="Search apps"></div>
+      <div id="taskbar-right">
+        <button class="tbtn" id="mouse-mode-btn" title="Virtual mouse / cursor">🖱</button>
+        <button class="tbtn" id="keyboard-btn" title="Virtual keyboard and shortcuts">⌨</button>
+        <button class="tbtn" id="fullscreen-btn" title="Full screen">⛶</button><button class="tbtn" id="landscape-btn" title="Landscape mode">↔</button>
+        <button class="tbtn" id="theme-toggle-btn" title="Change theme (Dark/Light)">🌓</button>
+        <span id="net-status" title="Network status">●</span>
+        <span id="user-widget" class="dim"></span>
+        <span id="desktop-status">V2.0 BETA</span><span id="date-widget">--/--/----</span><span id="clock-widget">--:--:--</span>
+      </div>
+    </div>
+
+    <div id="app-launcher" class="hidden">
+      <div class="launcher-search-row"><span>🔎</span><input id="launcher-search" placeholder="Search apps, settings and tools…" autocomplete="off"></div>
+      <div class="launcher-grid" id="launcher-grid"></div>
+    </div>
+    <button id="fullscreen-restore-btn" class="fullscreen-restore-btn" title="Exit full screen">⌃</button>
+  </div>
+
+  
+
+  <script>
+    // v1.0: quick startup splash. Critical files are checked once when this server starts; reloads do not repeat the scan.
+    (function(){
+      window.__HCR_INLINE_BOOT_ACTIVE__=true;
+      var started=Date.now(), total=5000, count=document.getElementById("boot-countdown");
+      var bar=document.getElementById("boot-progress-bar"), status=document.getElementById("boot-status");
+      var boot=document.getElementById("boot-screen"), auth=document.getElementById("auth-screen");
+      var login=document.getElementById("login-form");
+      function showLogin(){
+        if(boot){boot.style.display="none";boot.style.pointerEvents="none";boot.setAttribute("aria-hidden","true");}
+        // v1.0 BETA fix: this splash timer fires on a fixed 5s clock, completely
+        // independent of the login flow. runAuthGate() usually finishes (and
+        // calls enterDesktop()) well before 5s, so this used to force the
+        // auth/login screen back over the already-loaded desktop every time —
+        // that's the "goes back to the first login screen after logging in" bug.
+        // Once the desktop has been entered, this timer must only hide the
+        // boot splash and leave the desktop alone.
+        if(window.__HCR_DESKTOP_ENTERED__) return;
+        if(auth){auth.style.display="flex";auth.style.pointerEvents="auto";}
+        if(login) login.classList.remove("hidden");
+      }
+      function tick(){
+        var left=Math.max(0,total-(Date.now()-started));
+        var sec=Math.max(1,Math.ceil(left/1000));
+        if(count) count.textContent=left>0?String(sec):"Ready";
+        if(bar) bar.style.width=Math.min(100,((total-left)/total)*100)+"%";
+        if(status) status.textContent=left>0?"Loading…":"Ready";
+        if(left<=0){showLogin();return;}
+        setTimeout(tick,100);
+      }
+      tick();
+      setTimeout(showLogin,5200);
+    })();
+  </script>
+
+
+
+  <script src="/static/app.js?v=2.0-beta-feedbackfix3"></script>
+  <script>
+    (function(){
+      function startHCR(){
+        try { if (typeof runAuthGate === "function") runAuthGate(); } catch(e) {
+          var err=document.getElementById("login-error"); if(err) err.textContent="Startup error: "+(e.message||e);
+        }
+        var rd=document.getElementById("login-readme");
+        var lt=document.getElementById("login-troubleshoot");
+        if(rd) rd.onclick=function(){window.open("/static/README.txt?v=1.0-beta-fix","_blank","noopener");};
+        if(lt) lt.onclick=function(){var err=document.getElementById("login-error"); if(err) err.textContent="Make sure start_windows.bat (Windows) or launcher.py (PC/Linux) is running, then try Start again.";};
+      }
+      if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",startHCR,{once:true}); else startHCR();
+    })();
+  </script>
+</body>
+</html>

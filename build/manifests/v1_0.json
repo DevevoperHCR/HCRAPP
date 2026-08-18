@@ -1,0 +1,581 @@
+{
+  "version": "1.0.0-beta",
+  "file_count": 115,
+  "files": [
+    {
+      "path": "BUILD_MANIFEST.json",
+      "size": 11413,
+      "sha256": "e78839b5261bf5ecf2ca9240ef40a2d78d8a0cbb9bc844b75fbf17deee1ca265"
+    },
+    {
+      "path": "BUILD_MANIFEST_v1_9.json",
+      "size": 9298,
+      "sha256": "a48864f9886bf6a59c9ce8a2f5c0231778342c3cd626a7a936ee4786a404193f"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "size": 4597,
+      "sha256": "57f5b2c33d8bc2eb84720127dd88c4c6d9fec290d8097ce7b90450dcdd6061d7"
+    },
+    {
+      "path": "CHANGELOG_v2_1.md",
+      "size": 330,
+      "sha256": "aedeb0e257de64feb5aa0ee6050692d1b9e4d5f4ecfdf2861cc7f65c7ce1a2e4"
+    },
+    {
+      "path": "CHANGELOG_v2_2.md",
+      "size": 1756,
+      "sha256": "df9dc4643eedef8f3f741760d308e4a7ee66deec570fa5ab68c73b9c3658f4a3"
+    },
+    {
+      "path": "CHANGELOG_v2_3.md",
+      "size": 1018,
+      "sha256": "082973aca28215bcfe0c1e83b6c3fe151742570355321e9cdb2c72edc2f40e0b"
+    },
+    {
+      "path": "CHANGELOG_v2_7.md",
+      "size": 436,
+      "sha256": "f924901dd15fc0f48277e66dcb20b0ec56b9bf1b324d31ece1e6f0b750faa748"
+    },
+    {
+      "path": "CHANGELOG_v3_2.md",
+      "size": 1160,
+      "sha256": "37380cf00adb4e8f1d6210b2f9ee29cb53ea2cd84516ef557b303644ba822ef9"
+    },
+    {
+      "path": "DeveloperHCR_AI_Agent_FEATURES_v0.6.txt",
+      "size": 1877,
+      "sha256": "b967630a1b8aab873339d253a5dbd09bf8b04266665bf2ed715b5e64fd6c4cec"
+    },
+    {
+      "path": "DeveloperHCR_AI_Agent_FEATURES_v0.7.txt",
+      "size": 1441,
+      "sha256": "8026bd9cab8fadfd82c6f8e4ec624293ee00f45879e3dd9f4b2ef3c153438950"
+    },
+    {
+      "path": "DeveloperHCR_AI_Agent_FEATURES_v0.8.txt",
+      "size": 2074,
+      "sha256": "c8475d08350f0361910715864cfa7c85723fc39bcac7838c7e80711b678c798e"
+    },
+    {
+      "path": "DeveloperHCR_AI_Agent_FEATURES_v0.9.txt",
+      "size": 1371,
+      "sha256": "0f1b2b5b4fb8a3681fa81e77edb4f318de8f6a43b0f8f61d06c49db7c0ede547"
+    },
+    {
+      "path": "DeveloperHCR_v1_2_FEATURES.md",
+      "size": 1428,
+      "sha256": "b2554661e8d05e1d79a683d5f90f921a7a3c1834269687d46b5edcbd439bb4a8"
+    },
+    {
+      "path": "DeveloperHCR_v1_3_FEATURES.md",
+      "size": 1825,
+      "sha256": "8b836df99d73041ac18b484419b11d950bbbae0c761c71e23cd864b388c4a3a4"
+    },
+    {
+      "path": "DeveloperHCR_v1_4_FEATURES.md",
+      "size": 1245,
+      "sha256": "e74cd198ec31ab921a1e3ba86e518aeb6c3dbee214029b005f41205d3b48aec4"
+    },
+    {
+      "path": "DeveloperHCR_v1_5_FEATURES.md",
+      "size": 1962,
+      "sha256": "ba9648d9d92bff6fbb428b7fdfd7a5259f04e4fe420581722212978c0856be0a"
+    },
+    {
+      "path": "DeveloperHCR_v1_6_FEATURES.md",
+      "size": 822,
+      "sha256": "bfac7491c77478907b7602137b3deac7097abc5cb39413e2ebc32c1234c45d86"
+    },
+    {
+      "path": "DeveloperHCR_v1_8_FEATURES.md",
+      "size": 430,
+      "sha256": "3472beed54a613f8f4682243e1b68d1cfde253a52b927979b03469b75b6e6274"
+    },
+    {
+      "path": "DeveloperHCR_v1_9_FEATURES.md",
+      "size": 572,
+      "sha256": "ca703de245ba2cc71dec989eedb9a14647dfa7cdba6538ddc6212ff21ade0dbb"
+    },
+    {
+      "path": "DeveloperHCR_v2_0_FEATURES.md",
+      "size": 513,
+      "sha256": "1e486894639817f5a5950ac23704518327948b7393dcd9b369dbe16328374c48"
+    },
+    {
+      "path": "DeveloperHCR_v2_1_FEATURES.md",
+      "size": 768,
+      "sha256": "8d4d7e1a8d9a4fc68c52c6e7d9b642a35e64f249d745498091cdbc35ad5c46a8"
+    },
+    {
+      "path": "DeveloperHCR_v2_3_FEATURES.md",
+      "size": 471,
+      "sha256": "b360065caa862bdb4b7e498b474889129e61014e14b02f1ddb09dffbc68864d3"
+    },
+    {
+      "path": "DeveloperHCR_v2_4_FEATURES.md",
+      "size": 488,
+      "sha256": "a4ec45c6662ed79f2febfd9b094b4d2ca9d68f9ba3b3dd82b67402918e92f1d2"
+    },
+    {
+      "path": "DeveloperHCR_v2_5_FEATURES.md",
+      "size": 747,
+      "sha256": "b400e2f784f940e33c6661de8e070c0f7ba69454c9fc04abffd87b0ebf5bb586"
+    },
+    {
+      "path": "DeveloperHCR_v2_6_FEATURES.md",
+      "size": 1389,
+      "sha256": "26157bcfbd39de94eb5f7b31594150db85c1124a7862e32542630f1623200670"
+    },
+    {
+      "path": "DeveloperHCR_v2_7_FEATURES.md",
+      "size": 654,
+      "sha256": "2979e54a1dd6aabc38593ab0a1d48b197d57ab8b737c767a4dfff72de158cf90"
+    },
+    {
+      "path": "FEATURE_CATALOG_v3_3.json",
+      "size": 424,
+      "sha256": "ce313c9bf16e7bb91ee859c53e3896c12c41901ecd786d4e40dbd41d526c9d06"
+    },
+    {
+      "path": "FIXES_v0.9.1.txt",
+      "size": 405,
+      "sha256": "c80c43d58a91731f7b2f935f059694d2a02cfb45ed2a9c28bea0f8a05c78ead6"
+    },
+    {
+      "path": "FIXES_v4_2.txt",
+      "size": 438,
+      "sha256": "625303a9640938ee7d786c7fca81a93925a56176cebea0a749dc120eedd10d0b"
+    },
+    {
+      "path": "FULL_FEATURE_AUDIT_v1_8.md",
+      "size": 505,
+      "sha256": "6dc7690922a0cb5570aaf792915eab8de995f00774e7f7a27986d32d2253d888"
+    },
+    {
+      "path": "FULL_FEATURE_PRESERVATION_REPORT.json",
+      "size": 840,
+      "sha256": "d489018b735f4e30b5f27fe9fe31c4fded6356a49928452297493ead685aa339"
+    },
+    {
+      "path": "FULL_FEATURE_PRESERVATION_REPORT.md",
+      "size": 307,
+      "sha256": "46c1f1a950a3aaf66de97a86a128afd95511a4f83d779341b1a3e21749d00e61"
+    },
+    {
+      "path": "README.md",
+      "size": 6885,
+      "sha256": "603179ad08ae2da5c29d2608fc22c068b6c03e8cf6987129fab035ac19f79f92"
+    },
+    {
+      "path": "README_v2_2.md",
+      "size": 898,
+      "sha256": "4587e1912be7cf0f3729e20af6cf83c9e45273fff8976e92cbd9f7a4e58a2a8d"
+    },
+    {
+      "path": "README_v3_9.md",
+      "size": 1523,
+      "sha256": "22be096e538c9ef37a1fd4e13e3692fbc10645d816cbaa557ef88cb1378473f2"
+    },
+    {
+      "path": "README_v4_0.md",
+      "size": 329,
+      "sha256": "feb0f916b0da8ecb3f04d6f64e2447a92b3f701c3781b85e6d35b53dfbfaf420"
+    },
+    {
+      "path": "README_v4_1.md",
+      "size": 3414,
+      "sha256": "f50879ffca31f08b25b15f86d0ffdb97c8945887e7e2a66e0bbc0e5c5bf706d2"
+    },
+    {
+      "path": "REDMI.md",
+      "size": 5767,
+      "sha256": "00243c5803d04d960d866296cacea1aa5a8a4f50e3aa032d46a9feaa6ffa578c"
+    },
+    {
+      "path": "REDMI_v1_5.md",
+      "size": 2400,
+      "sha256": "b1d3fa140e18740d9538145fb15e6f76afed9ed0d38c19cfaacb7b89cf21cdd0"
+    },
+    {
+      "path": "REDMI_v1_6.md",
+      "size": 2138,
+      "sha256": "187235e41ed4405eaa911f71556ffa34e660d2471f5d6ff33681c96ea2893efc"
+    },
+    {
+      "path": "REDMI_v1_8.md",
+      "size": 589,
+      "sha256": "c05c1f3583696c249c5bac2f660f8407335c9a185ae4e819d2b61d132a9b700b"
+    },
+    {
+      "path": "REDMI_v1_9.md",
+      "size": 911,
+      "sha256": "8b45f2f84f85ec97de943aea0686d8d10b51ad709b81574ecb1851a1d127f535"
+    },
+    {
+      "path": "REDMI_v2_0.md",
+      "size": 469,
+      "sha256": "ccace14b39167c95f5e40fa6b3a8abcae93548f080be627352f3c71b45b5b77b"
+    },
+    {
+      "path": "REDMI_v2_1.md",
+      "size": 735,
+      "sha256": "bcad0a85ee33c7c24b62af2809d9ff1cc66bf8336830be98336082650761f504"
+    },
+    {
+      "path": "REDMI_v2_2.md",
+      "size": 1632,
+      "sha256": "3d77a02890d8e0e8d4390c5be58d8e88121bd6ecffae57b1f35eb592004b1659"
+    },
+    {
+      "path": "REDMI_v2_3.md",
+      "size": 829,
+      "sha256": "b0abf380718bb84ad564d4ffec5ff2e27f8a9346a5a633573286f7a318f86882"
+    },
+    {
+      "path": "REDMI_v2_4.md",
+      "size": 413,
+      "sha256": "ab6f5363acc8856eca435557189d29a3a0128001b37d0ec870cd404a874a2158"
+    },
+    {
+      "path": "REDMI_v2_5.md",
+      "size": 186,
+      "sha256": "4e34fcbc25a1983473256955c9f6d69bbd9392031c5df3e819552085fd2ed6ac"
+    },
+    {
+      "path": "REDMI_v2_6.md",
+      "size": 680,
+      "sha256": "15f7eb2a0c282f3cc24842b9b972d453546b3be176ad8e5feb99893bfe1585a5"
+    },
+    {
+      "path": "REDMI_v2_8.md",
+      "size": 485,
+      "sha256": "7517ecf5f82f6994356506b90ca3cda0af3452d7d451861b4f1e740da42c5247"
+    },
+    {
+      "path": "REDMI_v2_9.md",
+      "size": 353,
+      "sha256": "076d6fd6065902f1a1ae2aba7f355d34402bd418fa932e34a0053209c8e97008"
+    },
+    {
+      "path": "REDMI_v3_1.md",
+      "size": 469,
+      "sha256": "b7d25f689ea56a1b3bab2069e532329e207f65ade5bfe165be6f8693d3e941ec"
+    },
+    {
+      "path": "REDMI_v3_4.md",
+      "size": 499,
+      "sha256": "20499bb0ec48e96fc8a47f9bca3b54edbd13e18763d7bbfdb94ab486c67a52a9"
+    },
+    {
+      "path": "REDMI_v3_5.md",
+      "size": 1649,
+      "sha256": "e1e4ee61741d1c51507a932d487b603c49084ea25db00ae093ea6ff9c4498a0a"
+    },
+    {
+      "path": "RELEASE_v1_0.md",
+      "size": 1176,
+      "sha256": "34fb3a4f46335b4e92c4018f26ca9dd02b7fde731afb03ca4663686e27f6fda4"
+    },
+    {
+      "path": "RELEASE_v3_3.md",
+      "size": 719,
+      "sha256": "0942548717e0c60adeaeac18ddb1969fef2464c34893f0d04cfccbe935698db5"
+    },
+    {
+      "path": "RELEASE_v3_4.md",
+      "size": 652,
+      "sha256": "ca5103c02042545b7ca2836a99ca48ef15d64935ec0779c22fa6cd2536a156ce"
+    },
+    {
+      "path": "RELEASE_v3_5.md",
+      "size": 1089,
+      "sha256": "3d88c460e69603792efb857e850b0a70ff998c9c5cdb89310d4a00a5d9e4d5d4"
+    },
+    {
+      "path": "RELEASE_v3_9.md",
+      "size": 300,
+      "sha256": "7fb64ad708f761bde07835b8a2c7eefe3da2cf22a444988cb5f11174b257a2fa"
+    },
+    {
+      "path": "RELEASE_v4_0.md",
+      "size": 358,
+      "sha256": "66ec5a19bb0e3612218d03e04ed6c78db29aa1b872c12a4527c45e114e151e13"
+    },
+    {
+      "path": "RELEASE_v4_1.md",
+      "size": 809,
+      "sha256": "efc41d73cfb3fb4d764d0f1717053163ab64b6b6eb20cda34267ed94bae67928"
+    },
+    {
+      "path": "RELEASE_v4_2.md",
+      "size": 757,
+      "sha256": "7207d910d24c9ce5d3a0960735dc3d9fee83b4534ca3613f0cc53b60fe1c18d6"
+    },
+    {
+      "path": "VERSION",
+      "size": 11,
+      "sha256": "74c371dc05553824203457c4dd54454c685d3ba0730fa540f66ee5b05023daba"
+    },
+    {
+      "path": "ai/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "ai/errors.py",
+      "size": 959,
+      "sha256": "f4152d993ff6f97d41cbd9e7c97239ae4660a58e94fab3f8d55cc3c0172da9c1"
+    },
+    {
+      "path": "ai/manager.py",
+      "size": 563,
+      "sha256": "b6ec7a035b3b52a8a316955bf88468bea7763b09def5017601b7a5419d536b5b"
+    },
+    {
+      "path": "ai/providers/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "ai/providers/base.py",
+      "size": 607,
+      "sha256": "2d38b4bc04cb35ed3b8ff07bf1da91e13c22a72633f5e2ba17546f6f952e679c"
+    },
+    {
+      "path": "ai/providers/gguf.py",
+      "size": 5489,
+      "sha256": "64643521fd9412acc719b9f4d372473a326092eb26bc503bb9c65949874525c2"
+    },
+    {
+      "path": "ai/providers/ollama.py",
+      "size": 4735,
+      "sha256": "21cf6eb49de448f7b86aeb49828d4090f6153f653358079b2b7d4796af637ac2"
+    },
+    {
+      "path": "backend/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/ai_models.py",
+      "size": 3037,
+      "sha256": "8545c5b0a859f23b657b5da4fd68c2ecab53e4b25498cc9adef78fcb1da46f2a"
+    },
+    {
+      "path": "backend/auth.py",
+      "size": 6380,
+      "sha256": "8e4678721c0215d0cb231f8d6f05229fa9fc818e29c1ef30c0e6bdad6794ee63"
+    },
+    {
+      "path": "backend/db.py",
+      "size": 7824,
+      "sha256": "82264224787ebbb0e4844887dc079d7157e0155b5d4fc76d6babc18da2ece84b"
+    },
+    {
+      "path": "backend/feature_locks.py",
+      "size": 2027,
+      "sha256": "8b8023d2fbac7a2f24b14fb7509639789a330c826f2c36afa6e9d834fc58e85f"
+    },
+    {
+      "path": "config.py",
+      "size": 3013,
+      "sha256": "20f0cdc0c040baac9da198b95e235eedfb8b6ea1b8caa9c372231fd51eb0c83f"
+    },
+    {
+      "path": "data/.integrity_verified_v1",
+      "size": 77,
+      "sha256": "4df19aa9be28823a26b6cf90622b7d67e876f93566383defa025e86bab19f4ed"
+    },
+    {
+      "path": "data/developerhcr.db",
+      "size": 131072,
+      "sha256": "0ab4c6cb830626edd328254b46c9946316adfffa9b40b3403bcd6a79f6e2f238"
+    },
+    {
+      "path": "desktop/JARVIS_DESKTOP_INTEGRATION.md",
+      "size": 569,
+      "sha256": "da7613e01481663d0389171271198ecbbf988d33ad081b0528aedb3b2d7485ee"
+    },
+    {
+      "path": "desktop/jarvis_overlay.md",
+      "size": 447,
+      "sha256": "4c3700ed8b516e3283b5787d8f1a7d74ed4e65a4701d7ed96fd1fd98224c96d7"
+    },
+    {
+      "path": "games/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "games/engine.py",
+      "size": 564,
+      "sha256": "c3405c5022d513a1b530d803e404c1696b842e190032316be78e8006b0533b68"
+    },
+    {
+      "path": "games/registry.py",
+      "size": 505,
+      "sha256": "f3b7fb281c487a8e1dca2e224e3922b3f0eed395ea05fe4daf2f2cba98fa0bcd"
+    },
+    {
+      "path": "jarvis/__init__.py",
+      "size": 92,
+      "sha256": "44451b0a4841b0559f6daee27cb2762d5fd68f558f292a44045f83df30779748"
+    },
+    {
+      "path": "jarvis/__main__.py",
+      "size": 64,
+      "sha256": "207432b5c045521b4d451cc6b3350724637410c4d4f3ebe04e145309c9dc1afa"
+    },
+    {
+      "path": "jarvis/action_log.py",
+      "size": 1233,
+      "sha256": "9f8febc7347eee4b551944f05c6d82d81c303ab03c931694a53a7a4c3eba9f79"
+    },
+    {
+      "path": "jarvis/control_policy.py",
+      "size": 630,
+      "sha256": "7268ee3d8a1b9fc47b41448b29de699ce8c74c64017476ba12193f69294aefb7"
+    },
+    {
+      "path": "jarvis/core.py",
+      "size": 10558,
+      "sha256": "0d56d21737035b9f82f052d5136f7bfa19ab798b613000814a98a55e9d03df17"
+    },
+    {
+      "path": "jarvis/desktop_bridge.py",
+      "size": 1792,
+      "sha256": "0b152c036b29d1ee401a35d80d9e1fc98882ad98e707e1eb6796a9931e6d1d35"
+    },
+    {
+      "path": "jarvis/event_bus.py",
+      "size": 776,
+      "sha256": "91eb2fb87bd54779968d834bfa47c3755095a19cc7310759e9e7f44c5e98a91f"
+    },
+    {
+      "path": "jarvis/level7.py",
+      "size": 2027,
+      "sha256": "c3c50ed25709871500f1fcc7ba135e61e08c5b2cbdcc16e254591a7a3456287f"
+    },
+    {
+      "path": "jarvis/runtime_registry.py",
+      "size": 2950,
+      "sha256": "c24d7cd662ee98024e0c792bee5f86d2777fc3a45d26e822f1c35c4af5b6bfa2"
+    },
+    {
+      "path": "jarvis/service.py",
+      "size": 920,
+      "sha256": "321e17820878538865217eb390164daa1e78ea2e87079056e7b8c7cac66ca565"
+    },
+    {
+      "path": "jarvis/settings_store.py",
+      "size": 1150,
+      "sha256": "d05f055e3f2cde2ca0274a20a4764be9bd3cada77177fb025825cc657bc755b1"
+    },
+    {
+      "path": "jarvis/v09_api.py",
+      "size": 1116,
+      "sha256": "612e49a76a1dd4b9bf439c75ad53ee32829e1d84557ad19814a2cd5d2d13a546"
+    },
+    {
+      "path": "jarvis/voice_contract.py",
+      "size": 451,
+      "sha256": "0d21cf6867b8a1cf6f824a7b9753576dbb591653283b2897515d2b4a57b08779"
+    },
+    {
+      "path": "jarvis_v09.py",
+      "size": 70,
+      "sha256": "7d463b08abc70aa6ce0a9c1684dd03f22e5836eb531c62f1083b9a32e1be349a"
+    },
+    {
+      "path": "launcher.py",
+      "size": 8865,
+      "sha256": "31b506547ec79574d35e69c74e0afd453a32d9ad76aea6e6c937056e3bcc6ab0"
+    },
+    {
+      "path": "plugins/README.md",
+      "size": 457,
+      "sha256": "5b5de84308e6c54e6927efd5f9edc89f8976878fc0749d9ddbfda63961b01de9"
+    },
+    {
+      "path": "plugins/example.manifest.json",
+      "size": 126,
+      "sha256": "f81b8fb12cc4f95df3f2712c205559b0cc73147c8ae678d48625e84017e41617"
+    },
+    {
+      "path": "redmi.md",
+      "size": 1632,
+      "sha256": "3d77a02890d8e0e8d4390c5be58d8e88121bd6ecffae57b1f35eb592004b1659"
+    },
+    {
+      "path": "requirements.txt",
+      "size": 401,
+      "sha256": "6aa2f49d324b92cc0a571a191c23c4d84a1fb37834a2b6b15aa9494b7c1e4ce4"
+    },
+    {
+      "path": "server.py",
+      "size": 130533,
+      "sha256": "498ad8dc05e0fa2eb16ef5125bb868414d81418ab53b9e408858b46cc8e2ddbc"
+    },
+    {
+      "path": "start_windows.bat",
+      "size": 303,
+      "sha256": "eb4144f4bb23e2f6a27379188aeaccdae0c2765c24f2962d77f1f43a66290271"
+    },
+    {
+      "path": "static/README.txt",
+      "size": 3627,
+      "sha256": "d922f9322142225d80b800a36fa3c81a07e37eaa2572f438824119bfdded9c59"
+    },
+    {
+      "path": "static/app.js",
+      "size": 201256,
+      "sha256": "6c9ebc1739d4b2accfa8f06cd79dc5f6c623566090117a537011d9d3747df39d"
+    },
+    {
+      "path": "static/developerhcr-logo.jpg",
+      "size": 55372,
+      "sha256": "a946eeb4d204bab86dbabe628560fd92955df838c35398ef98671b5516376b3b"
+    },
+    {
+      "path": "static/index.html",
+      "size": 5591,
+      "sha256": "44f35bf87bf1c2bdc92d16b26a5e5b055cf1aeedc59d175588b4dfed3f5e022d"
+    },
+    {
+      "path": "static/style.css",
+      "size": 37216,
+      "sha256": "5e3a880eb1b876087a267b701f048340a3aa1f0750d78630ea85ab148e9d5b18"
+    },
+    {
+      "path": "tests/test_level7.py",
+      "size": 575,
+      "sha256": "8e80c31cc5decd88c469c45d6211e00b538bd8e829a3b9a8ad3a4a71992efcc9"
+    },
+    {
+      "path": "tests/test_smoke.py",
+      "size": 1482,
+      "sha256": "a01bf61ab80a47f92d0899dc145484d28ea7d80fc89fc79c4e2dd76d702ce27c"
+    },
+    {
+      "path": "tests/test_v09.py",
+      "size": 788,
+      "sha256": "a92710419aa6dc59fcfab7cc35452277eeb49aa2bada630623322ec247ce2492"
+    },
+    {
+      "path": "tests/test_v16_startup.py",
+      "size": 419,
+      "sha256": "f7c2192a26c79c18d454da3e0813b05ffd0abfb2eb8526bb0e636e90ea7d3661"
+    },
+    {
+      "path": "tui.py",
+      "size": 2618,
+      "sha256": "63baac3f7046ad19edb3bfbbdc03143b56fa880a0902064e29e5f542c98737b4"
+    },
+    {
+      "path": "updater.py",
+      "size": 2881,
+      "sha256": "a92a10824bcd85d5e55fd03c65b8397af982a165b28d54eadb5d1078460e4ad2"
+    }
+  ]
+}

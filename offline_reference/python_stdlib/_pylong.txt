@@ -1,0 +1,82 @@
+Help on module _pylong:
+
+NAME
+    _pylong
+
+MODULE REFERENCE
+    https://docs.python.org/3.13/library/_pylong.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    Python implementations of some algorithms for use by longobject.c.
+    The goal is to provide asymptotically faster algorithms that can be
+    used for operations on integers with many digits.  In those cases, the
+    performance overhead of the Python implementation is not significant
+    since the asymptotic behavior is what dominates runtime. Functions
+    provided by this module should be considered private and not part of any
+    public API.
+
+    Note: for ease of maintainability, please prefer clear code and avoid
+    "micro-optimizations".  This module will only be imported and used for
+    integers with a huge number of digits.  Saving a few microseconds with
+    tricky or non-obvious code is not worth it.  For people looking for
+    maximum performance, they should use something like gmpy2.
+
+FUNCTIONS
+    compute_powers(w, base, more_than, show=False)
+        # A number of functions have this form, where `w` is a desired number of
+        # digits in base `base`:
+        #
+        #    def inner(...w...):
+        #        if w <= LIMIT:
+        #            return something
+        #        lo = w >> 1
+        #        hi = w - lo
+        #        something involving base**lo, inner(...lo...), j, and inner(...hi...)
+        #    figure out largest w needed
+        #    result = inner(w)
+        #
+        # They all had some on-the-fly scheme to cache `base**lo` results for reuse.
+        # Power is costly.
+        #
+        # This routine aims to compute all amd only the needed powers in advance, as
+        # efficiently as reasonably possible. This isn't trivial, and all the
+        # on-the-fly methods did needless work in many cases. The driving code above
+        # changes to:
+        #
+        #    figure out largest w needed
+        #    mycache = compute_powers(w, base, LIMIT)
+        #    result = inner(w)
+        #
+        # and `mycache[lo]` replaces `base**lo` in the inner function.
+        #
+        # While this does give minor speedups (a few percent at best), the primary
+        # intent is to simplify the functions using this, by eliminating the need for
+        # them to craft their own ad-hoc caching schemes.
+
+    int_divmod(a, b)
+        Asymptotically fast replacement for divmod, for 'int'.
+        Its time complexity is O(n**1.58), where n = #bits(a) + #bits(b).
+
+    int_from_string(s)
+        Asymptotically fast version of PyLong_FromString(), conversion
+        of a string of decimal digits into an 'int'.
+
+    int_to_decimal(n)
+        Asymptotically fast conversion of an 'int' to Decimal.
+
+    int_to_decimal_string(n)
+        Asymptotically fast conversion of an 'int' to a decimal string.
+
+    str_to_int(s)
+        Asymptotically fast version of decimal string to 'int' conversion.
+
+FILE
+    /usr/lib/python3.13/_pylong.py
+
+

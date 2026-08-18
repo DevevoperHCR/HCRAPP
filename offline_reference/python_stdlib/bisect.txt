@@ -1,0 +1,18 @@
+Help on module bisect:
+
+NAME
+    bisect - Bisection algorithms.
+
+MODULE REFERENCE
+    https://docs.python.org/3.13/library/bisect.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+FILE
+    /usr/lib/python3.13/bisect.py
+
+

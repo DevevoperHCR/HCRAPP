@@ -1,0 +1,2905 @@
+Help on module enum:
+
+NAME
+    enum
+
+MODULE REFERENCE
+    https://docs.python.org/3.13/library/enum.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+CLASSES
+    builtins.dict(builtins.object)
+        EnumDict
+    builtins.int(builtins.object)
+        IntEnum(builtins.int, ReprEnum)
+        IntFlag(builtins.int, ReprEnum, Flag)
+    builtins.object
+        Enum
+            Flag
+            ReprEnum
+                IntEnum(builtins.int, ReprEnum)
+                IntFlag(builtins.int, ReprEnum, Flag)
+                StrEnum(builtins.str, ReprEnum)
+                    EnumCheck
+                    FlagBoundary
+        auto
+        member
+        nonmember
+        verify
+    builtins.str(builtins.object)
+        StrEnum(builtins.str, ReprEnum)
+            EnumCheck
+            FlagBoundary
+    builtins.type(builtins.object)
+        EnumType
+    types.DynamicClassAttribute(builtins.object)
+        property
+
+    class Enum(builtins.object)
+     |  Enum(
+     |      new_class_name,
+     |      /,
+     |      names,
+     |      *,
+     |      module=None,
+     |      qualname=None,
+     |      type=None,
+     |      start=1,
+     |      boundary=None
+     |  )
+     |
+     |  Create a collection of name/value pairs.
+     |
+     |  Example enumeration:
+     |
+     |  >>> class Color(Enum):
+     |  ...     RED = 1
+     |  ...     BLUE = 2
+     |  ...     GREEN = 3
+     |
+     |  Access them by:
+     |
+     |  - attribute access:
+     |
+     |    >>> Color.RED
+     |    <Color.RED: 1>
+     |
+     |  - value lookup:
+     |
+     |    >>> Color(1)
+     |    <Color.RED: 1>
+     |
+     |  - name lookup:
+     |
+     |    >>> Color['RED']
+     |    <Color.RED: 1>
+     |
+     |  Enumerations can be iterated over, and know how many members they have:
+     |
+     |  >>> len(Color)
+     |  3
+     |
+     |  >>> list(Color)
+     |  [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]
+     |
+     |  Methods can be added to enumerations, and members can have their own
+     |  attributes -- see the documentation for details.
+     |
+     |  Static methods defined here:
+     |
+     |  __new__(cls, value)
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  name
+     |      The name of the Enum member.
+     |
+     |  value
+     |      The value of the Enum member.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from EnumType:
+     |
+     |  __contains__(value)
+     |      Return True if `value` is in `cls`.
+     |
+     |      `value` is in `cls` if:
+     |      1) `value` is a member of `cls`, or
+     |      2) `value` is the value of one of the `cls`'s members.
+     |      3) `value` is a pseudo-member (flags)
+     |
+     |  __getitem__(name)
+     |      Return the member matching `name`.
+     |
+     |  __iter__()
+     |      Return members in definition order.
+     |
+     |  __len__()
+     |      Return the number of members (no aliases)
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from EnumType:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+    class EnumCheck(StrEnum)
+     |  EnumCheck(*values)
+     |
+     |  various conditions to check an enumeration for
+     |
+     |  Method resolution order:
+     |      EnumCheck
+     |      StrEnum
+     |      builtins.str
+     |      ReprEnum
+     |      Enum
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __format__(self, format_spec, /) from builtins.str
+     |      Return a formatted version of the string as described by format_spec.
+     |
+     |  __new__(cls, value) from Enum
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  __str__(self, /) from builtins.str
+     |      Return str(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  CONTINUOUS = <EnumCheck.CONTINUOUS: 'no skipped integer values'>
+     |
+     |  NAMED_FLAGS = <EnumCheck.NAMED_FLAGS: 'multi-flag aliases may not cont...
+     |
+     |  UNIQUE = <EnumCheck.UNIQUE: 'one name per value'>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from StrEnum:
+     |
+     |  __repr__(self) from Enum
+     |      Return repr(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.str:
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __contains__(self, key, /)
+     |      Return bool(key in self).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __getnewargs__(self, /)
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  __sizeof__(self, /)
+     |      Return the size of the string in memory, in bytes.
+     |
+     |  capitalize(self, /)
+     |      Return a capitalized version of the string.
+     |
+     |      More specifically, make the first character have upper case and the rest lower
+     |      case.
+     |
+     |  casefold(self, /)
+     |      Return a version of the string suitable for caseless comparisons.
+     |
+     |  center(self, width, fillchar=' ', /)
+     |      Return a centered string of length width.
+     |
+     |      Padding is done using the specified fill character (default is a space).
+     |
+     |  count(self, sub[, start[, end]], /)
+     |      Return the number of non-overlapping occurrences of substring sub in string S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |
+     |  encode(self, /, encoding='utf-8', errors='strict')
+     |      Encode the string using the codec registered for encoding.
+     |
+     |      encoding
+     |        The encoding in which to encode the string.
+     |      errors
+     |        The error handling scheme to use for encoding errors.
+     |        The default is 'strict' meaning that encoding errors raise a
+     |        UnicodeEncodeError.  Other possible values are 'ignore', 'replace' and
+     |        'xmlcharrefreplace' as well as any other name registered with
+     |        codecs.register_error that can handle UnicodeEncodeErrors.
+     |
+     |  endswith(self, suffix[, start[, end]], /)
+     |      Return True if the string ends with the specified suffix, False otherwise.
+     |
+     |      suffix
+     |        A string or a tuple of strings to try.
+     |      start
+     |        Optional start position. Default: start of the string.
+     |      end
+     |        Optional stop position. Default: end of the string.
+     |
+     |  expandtabs(self, /, tabsize=8)
+     |      Return a copy where all tab characters are expanded using spaces.
+     |
+     |      If tabsize is not given, a tab size of 8 characters is assumed.
+     |
+     |  find(self, sub[, start[, end]], /)
+     |      Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Return -1 on failure.
+     |
+     |  format(self, /, *args, **kwargs)
+     |      Return a formatted version of the string, using substitutions from args and kwargs.
+     |      The substitutions are identified by braces ('{' and '}').
+     |
+     |  format_map(self, mapping, /)
+     |      Return a formatted version of the string, using substitutions from mapping.
+     |      The substitutions are identified by braces ('{' and '}').
+     |
+     |  index(self, sub[, start[, end]], /)
+     |      Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Raises ValueError when the substring is not found.
+     |
+     |  isalnum(self, /)
+     |      Return True if the string is an alpha-numeric string, False otherwise.
+     |
+     |      A string is alpha-numeric if all characters in the string are alpha-numeric and
+     |      there is at least one character in the string.
+     |
+     |  isalpha(self, /)
+     |      Return True if the string is an alphabetic string, False otherwise.
+     |
+     |      A string is alphabetic if all characters in the string are alphabetic and there
+     |      is at least one character in the string.
+     |
+     |  isascii(self, /)
+     |      Return True if all characters in the string are ASCII, False otherwise.
+     |
+     |      ASCII characters have code points in the range U+0000-U+007F.
+     |      Empty string is ASCII too.
+     |
+     |  isdecimal(self, /)
+     |      Return True if the string is a decimal string, False otherwise.
+     |
+     |      A string is a decimal string if all characters in the string are decimal and
+     |      there is at least one character in the string.
+     |
+     |  isdigit(self, /)
+     |      Return True if the string is a digit string, False otherwise.
+     |
+     |      A string is a digit string if all characters in the string are digits and there
+     |      is at least one character in the string.
+     |
+     |  isidentifier(self, /)
+     |      Return True if the string is a valid Python identifier, False otherwise.
+     |
+     |      Call keyword.iskeyword(s) to test whether string s is a reserved identifier,
+     |      such as "def" or "class".
+     |
+     |  islower(self, /)
+     |      Return True if the string is a lowercase string, False otherwise.
+     |
+     |      A string is lowercase if all cased characters in the string are lowercase and
+     |      there is at least one cased character in the string.
+     |
+     |  isnumeric(self, /)
+     |      Return True if the string is a numeric string, False otherwise.
+     |
+     |      A string is numeric if all characters in the string are numeric and there is at
+     |      least one character in the string.
+     |
+     |  isprintable(self, /)
+     |      Return True if all characters in the string are printable, False otherwise.
+     |
+     |      A character is printable if repr() may use it in its output.
+     |
+     |  isspace(self, /)
+     |      Return True if the string is a whitespace string, False otherwise.
+     |
+     |      A string is whitespace if all characters in the string are whitespace and there
+     |      is at least one character in the string.
+     |
+     |  istitle(self, /)
+     |      Return True if the string is a title-cased string, False otherwise.
+     |
+     |      In a title-cased string, upper- and title-case characters may only
+     |      follow uncased characters and lowercase characters only cased ones.
+     |
+     |  isupper(self, /)
+     |      Return True if the string is an uppercase string, False otherwise.
+     |
+     |      A string is uppercase if all cased characters in the string are uppercase and
+     |      there is at least one cased character in the string.
+     |
+     |  join(self, iterable, /)
+     |      Concatenate any number of strings.
+     |
+     |      The string whose method is called is inserted in between each given string.
+     |      The result is returned as a new string.
+     |
+     |      Example: '.'.join(['ab', 'pq', 'rs']) -> 'ab.pq.rs'
+     |
+     |  ljust(self, width, fillchar=' ', /)
+     |      Return a left-justified string of length width.
+     |
+     |      Padding is done using the specified fill character (default is a space).
+     |
+     |  lower(self, /)
+     |      Return a copy of the string converted to lowercase.
+     |
+     |  lstrip(self, chars=None, /)
+     |      Return a copy of the string with leading whitespace removed.
+     |
+     |      If chars is given and not None, remove characters in chars instead.
+     |
+     |  partition(self, sep, /)
+     |      Partition the string into three parts using the given separator.
+     |
+     |      This will search for the separator in the string.  If the separator is found,
+     |      returns a 3-tuple containing the part before the separator, the separator
+     |      itself, and the part after it.
+     |
+     |      If the separator is not found, returns a 3-tuple containing the original string
+     |      and two empty strings.
+     |
+     |  removeprefix(self, prefix, /)
+     |      Return a str with the given prefix string removed if present.
+     |
+     |      If the string starts with the prefix string, return string[len(prefix):].
+     |      Otherwise, return a copy of the original string.
+     |
+     |  removesuffix(self, suffix, /)
+     |      Return a str with the given suffix string removed if present.
+     |
+     |      If the string ends with the suffix string and that suffix is not empty,
+     |      return string[:-len(suffix)]. Otherwise, return a copy of the original
+     |      string.
+     |
+     |  replace(self, old, new, /, count=-1)
+     |      Return a copy with all occurrences of substring old replaced by new.
+     |
+     |        count
+     |          Maximum number of occurrences to replace.
+     |          -1 (the default value) means replace all occurrences.
+     |
+     |      If the optional argument count is given, only the first count occurrences are
+     |      replaced.
+     |
+     |  rfind(self, sub[, start[, end]], /)
+     |      Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Return -1 on failure.
+     |
+     |  rindex(self, sub[, start[, end]], /)
+     |      Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Raises ValueError when the substring is not found.
+     |
+     |  rjust(self, width, fillchar=' ', /)
+     |      Return a right-justified string of length width.
+     |
+     |      Padding is done using the specified fill character (default is a space).
+     |
+     |  rpartition(self, sep, /)
+     |      Partition the string into three parts using the given separator.
+     |
+     |      This will search for the separator in the string, starting at the end. If
+     |      the separator is found, returns a 3-tuple containing the part before the
+     |      separator, the separator itself, and the part after it.
+     |
+     |      If the separator is not found, returns a 3-tuple containing two empty strings
+     |      and the original string.
+     |
+     |  rsplit(self, /, sep=None, maxsplit=-1)
+     |      Return a list of the substrings in the string, using sep as the separator string.
+     |
+     |        sep
+     |          The separator used to split the string.
+     |
+     |          When set to None (the default value), will split on any whitespace
+     |          character (including \n \r \t \f and spaces) and will discard
+     |          empty strings from the result.
+     |        maxsplit
+     |          Maximum number of splits.
+     |          -1 (the default value) means no limit.
+     |
+     |      Splitting starts at the end of the string and works to the front.
+     |
+     |  rstrip(self, chars=None, /)
+     |      Return a copy of the string with trailing whitespace removed.
+     |
+     |      If chars is given and not None, remove characters in chars instead.
+     |
+     |  split(self, /, sep=None, maxsplit=-1)
+     |      Return a list of the substrings in the string, using sep as the separator string.
+     |
+     |        sep
+     |          The separator used to split the string.
+     |
+     |          When set to None (the default value), will split on any whitespace
+     |          character (including \n \r \t \f and spaces) and will discard
+     |          empty strings from the result.
+     |        maxsplit
+     |          Maximum number of splits.
+     |          -1 (the default value) means no limit.
+     |
+     |      Splitting starts at the front of the string and works to the end.
+     |
+     |      Note, str.split() is mainly useful for data that has been intentionally
+     |      delimited.  With natural text that includes punctuation, consider using
+     |      the regular expression module.
+     |
+     |  splitlines(self, /, keepends=False)
+     |      Return a list of the lines in the string, breaking at line boundaries.
+     |
+     |      Line breaks are not included in the resulting list unless keepends is given and
+     |      true.
+     |
+     |  startswith(self, prefix[, start[, end]], /)
+     |      Return True if the string starts with the specified prefix, False otherwise.
+     |
+     |      prefix
+     |        A string or a tuple of strings to try.
+     |      start
+     |        Optional start position. Default: start of the string.
+     |      end
+     |        Optional stop position. Default: end of the string.
+     |
+     |  strip(self, chars=None, /)
+     |      Return a copy of the string with leading and trailing whitespace removed.
+     |
+     |      If chars is given and not None, remove characters in chars instead.
+     |
+     |  swapcase(self, /)
+     |      Convert uppercase characters to lowercase and lowercase characters to uppercase.
+     |
+     |  title(self, /)
+     |      Return a version of the string where each word is titlecased.
+     |
+     |      More specifically, words start with uppercased characters and all remaining
+     |      cased characters have lower case.
+     |
+     |  translate(self, table, /)
+     |      Replace each character in the string using the given translation table.
+     |
+     |        table
+     |          Translation table, which must be a mapping of Unicode ordinals to
+     |          Unicode ordinals, strings, or None.
+     |
+     |      The table must implement lookup/indexing via __getitem__, for instance a
+     |      dictionary or list.  If this operation raises LookupError, the character is
+     |      left untouched.  Characters mapped to None are deleted.
+     |
+     |  upper(self, /)
+     |      Return a copy of the string converted to uppercase.
+     |
+     |  zfill(self, width, /)
+     |      Pad a numeric string with zeros on the left, to fill a field of the given width.
+     |
+     |      The string is never truncated.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.str:
+     |
+     |  maketrans(x, y=<unrepresentable>, z=<unrepresentable>, /)
+     |      Return a translation table usable for str.translate().
+     |
+     |      If there is only one argument, it must be a dictionary mapping Unicode
+     |      ordinals (integers) or characters to Unicode ordinals, strings or None.
+     |      Character keys will be then converted to ordinals.
+     |      If there are two arguments, they must be strings of equal length, and
+     |      in the resulting dictionary, each character in x will be mapped to the
+     |      character at the same position in y. If there is a third argument, it
+     |      must be a string, whose characters will be mapped to None in the result.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Enum:
+     |
+     |  __dir__(self)
+     |      Returns public methods and other interesting attributes.
+     |
+     |  __init__(self, *args, **kwds)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __reduce_ex__(self, proto)
+     |      Helper for pickle.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Enum:
+     |
+     |  name
+     |      The name of the Enum member.
+     |
+     |  value
+     |      The value of the Enum member.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from EnumType:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+    class EnumDict(builtins.dict)
+     |  EnumDict(cls_name=None)
+     |
+     |  Track enum member order and ensure member names are not reused.
+     |
+     |  EnumType will use the names found in self._member_names as the
+     |  enumeration member names.
+     |
+     |  Method resolution order:
+     |      EnumDict
+     |      builtins.dict
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, cls_name=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __setitem__(self, key, value)
+     |      Changes anything not dundered or not a descriptor.
+     |
+     |      If an enum member name is used twice, an error is raised; duplicate
+     |      values are not checked for.
+     |
+     |      Single underscore (sunder) names are reserved.
+     |
+     |  update(self, members, **more_members)
+     |      D.update([E, ]**F) -> None.  Update D from mapping/iterable E and F.
+     |      If E is present and has a .keys() method, then does:  for k in E.keys(): D[k] = E[k]
+     |      If E is present and lacks a .keys() method, then does:  for k, v in E: D[k] = v
+     |      In either case, this is followed by: for k in F:  D[k] = F[k]
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  member_names
+     |
+     |  member_names
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.dict:
+     |
+     |  __contains__(self, key, /)
+     |      True if the dictionary has the specified key, else False.
+     |
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __ior__(self, value, /)
+     |      Return self|=value.
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __or__(self, value, /)
+     |      Return self|value.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __reversed__(self, /)
+     |      Return a reverse iterator over the dict keys.
+     |
+     |  __ror__(self, value, /)
+     |      Return value|self.
+     |
+     |  __sizeof__(self, /)
+     |      Return the size of the dict in memory, in bytes.
+     |
+     |  clear(self, /)
+     |      Remove all items from the dict.
+     |
+     |  copy(self, /)
+     |      Return a shallow copy of the dict.
+     |
+     |  get(self, key, default=None, /)
+     |      Return the value for key if key is in the dictionary, else default.
+     |
+     |  items(self, /)
+     |      Return a set-like object providing a view on the dict's items.
+     |
+     |  keys(self, /)
+     |      Return a set-like object providing a view on the dict's keys.
+     |
+     |  pop(self, key, default=<unrepresentable>, /)
+     |      D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+     |
+     |      If the key is not found, return the default if given; otherwise,
+     |      raise a KeyError.
+     |
+     |  popitem(self, /)
+     |      Remove and return a (key, value) pair as a 2-tuple.
+     |
+     |      Pairs are returned in LIFO (last-in, first-out) order.
+     |      Raises KeyError if the dict is empty.
+     |
+     |  setdefault(self, key, default=None, /)
+     |      Insert key with a value of default if key is not in the dictionary.
+     |
+     |      Return the value for key if key is in the dictionary, else default.
+     |
+     |  values(self, /)
+     |      Return an object providing a view on the dict's values.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.dict:
+     |
+     |  __class_getitem__(object, /)
+     |      See PEP 585
+     |
+     |  fromkeys(iterable, value=None, /)
+     |      Create a new dictionary with keys from iterable and values set to value.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.dict:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.dict
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.dict:
+     |
+     |  __hash__ = None
+
+    EnumMeta = class EnumType(builtins.type)
+     |  EnumMeta(cls, bases, classdict, *, boundary=None, _simple=False, **kwds)
+     |
+     |  Metaclass for Enum
+     |
+     |  Method resolution order:
+     |      EnumType
+     |      builtins.type
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __bool__(cls)
+     |      classes/types should always be True.
+     |
+     |  __call__(
+     |      cls,
+     |      value,
+     |      names=<not given>,
+     |      *values,
+     |      module=None,
+     |      qualname=None,
+     |      type=None,
+     |      start=1,
+     |      boundary=None
+     |  )
+     |      Either returns an existing member, or creates a new enum class.
+     |
+     |      This method is used both when an enum class is given a value to match
+     |      to an enumeration member (i.e. Color(3)) and for the functional API
+     |      (i.e. Color = Enum('Color', names='RED GREEN BLUE')).
+     |
+     |      The value lookup branch is chosen if the enum is final.
+     |
+     |      When used for the functional API:
+     |
+     |      `value` will be the name of the new class.
+     |
+     |      `names` should be either a string of white-space/comma delimited names
+     |      (values will start at `start`), or an iterator/mapping of name, value pairs.
+     |
+     |      `module` should be set to the module this class is being created in;
+     |      if it is not set, an attempt to find that module will be made, but if
+     |      it fails the class will not be picklable.
+     |
+     |      `qualname` should be set to the actual location this class can be found
+     |      at in its module; by default it is set to the global scope.  If this is
+     |      not correct, unpickling will fail in some circumstances.
+     |
+     |      `type`, if set, will be mixed in as the first base class.
+     |
+     |  __contains__(cls, value)
+     |      Return True if `value` is in `cls`.
+     |
+     |      `value` is in `cls` if:
+     |      1) `value` is a member of `cls`, or
+     |      2) `value` is the value of one of the `cls`'s members.
+     |      3) `value` is a pseudo-member (flags)
+     |
+     |  __delattr__(cls, attr)
+     |      Implement delattr(self, name).
+     |
+     |  __dir__(cls)
+     |      Specialized __dir__ implementation for types.
+     |
+     |  __getitem__(cls, name)
+     |      Return the member matching `name`.
+     |
+     |  __iter__(cls)
+     |      Return members in definition order.
+     |
+     |  __len__(cls)
+     |      Return the number of members (no aliases)
+     |
+     |  __repr__(cls)
+     |      Return repr(self).
+     |
+     |  __reversed__(cls)
+     |      Return members in reverse definition order.
+     |
+     |  __setattr__(cls, name, value)
+     |      Block attempts to reassign Enum members.
+     |
+     |      A simple assignment to the class namespace only changes one of the
+     |      several possible ways to get an Enum member from the Enum class,
+     |      resulting in an inconsistent Enumeration.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |
+     |  __prepare__(cls, bases, **kwds)
+     |      Create the namespace for the class statement
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |
+     |  __new__(metacls, cls, bases, classdict, *, boundary=None, _simple=False, **kwds)
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties defined here:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __annotations__ = {}
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.type:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __instancecheck__(self, instance, /)
+     |      Check if an object is an instance.
+     |
+     |  __or__(self, value, /)
+     |      Return self|value.
+     |
+     |  __ror__(self, value, /)
+     |      Return value|self.
+     |
+     |  __sizeof__(self, /)
+     |      Return memory consumption of the type object.
+     |
+     |  __subclasscheck__(self, subclass, /)
+     |      Check if a class is a subclass.
+     |
+     |  __subclasses__(self, /)
+     |      Return a list of immediate subclasses.
+     |
+     |  mro(self, /)
+     |      Return a type's method resolution order.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.type:
+     |
+     |  __abstractmethods__
+     |
+     |  __dict__
+     |
+     |  __text_signature__
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.type:
+     |
+     |  __base__ = <class 'type'>
+     |      type(object) -> the object's type
+     |      type(name, bases, dict, **kwds) -> a new type
+     |
+     |
+     |  __bases__ = (<class 'type'>,)
+     |
+     |  __basicsize__ = 928
+     |
+     |  __dictoffset__ = 264
+     |
+     |  __flags__ = 2155894272
+     |
+     |  __itemsize__ = 40
+     |
+     |  __mro__ = (<class 'enum.EnumType'>, <class 'type'>, <class 'object'>)
+     |
+     |  __type_params__ = ()
+     |
+     |  __weakrefoffset__ = 368
+
+    class EnumType(builtins.type)
+     |  EnumType(cls, bases, classdict, *, boundary=None, _simple=False, **kwds)
+     |
+     |  Metaclass for Enum
+     |
+     |  Method resolution order:
+     |      EnumType
+     |      builtins.type
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __bool__(cls)
+     |      classes/types should always be True.
+     |
+     |  __call__(
+     |      cls,
+     |      value,
+     |      names=<not given>,
+     |      *values,
+     |      module=None,
+     |      qualname=None,
+     |      type=None,
+     |      start=1,
+     |      boundary=None
+     |  )
+     |      Either returns an existing member, or creates a new enum class.
+     |
+     |      This method is used both when an enum class is given a value to match
+     |      to an enumeration member (i.e. Color(3)) and for the functional API
+     |      (i.e. Color = Enum('Color', names='RED GREEN BLUE')).
+     |
+     |      The value lookup branch is chosen if the enum is final.
+     |
+     |      When used for the functional API:
+     |
+     |      `value` will be the name of the new class.
+     |
+     |      `names` should be either a string of white-space/comma delimited names
+     |      (values will start at `start`), or an iterator/mapping of name, value pairs.
+     |
+     |      `module` should be set to the module this class is being created in;
+     |      if it is not set, an attempt to find that module will be made, but if
+     |      it fails the class will not be picklable.
+     |
+     |      `qualname` should be set to the actual location this class can be found
+     |      at in its module; by default it is set to the global scope.  If this is
+     |      not correct, unpickling will fail in some circumstances.
+     |
+     |      `type`, if set, will be mixed in as the first base class.
+     |
+     |  __contains__(cls, value)
+     |      Return True if `value` is in `cls`.
+     |
+     |      `value` is in `cls` if:
+     |      1) `value` is a member of `cls`, or
+     |      2) `value` is the value of one of the `cls`'s members.
+     |      3) `value` is a pseudo-member (flags)
+     |
+     |  __delattr__(cls, attr)
+     |      Implement delattr(self, name).
+     |
+     |  __dir__(cls)
+     |      Specialized __dir__ implementation for types.
+     |
+     |  __getitem__(cls, name)
+     |      Return the member matching `name`.
+     |
+     |  __iter__(cls)
+     |      Return members in definition order.
+     |
+     |  __len__(cls)
+     |      Return the number of members (no aliases)
+     |
+     |  __repr__(cls)
+     |      Return repr(self).
+     |
+     |  __reversed__(cls)
+     |      Return members in reverse definition order.
+     |
+     |  __setattr__(cls, name, value)
+     |      Block attempts to reassign Enum members.
+     |
+     |      A simple assignment to the class namespace only changes one of the
+     |      several possible ways to get an Enum member from the Enum class,
+     |      resulting in an inconsistent Enumeration.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods defined here:
+     |
+     |  __prepare__(cls, bases, **kwds)
+     |      Create the namespace for the class statement
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |
+     |  __new__(metacls, cls, bases, classdict, *, boundary=None, _simple=False, **kwds)
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties defined here:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __annotations__ = {}
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.type:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __instancecheck__(self, instance, /)
+     |      Check if an object is an instance.
+     |
+     |  __or__(self, value, /)
+     |      Return self|value.
+     |
+     |  __ror__(self, value, /)
+     |      Return value|self.
+     |
+     |  __sizeof__(self, /)
+     |      Return memory consumption of the type object.
+     |
+     |  __subclasscheck__(self, subclass, /)
+     |      Check if a class is a subclass.
+     |
+     |  __subclasses__(self, /)
+     |      Return a list of immediate subclasses.
+     |
+     |  mro(self, /)
+     |      Return a type's method resolution order.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.type:
+     |
+     |  __abstractmethods__
+     |
+     |  __dict__
+     |
+     |  __text_signature__
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from builtins.type:
+     |
+     |  __base__ = <class 'type'>
+     |      type(object) -> the object's type
+     |      type(name, bases, dict, **kwds) -> a new type
+     |
+     |
+     |  __bases__ = (<class 'type'>,)
+     |
+     |  __basicsize__ = 928
+     |
+     |  __dictoffset__ = 264
+     |
+     |  __flags__ = 2155894272
+     |
+     |  __itemsize__ = 40
+     |
+     |  __mro__ = (<class 'enum.EnumType'>, <class 'type'>, <class 'object'>)
+     |
+     |  __type_params__ = ()
+     |
+     |  __weakrefoffset__ = 368
+
+    class Flag(Enum)
+     |  Flag(
+     |      new_class_name,
+     |      /,
+     |      names,
+     |      *,
+     |      module=None,
+     |      qualname=None,
+     |      type=None,
+     |      start=1,
+     |      boundary=None
+     |  )
+     |
+     |  Support for flags
+     |
+     |  Method resolution order:
+     |      Flag
+     |      Enum
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __contains__(self, other)
+     |      Returns True if self has at least the same flags set as other.
+     |
+     |  __iter__(self)
+     |      Returns flags in definition order.
+     |
+     |  __len__(self)
+     |      Return the number of members (no aliases)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Enum:
+     |
+     |  name
+     |      The name of the Enum member.
+     |
+     |  value
+     |      The value of the Enum member.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from EnumType:
+     |
+     |  __getitem__(name)
+     |      Return the member matching `name`.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from EnumType:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+    class FlagBoundary(StrEnum)
+     |  FlagBoundary(*values)
+     |
+     |  control how out of range values are handled
+     |  "strict" -> error is raised             [default for Flag]
+     |  "conform" -> extra bits are discarded
+     |  "eject" -> lose flag status
+     |  "keep" -> keep flag status and all bits [default for IntFlag]
+     |
+     |  Method resolution order:
+     |      FlagBoundary
+     |      StrEnum
+     |      builtins.str
+     |      ReprEnum
+     |      Enum
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __format__(self, format_spec, /) from builtins.str
+     |      Return a formatted version of the string as described by format_spec.
+     |
+     |  __new__(cls, value) from Enum
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  __str__(self, /) from builtins.str
+     |      Return str(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  CONFORM = <FlagBoundary.CONFORM: 'conform'>
+     |
+     |  EJECT = <FlagBoundary.EJECT: 'eject'>
+     |
+     |  KEEP = <FlagBoundary.KEEP: 'keep'>
+     |
+     |  STRICT = <FlagBoundary.STRICT: 'strict'>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from StrEnum:
+     |
+     |  __repr__(self) from Enum
+     |      Return repr(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.str:
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __contains__(self, key, /)
+     |      Return bool(key in self).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __getnewargs__(self, /)
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  __sizeof__(self, /)
+     |      Return the size of the string in memory, in bytes.
+     |
+     |  capitalize(self, /)
+     |      Return a capitalized version of the string.
+     |
+     |      More specifically, make the first character have upper case and the rest lower
+     |      case.
+     |
+     |  casefold(self, /)
+     |      Return a version of the string suitable for caseless comparisons.
+     |
+     |  center(self, width, fillchar=' ', /)
+     |      Return a centered string of length width.
+     |
+     |      Padding is done using the specified fill character (default is a space).
+     |
+     |  count(self, sub[, start[, end]], /)
+     |      Return the number of non-overlapping occurrences of substring sub in string S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |
+     |  encode(self, /, encoding='utf-8', errors='strict')
+     |      Encode the string using the codec registered for encoding.
+     |
+     |      encoding
+     |        The encoding in which to encode the string.
+     |      errors
+     |        The error handling scheme to use for encoding errors.
+     |        The default is 'strict' meaning that encoding errors raise a
+     |        UnicodeEncodeError.  Other possible values are 'ignore', 'replace' and
+     |        'xmlcharrefreplace' as well as any other name registered with
+     |        codecs.register_error that can handle UnicodeEncodeErrors.
+     |
+     |  endswith(self, suffix[, start[, end]], /)
+     |      Return True if the string ends with the specified suffix, False otherwise.
+     |
+     |      suffix
+     |        A string or a tuple of strings to try.
+     |      start
+     |        Optional start position. Default: start of the string.
+     |      end
+     |        Optional stop position. Default: end of the string.
+     |
+     |  expandtabs(self, /, tabsize=8)
+     |      Return a copy where all tab characters are expanded using spaces.
+     |
+     |      If tabsize is not given, a tab size of 8 characters is assumed.
+     |
+     |  find(self, sub[, start[, end]], /)
+     |      Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Return -1 on failure.
+     |
+     |  format(self, /, *args, **kwargs)
+     |      Return a formatted version of the string, using substitutions from args and kwargs.
+     |      The substitutions are identified by braces ('{' and '}').
+     |
+     |  format_map(self, mapping, /)
+     |      Return a formatted version of the string, using substitutions from mapping.
+     |      The substitutions are identified by braces ('{' and '}').
+     |
+     |  index(self, sub[, start[, end]], /)
+     |      Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Raises ValueError when the substring is not found.
+     |
+     |  isalnum(self, /)
+     |      Return True if the string is an alpha-numeric string, False otherwise.
+     |
+     |      A string is alpha-numeric if all characters in the string are alpha-numeric and
+     |      there is at least one character in the string.
+     |
+     |  isalpha(self, /)
+     |      Return True if the string is an alphabetic string, False otherwise.
+     |
+     |      A string is alphabetic if all characters in the string are alphabetic and there
+     |      is at least one character in the string.
+     |
+     |  isascii(self, /)
+     |      Return True if all characters in the string are ASCII, False otherwise.
+     |
+     |      ASCII characters have code points in the range U+0000-U+007F.
+     |      Empty string is ASCII too.
+     |
+     |  isdecimal(self, /)
+     |      Return True if the string is a decimal string, False otherwise.
+     |
+     |      A string is a decimal string if all characters in the string are decimal and
+     |      there is at least one character in the string.
+     |
+     |  isdigit(self, /)
+     |      Return True if the string is a digit string, False otherwise.
+     |
+     |      A string is a digit string if all characters in the string are digits and there
+     |      is at least one character in the string.
+     |
+     |  isidentifier(self, /)
+     |      Return True if the string is a valid Python identifier, False otherwise.
+     |
+     |      Call keyword.iskeyword(s) to test whether string s is a reserved identifier,
+     |      such as "def" or "class".
+     |
+     |  islower(self, /)
+     |      Return True if the string is a lowercase string, False otherwise.
+     |
+     |      A string is lowercase if all cased characters in the string are lowercase and
+     |      there is at least one cased character in the string.
+     |
+     |  isnumeric(self, /)
+     |      Return True if the string is a numeric string, False otherwise.
+     |
+     |      A string is numeric if all characters in the string are numeric and there is at
+     |      least one character in the string.
+     |
+     |  isprintable(self, /)
+     |      Return True if all characters in the string are printable, False otherwise.
+     |
+     |      A character is printable if repr() may use it in its output.
+     |
+     |  isspace(self, /)
+     |      Return True if the string is a whitespace string, False otherwise.
+     |
+     |      A string is whitespace if all characters in the string are whitespace and there
+     |      is at least one character in the string.
+     |
+     |  istitle(self, /)
+     |      Return True if the string is a title-cased string, False otherwise.
+     |
+     |      In a title-cased string, upper- and title-case characters may only
+     |      follow uncased characters and lowercase characters only cased ones.
+     |
+     |  isupper(self, /)
+     |      Return True if the string is an uppercase string, False otherwise.
+     |
+     |      A string is uppercase if all cased characters in the string are uppercase and
+     |      there is at least one cased character in the string.
+     |
+     |  join(self, iterable, /)
+     |      Concatenate any number of strings.
+     |
+     |      The string whose method is called is inserted in between each given string.
+     |      The result is returned as a new string.
+     |
+     |      Example: '.'.join(['ab', 'pq', 'rs']) -> 'ab.pq.rs'
+     |
+     |  ljust(self, width, fillchar=' ', /)
+     |      Return a left-justified string of length width.
+     |
+     |      Padding is done using the specified fill character (default is a space).
+     |
+     |  lower(self, /)
+     |      Return a copy of the string converted to lowercase.
+     |
+     |  lstrip(self, chars=None, /)
+     |      Return a copy of the string with leading whitespace removed.
+     |
+     |      If chars is given and not None, remove characters in chars instead.
+     |
+     |  partition(self, sep, /)
+     |      Partition the string into three parts using the given separator.
+     |
+     |      This will search for the separator in the string.  If the separator is found,
+     |      returns a 3-tuple containing the part before the separator, the separator
+     |      itself, and the part after it.
+     |
+     |      If the separator is not found, returns a 3-tuple containing the original string
+     |      and two empty strings.
+     |
+     |  removeprefix(self, prefix, /)
+     |      Return a str with the given prefix string removed if present.
+     |
+     |      If the string starts with the prefix string, return string[len(prefix):].
+     |      Otherwise, return a copy of the original string.
+     |
+     |  removesuffix(self, suffix, /)
+     |      Return a str with the given suffix string removed if present.
+     |
+     |      If the string ends with the suffix string and that suffix is not empty,
+     |      return string[:-len(suffix)]. Otherwise, return a copy of the original
+     |      string.
+     |
+     |  replace(self, old, new, /, count=-1)
+     |      Return a copy with all occurrences of substring old replaced by new.
+     |
+     |        count
+     |          Maximum number of occurrences to replace.
+     |          -1 (the default value) means replace all occurrences.
+     |
+     |      If the optional argument count is given, only the first count occurrences are
+     |      replaced.
+     |
+     |  rfind(self, sub[, start[, end]], /)
+     |      Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Return -1 on failure.
+     |
+     |  rindex(self, sub[, start[, end]], /)
+     |      Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Raises ValueError when the substring is not found.
+     |
+     |  rjust(self, width, fillchar=' ', /)
+     |      Return a right-justified string of length width.
+     |
+     |      Padding is done using the specified fill character (default is a space).
+     |
+     |  rpartition(self, sep, /)
+     |      Partition the string into three parts using the given separator.
+     |
+     |      This will search for the separator in the string, starting at the end. If
+     |      the separator is found, returns a 3-tuple containing the part before the
+     |      separator, the separator itself, and the part after it.
+     |
+     |      If the separator is not found, returns a 3-tuple containing two empty strings
+     |      and the original string.
+     |
+     |  rsplit(self, /, sep=None, maxsplit=-1)
+     |      Return a list of the substrings in the string, using sep as the separator string.
+     |
+     |        sep
+     |          The separator used to split the string.
+     |
+     |          When set to None (the default value), will split on any whitespace
+     |          character (including \n \r \t \f and spaces) and will discard
+     |          empty strings from the result.
+     |        maxsplit
+     |          Maximum number of splits.
+     |          -1 (the default value) means no limit.
+     |
+     |      Splitting starts at the end of the string and works to the front.
+     |
+     |  rstrip(self, chars=None, /)
+     |      Return a copy of the string with trailing whitespace removed.
+     |
+     |      If chars is given and not None, remove characters in chars instead.
+     |
+     |  split(self, /, sep=None, maxsplit=-1)
+     |      Return a list of the substrings in the string, using sep as the separator string.
+     |
+     |        sep
+     |          The separator used to split the string.
+     |
+     |          When set to None (the default value), will split on any whitespace
+     |          character (including \n \r \t \f and spaces) and will discard
+     |          empty strings from the result.
+     |        maxsplit
+     |          Maximum number of splits.
+     |          -1 (the default value) means no limit.
+     |
+     |      Splitting starts at the front of the string and works to the end.
+     |
+     |      Note, str.split() is mainly useful for data that has been intentionally
+     |      delimited.  With natural text that includes punctuation, consider using
+     |      the regular expression module.
+     |
+     |  splitlines(self, /, keepends=False)
+     |      Return a list of the lines in the string, breaking at line boundaries.
+     |
+     |      Line breaks are not included in the resulting list unless keepends is given and
+     |      true.
+     |
+     |  startswith(self, prefix[, start[, end]], /)
+     |      Return True if the string starts with the specified prefix, False otherwise.
+     |
+     |      prefix
+     |        A string or a tuple of strings to try.
+     |      start
+     |        Optional start position. Default: start of the string.
+     |      end
+     |        Optional stop position. Default: end of the string.
+     |
+     |  strip(self, chars=None, /)
+     |      Return a copy of the string with leading and trailing whitespace removed.
+     |
+     |      If chars is given and not None, remove characters in chars instead.
+     |
+     |  swapcase(self, /)
+     |      Convert uppercase characters to lowercase and lowercase characters to uppercase.
+     |
+     |  title(self, /)
+     |      Return a version of the string where each word is titlecased.
+     |
+     |      More specifically, words start with uppercased characters and all remaining
+     |      cased characters have lower case.
+     |
+     |  translate(self, table, /)
+     |      Replace each character in the string using the given translation table.
+     |
+     |        table
+     |          Translation table, which must be a mapping of Unicode ordinals to
+     |          Unicode ordinals, strings, or None.
+     |
+     |      The table must implement lookup/indexing via __getitem__, for instance a
+     |      dictionary or list.  If this operation raises LookupError, the character is
+     |      left untouched.  Characters mapped to None are deleted.
+     |
+     |  upper(self, /)
+     |      Return a copy of the string converted to uppercase.
+     |
+     |  zfill(self, width, /)
+     |      Pad a numeric string with zeros on the left, to fill a field of the given width.
+     |
+     |      The string is never truncated.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.str:
+     |
+     |  maketrans(x, y=<unrepresentable>, z=<unrepresentable>, /)
+     |      Return a translation table usable for str.translate().
+     |
+     |      If there is only one argument, it must be a dictionary mapping Unicode
+     |      ordinals (integers) or characters to Unicode ordinals, strings or None.
+     |      Character keys will be then converted to ordinals.
+     |      If there are two arguments, they must be strings of equal length, and
+     |      in the resulting dictionary, each character in x will be mapped to the
+     |      character at the same position in y. If there is a third argument, it
+     |      must be a string, whose characters will be mapped to None in the result.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Enum:
+     |
+     |  __dir__(self)
+     |      Returns public methods and other interesting attributes.
+     |
+     |  __init__(self, *args, **kwds)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __reduce_ex__(self, proto)
+     |      Helper for pickle.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Enum:
+     |
+     |  name
+     |      The name of the Enum member.
+     |
+     |  value
+     |      The value of the Enum member.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from EnumType:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+    class IntEnum(builtins.int, ReprEnum)
+     |  IntEnum(
+     |      new_class_name,
+     |      /,
+     |      names,
+     |      *,
+     |      module=None,
+     |      qualname=None,
+     |      type=None,
+     |      start=1,
+     |      boundary=None
+     |  )
+     |
+     |  Enum where members are also (and must be) ints
+     |
+     |  Method resolution order:
+     |      IntEnum
+     |      builtins.int
+     |      ReprEnum
+     |      Enum
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __format__(self, format_spec, /) from builtins.int
+     |      Convert to a string according to format_spec.
+     |
+     |  __new__(cls, value) from Enum
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  __repr__(self) from Enum
+     |      Return repr(self).
+     |
+     |  __str__ = __repr__(self, /) from builtins.int
+     |      Return repr(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.int:
+     |
+     |  __abs__(self, /)
+     |      abs(self)
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __and__(self, value, /)
+     |      Return self&value.
+     |
+     |  __bool__(self, /)
+     |      True if self else False
+     |
+     |  __ceil__(self, /)
+     |      Ceiling of an Integral returns itself.
+     |
+     |  __divmod__(self, value, /)
+     |      Return divmod(self, value).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __float__(self, /)
+     |      float(self)
+     |
+     |  __floor__(self, /)
+     |      Flooring an Integral returns itself.
+     |
+     |  __floordiv__(self, value, /)
+     |      Return self//value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __getnewargs__(self, /)
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __index__(self, /)
+     |      Return self converted to an integer, if self is suitable for use as an index into a list.
+     |
+     |  __int__(self, /)
+     |      int(self)
+     |
+     |  __invert__(self, /)
+     |      ~self
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __lshift__(self, value, /)
+     |      Return self<<value.
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __neg__(self, /)
+     |      -self
+     |
+     |  __or__(self, value, /)
+     |      Return self|value.
+     |
+     |  __pos__(self, /)
+     |      +self
+     |
+     |  __pow__(self, value, mod=None, /)
+     |      Return pow(self, value, mod).
+     |
+     |  __radd__(self, value, /)
+     |      Return value+self.
+     |
+     |  __rand__(self, value, /)
+     |      Return value&self.
+     |
+     |  __rdivmod__(self, value, /)
+     |      Return divmod(value, self).
+     |
+     |  __rfloordiv__(self, value, /)
+     |      Return value//self.
+     |
+     |  __rlshift__(self, value, /)
+     |      Return value<<self.
+     |
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  __ror__(self, value, /)
+     |      Return value|self.
+     |
+     |  __round__(self, ndigits=<unrepresentable>, /)
+     |      Rounding an Integral returns itself.
+     |
+     |      Rounding with an ndigits argument also returns an integer.
+     |
+     |  __rpow__(self, value, mod=None, /)
+     |      Return pow(value, self, mod).
+     |
+     |  __rrshift__(self, value, /)
+     |      Return value>>self.
+     |
+     |  __rshift__(self, value, /)
+     |      Return self>>value.
+     |
+     |  __rsub__(self, value, /)
+     |      Return value-self.
+     |
+     |  __rtruediv__(self, value, /)
+     |      Return value/self.
+     |
+     |  __rxor__(self, value, /)
+     |      Return value^self.
+     |
+     |  __sizeof__(self, /)
+     |      Returns size in memory, in bytes.
+     |
+     |  __sub__(self, value, /)
+     |      Return self-value.
+     |
+     |  __truediv__(self, value, /)
+     |      Return self/value.
+     |
+     |  __trunc__(self, /)
+     |      Truncating an Integral returns itself.
+     |
+     |  __xor__(self, value, /)
+     |      Return self^value.
+     |
+     |  as_integer_ratio(self, /)
+     |      Return a pair of integers, whose ratio is equal to the original int.
+     |
+     |      The ratio is in lowest terms and has a positive denominator.
+     |
+     |      >>> (10).as_integer_ratio()
+     |      (10, 1)
+     |      >>> (-10).as_integer_ratio()
+     |      (-10, 1)
+     |      >>> (0).as_integer_ratio()
+     |      (0, 1)
+     |
+     |  bit_count(self, /)
+     |      Number of ones in the binary representation of the absolute value of self.
+     |
+     |      Also known as the population count.
+     |
+     |      >>> bin(13)
+     |      '0b1101'
+     |      >>> (13).bit_count()
+     |      3
+     |
+     |  bit_length(self, /)
+     |      Number of bits necessary to represent self in binary.
+     |
+     |      >>> bin(37)
+     |      '0b100101'
+     |      >>> (37).bit_length()
+     |      6
+     |
+     |  conjugate(self, /)
+     |      Returns self, the complex conjugate of any int.
+     |
+     |  is_integer(self, /)
+     |      Returns True. Exists for duck type compatibility with float.is_integer.
+     |
+     |  to_bytes(self, /, length=1, byteorder='big', *, signed=False)
+     |      Return an array of bytes representing an integer.
+     |
+     |      length
+     |        Length of bytes object to use.  An OverflowError is raised if the
+     |        integer is not representable with the given number of bytes.  Default
+     |        is length 1.
+     |      byteorder
+     |        The byte order used to represent the integer.  If byteorder is 'big',
+     |        the most significant byte is at the beginning of the byte array.  If
+     |        byteorder is 'little', the most significant byte is at the end of the
+     |        byte array.  To request the native byte order of the host system, use
+     |        sys.byteorder as the byte order value.  Default is to use 'big'.
+     |      signed
+     |        Determines whether two's complement is used to represent the integer.
+     |        If signed is False and a negative integer is given, an OverflowError
+     |        is raised.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.int:
+     |
+     |  from_bytes(bytes, byteorder='big', *, signed=False)
+     |      Return the integer represented by the given array of bytes.
+     |
+     |      bytes
+     |        Holds the array of bytes to convert.  The argument must either
+     |        support the buffer protocol or be an iterable object producing bytes.
+     |        Bytes and bytearray are examples of built-in objects that support the
+     |        buffer protocol.
+     |      byteorder
+     |        The byte order used to represent the integer.  If byteorder is 'big',
+     |        the most significant byte is at the beginning of the byte array.  If
+     |        byteorder is 'little', the most significant byte is at the end of the
+     |        byte array.  To request the native byte order of the host system, use
+     |        sys.byteorder as the byte order value.  Default is to use 'big'.
+     |      signed
+     |        Indicates whether two's complement is used to represent the integer.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.int:
+     |
+     |  denominator
+     |      the denominator of a rational number in lowest terms
+     |
+     |  imag
+     |      the imaginary part of a complex number
+     |
+     |  numerator
+     |      the numerator of a rational number in lowest terms
+     |
+     |  real
+     |      the real part of a complex number
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Enum:
+     |
+     |  __dir__(self)
+     |      Returns public methods and other interesting attributes.
+     |
+     |  __init__(self, *args, **kwds)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __reduce_ex__(self, proto)
+     |      Helper for pickle.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Enum:
+     |
+     |  name
+     |      The name of the Enum member.
+     |
+     |  value
+     |      The value of the Enum member.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from EnumType:
+     |
+     |  __contains__(value)
+     |      Return True if `value` is in `cls`.
+     |
+     |      `value` is in `cls` if:
+     |      1) `value` is a member of `cls`, or
+     |      2) `value` is the value of one of the `cls`'s members.
+     |      3) `value` is a pseudo-member (flags)
+     |
+     |  __getitem__(name)
+     |      Return the member matching `name`.
+     |
+     |  __iter__()
+     |      Return members in definition order.
+     |
+     |  __len__()
+     |      Return the number of members (no aliases)
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from EnumType:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+    class IntFlag(builtins.int, ReprEnum, Flag)
+     |  IntFlag(
+     |      new_class_name,
+     |      /,
+     |      names,
+     |      *,
+     |      module=None,
+     |      qualname=None,
+     |      type=None,
+     |      start=1,
+     |      boundary=None
+     |  )
+     |
+     |  Support for integer-based Flags
+     |
+     |  Method resolution order:
+     |      IntFlag
+     |      builtins.int
+     |      ReprEnum
+     |      Flag
+     |      Enum
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __and__(self, other) from Flag
+     |
+     |  __format__(self, format_spec, /) from builtins.int
+     |      Convert to a string according to format_spec.
+     |
+     |  __invert__(self) from Flag
+     |
+     |  __new__(cls, value) from Enum
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  __or__(self, other) from Flag
+     |      Return self|value.
+     |
+     |  __rand__ = __and__(self, other)
+     |
+     |  __repr__(self) from Flag
+     |      Return repr(self).
+     |
+     |  __ror__ = __or__(self, other)
+     |
+     |  __rxor__ = __xor__(self, other)
+     |
+     |  __str__ = __repr__(self, /) from builtins.int
+     |      Return repr(self).
+     |
+     |  __xor__(self, other) from Flag
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.int:
+     |
+     |  __abs__(self, /)
+     |      abs(self)
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __bool__(self, /)
+     |      True if self else False
+     |
+     |  __ceil__(self, /)
+     |      Ceiling of an Integral returns itself.
+     |
+     |  __divmod__(self, value, /)
+     |      Return divmod(self, value).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __float__(self, /)
+     |      float(self)
+     |
+     |  __floor__(self, /)
+     |      Flooring an Integral returns itself.
+     |
+     |  __floordiv__(self, value, /)
+     |      Return self//value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __getnewargs__(self, /)
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __index__(self, /)
+     |      Return self converted to an integer, if self is suitable for use as an index into a list.
+     |
+     |  __int__(self, /)
+     |      int(self)
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __lshift__(self, value, /)
+     |      Return self<<value.
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __neg__(self, /)
+     |      -self
+     |
+     |  __pos__(self, /)
+     |      +self
+     |
+     |  __pow__(self, value, mod=None, /)
+     |      Return pow(self, value, mod).
+     |
+     |  __radd__(self, value, /)
+     |      Return value+self.
+     |
+     |  __rdivmod__(self, value, /)
+     |      Return divmod(value, self).
+     |
+     |  __rfloordiv__(self, value, /)
+     |      Return value//self.
+     |
+     |  __rlshift__(self, value, /)
+     |      Return value<<self.
+     |
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  __round__(self, ndigits=<unrepresentable>, /)
+     |      Rounding an Integral returns itself.
+     |
+     |      Rounding with an ndigits argument also returns an integer.
+     |
+     |  __rpow__(self, value, mod=None, /)
+     |      Return pow(value, self, mod).
+     |
+     |  __rrshift__(self, value, /)
+     |      Return value>>self.
+     |
+     |  __rshift__(self, value, /)
+     |      Return self>>value.
+     |
+     |  __rsub__(self, value, /)
+     |      Return value-self.
+     |
+     |  __rtruediv__(self, value, /)
+     |      Return value/self.
+     |
+     |  __sizeof__(self, /)
+     |      Returns size in memory, in bytes.
+     |
+     |  __sub__(self, value, /)
+     |      Return self-value.
+     |
+     |  __truediv__(self, value, /)
+     |      Return self/value.
+     |
+     |  __trunc__(self, /)
+     |      Truncating an Integral returns itself.
+     |
+     |  as_integer_ratio(self, /)
+     |      Return a pair of integers, whose ratio is equal to the original int.
+     |
+     |      The ratio is in lowest terms and has a positive denominator.
+     |
+     |      >>> (10).as_integer_ratio()
+     |      (10, 1)
+     |      >>> (-10).as_integer_ratio()
+     |      (-10, 1)
+     |      >>> (0).as_integer_ratio()
+     |      (0, 1)
+     |
+     |  bit_count(self, /)
+     |      Number of ones in the binary representation of the absolute value of self.
+     |
+     |      Also known as the population count.
+     |
+     |      >>> bin(13)
+     |      '0b1101'
+     |      >>> (13).bit_count()
+     |      3
+     |
+     |  bit_length(self, /)
+     |      Number of bits necessary to represent self in binary.
+     |
+     |      >>> bin(37)
+     |      '0b100101'
+     |      >>> (37).bit_length()
+     |      6
+     |
+     |  conjugate(self, /)
+     |      Returns self, the complex conjugate of any int.
+     |
+     |  is_integer(self, /)
+     |      Returns True. Exists for duck type compatibility with float.is_integer.
+     |
+     |  to_bytes(self, /, length=1, byteorder='big', *, signed=False)
+     |      Return an array of bytes representing an integer.
+     |
+     |      length
+     |        Length of bytes object to use.  An OverflowError is raised if the
+     |        integer is not representable with the given number of bytes.  Default
+     |        is length 1.
+     |      byteorder
+     |        The byte order used to represent the integer.  If byteorder is 'big',
+     |        the most significant byte is at the beginning of the byte array.  If
+     |        byteorder is 'little', the most significant byte is at the end of the
+     |        byte array.  To request the native byte order of the host system, use
+     |        sys.byteorder as the byte order value.  Default is to use 'big'.
+     |      signed
+     |        Determines whether two's complement is used to represent the integer.
+     |        If signed is False and a negative integer is given, an OverflowError
+     |        is raised.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.int:
+     |
+     |  from_bytes(bytes, byteorder='big', *, signed=False)
+     |      Return the integer represented by the given array of bytes.
+     |
+     |      bytes
+     |        Holds the array of bytes to convert.  The argument must either
+     |        support the buffer protocol or be an iterable object producing bytes.
+     |        Bytes and bytearray are examples of built-in objects that support the
+     |        buffer protocol.
+     |      byteorder
+     |        The byte order used to represent the integer.  If byteorder is 'big',
+     |        the most significant byte is at the beginning of the byte array.  If
+     |        byteorder is 'little', the most significant byte is at the end of the
+     |        byte array.  To request the native byte order of the host system, use
+     |        sys.byteorder as the byte order value.  Default is to use 'big'.
+     |      signed
+     |        Indicates whether two's complement is used to represent the integer.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.int:
+     |
+     |  denominator
+     |      the denominator of a rational number in lowest terms
+     |
+     |  imag
+     |      the imaginary part of a complex number
+     |
+     |  numerator
+     |      the numerator of a rational number in lowest terms
+     |
+     |  real
+     |      the real part of a complex number
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Flag:
+     |
+     |  __contains__(self, other)
+     |      Returns True if self has at least the same flags set as other.
+     |
+     |  __iter__(self)
+     |      Returns flags in definition order.
+     |
+     |  __len__(self)
+     |      Return the number of members (no aliases)
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Enum:
+     |
+     |  __dir__(self)
+     |      Returns public methods and other interesting attributes.
+     |
+     |  __init__(self, *args, **kwds)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __reduce_ex__(self, proto)
+     |      Helper for pickle.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Enum:
+     |
+     |  name
+     |      The name of the Enum member.
+     |
+     |  value
+     |      The value of the Enum member.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from EnumType:
+     |
+     |  __getitem__(name)
+     |      Return the member matching `name`.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from EnumType:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+    class ReprEnum(Enum)
+     |  ReprEnum(
+     |      new_class_name,
+     |      /,
+     |      names,
+     |      *,
+     |      module=None,
+     |      qualname=None,
+     |      type=None,
+     |      start=1,
+     |      boundary=None
+     |  )
+     |
+     |  Only changes the repr(), leaving str() and format() to the mixed-in type.
+     |
+     |  Method resolution order:
+     |      ReprEnum
+     |      Enum
+     |      builtins.object
+     |
+     |  Data descriptors inherited from Enum:
+     |
+     |  name
+     |      The name of the Enum member.
+     |
+     |  value
+     |      The value of the Enum member.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from EnumType:
+     |
+     |  __contains__(value)
+     |      Return True if `value` is in `cls`.
+     |
+     |      `value` is in `cls` if:
+     |      1) `value` is a member of `cls`, or
+     |      2) `value` is the value of one of the `cls`'s members.
+     |      3) `value` is a pseudo-member (flags)
+     |
+     |  __getitem__(name)
+     |      Return the member matching `name`.
+     |
+     |  __iter__()
+     |      Return members in definition order.
+     |
+     |  __len__()
+     |      Return the number of members (no aliases)
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from EnumType:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+    class StrEnum(builtins.str, ReprEnum)
+     |  StrEnum(
+     |      new_class_name,
+     |      /,
+     |      names,
+     |      *,
+     |      module=None,
+     |      qualname=None,
+     |      type=None,
+     |      start=1,
+     |      boundary=None
+     |  )
+     |
+     |  Enum where members are also (and must be) strings
+     |
+     |  Method resolution order:
+     |      StrEnum
+     |      builtins.str
+     |      ReprEnum
+     |      Enum
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __format__(self, format_spec, /) from builtins.str
+     |      Return a formatted version of the string as described by format_spec.
+     |
+     |  __new__(cls, value) from Enum
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  __repr__(self) from Enum
+     |      Return repr(self).
+     |
+     |  __str__(self, /) from builtins.str
+     |      Return str(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.str:
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __contains__(self, key, /)
+     |      Return bool(key in self).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __getnewargs__(self, /)
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mod__(self, value, /)
+     |      Return self%value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __rmod__(self, value, /)
+     |      Return value%self.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  __sizeof__(self, /)
+     |      Return the size of the string in memory, in bytes.
+     |
+     |  capitalize(self, /)
+     |      Return a capitalized version of the string.
+     |
+     |      More specifically, make the first character have upper case and the rest lower
+     |      case.
+     |
+     |  casefold(self, /)
+     |      Return a version of the string suitable for caseless comparisons.
+     |
+     |  center(self, width, fillchar=' ', /)
+     |      Return a centered string of length width.
+     |
+     |      Padding is done using the specified fill character (default is a space).
+     |
+     |  count(self, sub[, start[, end]], /)
+     |      Return the number of non-overlapping occurrences of substring sub in string S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |
+     |  encode(self, /, encoding='utf-8', errors='strict')
+     |      Encode the string using the codec registered for encoding.
+     |
+     |      encoding
+     |        The encoding in which to encode the string.
+     |      errors
+     |        The error handling scheme to use for encoding errors.
+     |        The default is 'strict' meaning that encoding errors raise a
+     |        UnicodeEncodeError.  Other possible values are 'ignore', 'replace' and
+     |        'xmlcharrefreplace' as well as any other name registered with
+     |        codecs.register_error that can handle UnicodeEncodeErrors.
+     |
+     |  endswith(self, suffix[, start[, end]], /)
+     |      Return True if the string ends with the specified suffix, False otherwise.
+     |
+     |      suffix
+     |        A string or a tuple of strings to try.
+     |      start
+     |        Optional start position. Default: start of the string.
+     |      end
+     |        Optional stop position. Default: end of the string.
+     |
+     |  expandtabs(self, /, tabsize=8)
+     |      Return a copy where all tab characters are expanded using spaces.
+     |
+     |      If tabsize is not given, a tab size of 8 characters is assumed.
+     |
+     |  find(self, sub[, start[, end]], /)
+     |      Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Return -1 on failure.
+     |
+     |  format(self, /, *args, **kwargs)
+     |      Return a formatted version of the string, using substitutions from args and kwargs.
+     |      The substitutions are identified by braces ('{' and '}').
+     |
+     |  format_map(self, mapping, /)
+     |      Return a formatted version of the string, using substitutions from mapping.
+     |      The substitutions are identified by braces ('{' and '}').
+     |
+     |  index(self, sub[, start[, end]], /)
+     |      Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Raises ValueError when the substring is not found.
+     |
+     |  isalnum(self, /)
+     |      Return True if the string is an alpha-numeric string, False otherwise.
+     |
+     |      A string is alpha-numeric if all characters in the string are alpha-numeric and
+     |      there is at least one character in the string.
+     |
+     |  isalpha(self, /)
+     |      Return True if the string is an alphabetic string, False otherwise.
+     |
+     |      A string is alphabetic if all characters in the string are alphabetic and there
+     |      is at least one character in the string.
+     |
+     |  isascii(self, /)
+     |      Return True if all characters in the string are ASCII, False otherwise.
+     |
+     |      ASCII characters have code points in the range U+0000-U+007F.
+     |      Empty string is ASCII too.
+     |
+     |  isdecimal(self, /)
+     |      Return True if the string is a decimal string, False otherwise.
+     |
+     |      A string is a decimal string if all characters in the string are decimal and
+     |      there is at least one character in the string.
+     |
+     |  isdigit(self, /)
+     |      Return True if the string is a digit string, False otherwise.
+     |
+     |      A string is a digit string if all characters in the string are digits and there
+     |      is at least one character in the string.
+     |
+     |  isidentifier(self, /)
+     |      Return True if the string is a valid Python identifier, False otherwise.
+     |
+     |      Call keyword.iskeyword(s) to test whether string s is a reserved identifier,
+     |      such as "def" or "class".
+     |
+     |  islower(self, /)
+     |      Return True if the string is a lowercase string, False otherwise.
+     |
+     |      A string is lowercase if all cased characters in the string are lowercase and
+     |      there is at least one cased character in the string.
+     |
+     |  isnumeric(self, /)
+     |      Return True if the string is a numeric string, False otherwise.
+     |
+     |      A string is numeric if all characters in the string are numeric and there is at
+     |      least one character in the string.
+     |
+     |  isprintable(self, /)
+     |      Return True if all characters in the string are printable, False otherwise.
+     |
+     |      A character is printable if repr() may use it in its output.
+     |
+     |  isspace(self, /)
+     |      Return True if the string is a whitespace string, False otherwise.
+     |
+     |      A string is whitespace if all characters in the string are whitespace and there
+     |      is at least one character in the string.
+     |
+     |  istitle(self, /)
+     |      Return True if the string is a title-cased string, False otherwise.
+     |
+     |      In a title-cased string, upper- and title-case characters may only
+     |      follow uncased characters and lowercase characters only cased ones.
+     |
+     |  isupper(self, /)
+     |      Return True if the string is an uppercase string, False otherwise.
+     |
+     |      A string is uppercase if all cased characters in the string are uppercase and
+     |      there is at least one cased character in the string.
+     |
+     |  join(self, iterable, /)
+     |      Concatenate any number of strings.
+     |
+     |      The string whose method is called is inserted in between each given string.
+     |      The result is returned as a new string.
+     |
+     |      Example: '.'.join(['ab', 'pq', 'rs']) -> 'ab.pq.rs'
+     |
+     |  ljust(self, width, fillchar=' ', /)
+     |      Return a left-justified string of length width.
+     |
+     |      Padding is done using the specified fill character (default is a space).
+     |
+     |  lower(self, /)
+     |      Return a copy of the string converted to lowercase.
+     |
+     |  lstrip(self, chars=None, /)
+     |      Return a copy of the string with leading whitespace removed.
+     |
+     |      If chars is given and not None, remove characters in chars instead.
+     |
+     |  partition(self, sep, /)
+     |      Partition the string into three parts using the given separator.
+     |
+     |      This will search for the separator in the string.  If the separator is found,
+     |      returns a 3-tuple containing the part before the separator, the separator
+     |      itself, and the part after it.
+     |
+     |      If the separator is not found, returns a 3-tuple containing the original string
+     |      and two empty strings.
+     |
+     |  removeprefix(self, prefix, /)
+     |      Return a str with the given prefix string removed if present.
+     |
+     |      If the string starts with the prefix string, return string[len(prefix):].
+     |      Otherwise, return a copy of the original string.
+     |
+     |  removesuffix(self, suffix, /)
+     |      Return a str with the given suffix string removed if present.
+     |
+     |      If the string ends with the suffix string and that suffix is not empty,
+     |      return string[:-len(suffix)]. Otherwise, return a copy of the original
+     |      string.
+     |
+     |  replace(self, old, new, /, count=-1)
+     |      Return a copy with all occurrences of substring old replaced by new.
+     |
+     |        count
+     |          Maximum number of occurrences to replace.
+     |          -1 (the default value) means replace all occurrences.
+     |
+     |      If the optional argument count is given, only the first count occurrences are
+     |      replaced.
+     |
+     |  rfind(self, sub[, start[, end]], /)
+     |      Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Return -1 on failure.
+     |
+     |  rindex(self, sub[, start[, end]], /)
+     |      Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].
+     |
+     |      Optional arguments start and end are interpreted as in slice notation.
+     |      Raises ValueError when the substring is not found.
+     |
+     |  rjust(self, width, fillchar=' ', /)
+     |      Return a right-justified string of length width.
+     |
+     |      Padding is done using the specified fill character (default is a space).
+     |
+     |  rpartition(self, sep, /)
+     |      Partition the string into three parts using the given separator.
+     |
+     |      This will search for the separator in the string, starting at the end. If
+     |      the separator is found, returns a 3-tuple containing the part before the
+     |      separator, the separator itself, and the part after it.
+     |
+     |      If the separator is not found, returns a 3-tuple containing two empty strings
+     |      and the original string.
+     |
+     |  rsplit(self, /, sep=None, maxsplit=-1)
+     |      Return a list of the substrings in the string, using sep as the separator string.
+     |
+     |        sep
+     |          The separator used to split the string.
+     |
+     |          When set to None (the default value), will split on any whitespace
+     |          character (including \n \r \t \f and spaces) and will discard
+     |          empty strings from the result.
+     |        maxsplit
+     |          Maximum number of splits.
+     |          -1 (the default value) means no limit.
+     |
+     |      Splitting starts at the end of the string and works to the front.
+     |
+     |  rstrip(self, chars=None, /)
+     |      Return a copy of the string with trailing whitespace removed.
+     |
+     |      If chars is given and not None, remove characters in chars instead.
+     |
+     |  split(self, /, sep=None, maxsplit=-1)
+     |      Return a list of the substrings in the string, using sep as the separator string.
+     |
+     |        sep
+     |          The separator used to split the string.
+     |
+     |          When set to None (the default value), will split on any whitespace
+     |          character (including \n \r \t \f and spaces) and will discard
+     |          empty strings from the result.
+     |        maxsplit
+     |          Maximum number of splits.
+     |          -1 (the default value) means no limit.
+     |
+     |      Splitting starts at the front of the string and works to the end.
+     |
+     |      Note, str.split() is mainly useful for data that has been intentionally
+     |      delimited.  With natural text that includes punctuation, consider using
+     |      the regular expression module.
+     |
+     |  splitlines(self, /, keepends=False)
+     |      Return a list of the lines in the string, breaking at line boundaries.
+     |
+     |      Line breaks are not included in the resulting list unless keepends is given and
+     |      true.
+     |
+     |  startswith(self, prefix[, start[, end]], /)
+     |      Return True if the string starts with the specified prefix, False otherwise.
+     |
+     |      prefix
+     |        A string or a tuple of strings to try.
+     |      start
+     |        Optional start position. Default: start of the string.
+     |      end
+     |        Optional stop position. Default: end of the string.
+     |
+     |  strip(self, chars=None, /)
+     |      Return a copy of the string with leading and trailing whitespace removed.
+     |
+     |      If chars is given and not None, remove characters in chars instead.
+     |
+     |  swapcase(self, /)
+     |      Convert uppercase characters to lowercase and lowercase characters to uppercase.
+     |
+     |  title(self, /)
+     |      Return a version of the string where each word is titlecased.
+     |
+     |      More specifically, words start with uppercased characters and all remaining
+     |      cased characters have lower case.
+     |
+     |  translate(self, table, /)
+     |      Replace each character in the string using the given translation table.
+     |
+     |        table
+     |          Translation table, which must be a mapping of Unicode ordinals to
+     |          Unicode ordinals, strings, or None.
+     |
+     |      The table must implement lookup/indexing via __getitem__, for instance a
+     |      dictionary or list.  If this operation raises LookupError, the character is
+     |      left untouched.  Characters mapped to None are deleted.
+     |
+     |  upper(self, /)
+     |      Return a copy of the string converted to uppercase.
+     |
+     |  zfill(self, width, /)
+     |      Pad a numeric string with zeros on the left, to fill a field of the given width.
+     |
+     |      The string is never truncated.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.str:
+     |
+     |  maketrans(x, y=<unrepresentable>, z=<unrepresentable>, /)
+     |      Return a translation table usable for str.translate().
+     |
+     |      If there is only one argument, it must be a dictionary mapping Unicode
+     |      ordinals (integers) or characters to Unicode ordinals, strings or None.
+     |      Character keys will be then converted to ordinals.
+     |      If there are two arguments, they must be strings of equal length, and
+     |      in the resulting dictionary, each character in x will be mapped to the
+     |      character at the same position in y. If there is a third argument, it
+     |      must be a string, whose characters will be mapped to None in the result.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Enum:
+     |
+     |  __dir__(self)
+     |      Returns public methods and other interesting attributes.
+     |
+     |  __init__(self, *args, **kwds)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __reduce_ex__(self, proto)
+     |      Helper for pickle.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Enum:
+     |
+     |  name
+     |      The name of the Enum member.
+     |
+     |  value
+     |      The value of the Enum member.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from EnumType:
+     |
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+    class auto(builtins.object)
+     |  auto(value=_auto_null)
+     |
+     |  Instances are replaced with an appropriate value in Enum class suites.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, value=_auto_null)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __repr__(self)
+     |      Return repr(self).
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+    class member(builtins.object)
+     |  member(value)
+     |
+     |  Forces item to become an Enum member during class creation.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, value)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+    class nonmember(builtins.object)
+     |  nonmember(value)
+     |
+     |  Protects item from becoming an Enum member during class creation.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, value)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+    class property(types.DynamicClassAttribute)
+     |  property(fget=None, fset=None, fdel=None, doc=None)
+     |
+     |  This is a descriptor, used to define attributes that act differently
+     |  when accessed through an enum member and through an enum class.
+     |  Instance access is the same as property(), but access to an attribute
+     |  through the enum class will instead look in the class' _member_map_ for
+     |  a corresponding enum member.
+     |
+     |  Method resolution order:
+     |      property
+     |      types.DynamicClassAttribute
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __delete__(self, instance)
+     |
+     |  __get__(self, instance, ownerclass=None)
+     |
+     |  __set__(self, instance, value)
+     |
+     |  __set_name__(self, ownerclass, name)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  member = None
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from types.DynamicClassAttribute:
+     |
+     |  __init__(self, fget=None, fset=None, fdel=None, doc=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  deleter(self, fdel)
+     |
+     |  getter(self, fget)
+     |
+     |  setter(self, fset)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from types.DynamicClassAttribute:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+    class verify(builtins.object)
+     |  verify(*checks)
+     |
+     |  Check an enumeration for various constraints. (see EnumCheck)
+     |
+     |  Methods defined here:
+     |
+     |  __call__(self, enumeration)
+     |      Call self as a function.
+     |
+     |  __init__(self, *checks)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables
+     |
+     |  __weakref__
+     |      list of weak references to the object
+
+FUNCTIONS
+    global_enum(cls, update_str=False)
+        decorator that makes the repr() of an enum member reference its module
+        instead of its class; also exports all members to the enum's module's
+        global namespace
+
+    global_enum_repr(self)
+        use module.enum_name instead of class.enum_name
+
+        the module is the last module in case of a multi-module name
+
+    global_flag_repr(self)
+        use module.flag_name instead of class.flag_name
+
+        the module is the last module in case of a multi-module name
+
+    global_str(self)
+        use enum_name instead of class.enum_name
+
+    pickle_by_enum_name(self, proto)
+
+    pickle_by_global_name(self, proto)
+
+    unique(enumeration)
+        Class decorator for enumerations ensuring unique member values.
+
+DATA
+    CONFORM = <FlagBoundary.CONFORM: 'conform'>
+    CONTINUOUS = <EnumCheck.CONTINUOUS: 'no skipped integer values'>
+    EJECT = <FlagBoundary.EJECT: 'eject'>
+    KEEP = <FlagBoundary.KEEP: 'keep'>
+    NAMED_FLAGS = <EnumCheck.NAMED_FLAGS: 'multi-flag aliases may not cont...
+    STRICT = <FlagBoundary.STRICT: 'strict'>
+    UNIQUE = <EnumCheck.UNIQUE: 'one name per value'>
+    __all__ = ['EnumType', 'EnumMeta', 'EnumDict', 'Enum', 'IntEnum', 'Str...
+
+FILE
+    /usr/lib/python3.13/enum.py
+
+

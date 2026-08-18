@@ -1,0 +1,20 @@
+Help on module config:
+
+NAME
+    config - DeveloperHCR configuration helpers (v0.4, additive).
+
+FUNCTIONS
+    load_settings()
+
+    save_settings(data)
+
+DATA
+    BASE_DIR = PosixPath('/tmp/hcr_work/HCRAPP')
+    DATA_DIR = PosixPath('/home/oai/.developerhcr/data')
+    DEFAULT_SETTINGS = {'admin_sync_enabled': True, 'admin_sync_endpoint':...
+    SETTINGS_FILE = PosixPath('/home/oai/.developerhcr/data/settings.json'...
+
+FILE
+    /tmp/hcr_work/HCRAPP/config.py
+
+

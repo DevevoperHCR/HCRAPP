@@ -1,0 +1,25 @@
+{
+  "release": "DeveloperHCR v1.7.0-beta FULL VERIFIED",
+  "baseline": "v1.5.0-beta",
+  "preservation": {
+    "v1_5_meaningful_source_files": 64,
+    "missing_meaningful_files": [],
+    "changed_files_count": 13,
+    "changed_files": [
+      "CHANGELOG.md",
+      "README.md",
+      "REDMI.md",
+      "REDMI_v1_5.md",
+      "VERSION",
+      "backend/db.py",
+      "config.py",
+      "data/developerhcr.db",
+      "redmi.md",
+      "server.py",
+      "static/app.js",
+      "static/index.html",
+      "static/style.css"
+    ]
+  },
+  "note": "The v1.5 archive was 232,149 bytes because it also contained 48,324 compressed bytes of Python __pycache__ artifacts. Those are not application features and are intentionally excluded from the clean release. v1.6 preserved all meaningful v1.5 files and added startup/agreement/sync functionality."
+}

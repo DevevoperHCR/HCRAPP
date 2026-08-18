@@ -1,0 +1,1329 @@
+Help on package sqlite3:
+
+NAME
+    sqlite3
+
+MODULE REFERENCE
+    https://docs.python.org/3.13/library/sqlite3.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    The sqlite3 extension module provides a DB-API 2.0 (PEP 249) compliant
+    interface to the SQLite library, and requires SQLite 3.15.2 or newer.
+
+    To use the module, start by creating a database Connection object:
+
+        import sqlite3
+        cx = sqlite3.connect("test.db")  # test.db will be created or opened
+
+    The special path name ":memory:" can be provided to connect to a transient
+    in-memory database:
+
+        cx = sqlite3.connect(":memory:")  # connect to a database in RAM
+
+    Once a connection has been established, create a Cursor object and call
+    its execute() method to perform SQL queries:
+
+        cu = cx.cursor()
+
+        # create a table
+        cu.execute("create table lang(name, first_appeared)")
+
+        # insert values into a table
+        cu.execute("insert into lang values (?, ?)", ("C", 1972))
+
+        # execute a query and iterate over the result
+        for row in cu.execute("select * from lang"):
+            print(row)
+
+        cx.close()
+
+    The sqlite3 module is written by Gerhard Häring <gh@ghaering.de>.
+
+PACKAGE CONTENTS
+    __main__
+    dbapi2
+    dump
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        Error
+            DatabaseError
+                DataError
+                IntegrityError
+                InternalError
+                NotSupportedError
+                OperationalError
+                ProgrammingError
+            InterfaceError
+        Warning
+    builtins.object
+        Blob
+        Connection
+        Cursor
+        PrepareProtocol
+        Row
+
+    class Blob(builtins.object)
+     |  Methods defined here:
+     |
+     |  __delitem__(self, key, /)
+     |      Delete self[key].
+     |
+     |  __enter__(self, /)
+     |      Blob context manager enter.
+     |
+     |  __exit__(self, type, val, tb, /)
+     |      Blob context manager exit.
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __setitem__(self, key, value, /)
+     |      Set self[key] to value.
+     |
+     |  close(self, /)
+     |      Close the blob.
+     |
+     |  read(self, length=-1, /)
+     |      Read data at the current offset position.
+     |
+     |        length
+     |          Read length in bytes.
+     |
+     |      If the end of the blob is reached, the data up to end of file will be returned.
+     |      When length is not specified, or is negative, Blob.read() will read until the
+     |      end of the blob.
+     |
+     |  seek(self, offset, origin=0, /)
+     |      Set the current access position to offset.
+     |
+     |      The origin argument defaults to os.SEEK_SET (absolute blob positioning).
+     |      Other values for origin are os.SEEK_CUR (seek relative to the current position)
+     |      and os.SEEK_END (seek relative to the blob's end).
+     |
+     |  tell(self, /)
+     |      Return the current access position for the blob.
+     |
+     |  write(self, data, /)
+     |      Write data at the current offset.
+     |
+     |      This function cannot change the blob length.  Writing beyond the end of the
+     |      blob will result in an exception being raised.
+
+    class Connection(builtins.object)
+     |  SQLite database connection object.
+     |
+     |  Methods defined here:
+     |
+     |  __call__(self, /, *args, **kwargs)
+     |      Call self as a function.
+     |
+     |  __del__(self, /)
+     |      Called when the instance is about to be destroyed.
+     |
+     |  __enter__(self, /)
+     |      Called when the connection is used as a context manager.
+     |
+     |      Returns itself as a convenience to the caller.
+     |
+     |  __exit__(self, type, value, traceback, /)
+     |      Called when the connection is used as a context manager.
+     |
+     |      If there was any exception, a rollback takes place; otherwise we commit.
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  backup(self, /, target, *, pages=-1, progress=None, name='main', sleep=0.25)
+     |      Makes a backup of the database.
+     |
+     |  blobopen(self, table, column, row, /, *, readonly=False, name='main')
+     |      Open and return a BLOB object.
+     |
+     |      table
+     |        Table name.
+     |      column
+     |        Column name.
+     |      row
+     |        Row index.
+     |      readonly
+     |        Open the BLOB without write permissions.
+     |      name
+     |        Database name.
+     |
+     |  close(self, /)
+     |      Close the database connection.
+     |
+     |      Any pending transaction is not committed implicitly.
+     |
+     |  commit(self, /)
+     |      Commit any pending transaction to the database.
+     |
+     |      If there is no open transaction, this method is a no-op.
+     |
+     |  create_aggregate(self, /, name, n_arg, aggregate_class)
+     |      Creates a new aggregate.
+     |
+     |      Note: Passing keyword arguments 'name', 'n_arg' and 'aggregate_class'
+     |      to _sqlite3.Connection.create_aggregate() is deprecated. Parameters
+     |      'name', 'n_arg' and 'aggregate_class' will become positional-only in
+     |      Python 3.15.
+     |
+     |  create_collation(self, name, callback, /)
+     |      Creates a collation function.
+     |
+     |  create_function(self, /, name, narg, func, *, deterministic=False)
+     |      Creates a new function.
+     |
+     |      Note: Passing keyword arguments 'name', 'narg' and 'func' to
+     |      _sqlite3.Connection.create_function() is deprecated. Parameters
+     |      'name', 'narg' and 'func' will become positional-only in Python 3.15.
+     |
+     |  create_window_function(self, name, num_params, aggregate_class, /)
+     |      Creates or redefines an aggregate window function. Non-standard.
+     |
+     |      name
+     |        The name of the SQL aggregate window function to be created or
+     |        redefined.
+     |      num_params
+     |        The number of arguments the step and inverse methods takes.
+     |      aggregate_class
+     |        A class with step(), finalize(), value(), and inverse() methods.
+     |        Set to None to clear the window function.
+     |
+     |  cursor(self, /, factory=<unrepresentable>)
+     |      Return a cursor for the connection.
+     |
+     |  deserialize(self, data, /, *, name='main')
+     |      Load a serialized database.
+     |
+     |        data
+     |          The serialized database content.
+     |        name
+     |          Which database to reopen with the deserialization.
+     |
+     |      The deserialize interface causes the database connection to disconnect from the
+     |      target database, and then reopen it as an in-memory database based on the given
+     |      serialized data.
+     |
+     |      The deserialize interface will fail with SQLITE_BUSY if the database is
+     |      currently in a read transaction or is involved in a backup operation.
+     |
+     |  enable_load_extension(self, enable, /)
+     |      Enable dynamic loading of SQLite extension modules.
+     |
+     |  execute(self, sql, parameters=<unrepresentable>, /)
+     |      Executes an SQL statement.
+     |
+     |  executemany(self, sql, parameters, /)
+     |      Repeatedly executes an SQL statement.
+     |
+     |  executescript(self, sql_script, /)
+     |      Executes multiple SQL statements at once.
+     |
+     |  getconfig(self, op, /)
+     |      Query a boolean connection configuration option.
+     |
+     |      op
+     |        The configuration verb; one of the sqlite3.SQLITE_DBCONFIG codes.
+     |
+     |  getlimit(self, category, /)
+     |      Get connection run-time limits.
+     |
+     |      category
+     |        The limit category to be queried.
+     |
+     |  interrupt(self, /)
+     |      Abort any pending database operation.
+     |
+     |  iterdump(self, /, *, filter=None)
+     |      Returns iterator to the dump of the database in an SQL text format.
+     |
+     |      filter
+     |        An optional LIKE pattern for database objects to dump
+     |
+     |  load_extension(self, name, /, *, entrypoint=None)
+     |      Load SQLite extension module.
+     |
+     |  rollback(self, /)
+     |      Roll back to the start of any pending transaction.
+     |
+     |      If there is no open transaction, this method is a no-op.
+     |
+     |  serialize(self, /, *, name='main')
+     |      Serialize a database into a byte string.
+     |
+     |        name
+     |          Which database to serialize.
+     |
+     |      For an ordinary on-disk database file, the serialization is just a copy of the
+     |      disk file. For an in-memory database or a "temp" database, the serialization is
+     |      the same sequence of bytes which would be written to disk if that database
+     |      were backed up to disk.
+     |
+     |  set_authorizer(self, /, authorizer_callback)
+     |      Set authorizer callback.
+     |
+     |      Note: Passing keyword argument 'authorizer_callback' to
+     |      _sqlite3.Connection.set_authorizer() is deprecated. Parameter
+     |      'authorizer_callback' will become positional-only in Python 3.15.
+     |
+     |  set_progress_handler(self, /, progress_handler, n)
+     |      Set progress handler callback.
+     |
+     |        progress_handler
+     |          A callable that takes no arguments.
+     |          If the callable returns non-zero, the current query is terminated,
+     |          and an exception is raised.
+     |        n
+     |          The number of SQLite virtual machine instructions that are
+     |          executed between invocations of 'progress_handler'.
+     |
+     |      If 'progress_handler' is None or 'n' is 0, the progress handler is disabled.
+     |
+     |      Note: Passing keyword argument 'progress_handler' to
+     |      _sqlite3.Connection.set_progress_handler() is deprecated. Parameter
+     |      'progress_handler' will become positional-only in Python 3.15.
+     |
+     |  set_trace_callback(self, /, trace_callback)
+     |      Set a trace callback called for each SQL statement (passed as unicode).
+     |
+     |      Note: Passing keyword argument 'trace_callback' to
+     |      _sqlite3.Connection.set_trace_callback() is deprecated. Parameter
+     |      'trace_callback' will become positional-only in Python 3.15.
+     |
+     |  setconfig(self, op, enable=True, /)
+     |      Set a boolean connection configuration option.
+     |
+     |      op
+     |        The configuration verb; one of the sqlite3.SQLITE_DBCONFIG codes.
+     |
+     |  setlimit(self, category, limit, /)
+     |      Set connection run-time limits.
+     |
+     |        category
+     |          The limit category to be set.
+     |        limit
+     |          The new limit. If the new limit is a negative number, the limit is
+     |          unchanged.
+     |
+     |      Attempts to increase a limit above its hard upper bound are silently truncated
+     |      to the hard upper bound. Regardless of whether or not the limit was changed,
+     |      the prior value of the limit is returned.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  DataError
+     |
+     |  DatabaseError
+     |
+     |  Error
+     |
+     |  IntegrityError
+     |
+     |  InterfaceError
+     |
+     |  InternalError
+     |
+     |  NotSupportedError
+     |
+     |  OperationalError
+     |
+     |  ProgrammingError
+     |
+     |  Warning
+     |
+     |  __text_signature__
+     |
+     |  autocommit
+     |
+     |  in_transaction
+     |
+     |  isolation_level
+     |
+     |  row_factory
+     |
+     |  text_factory
+     |
+     |  total_changes
+
+    class Cursor(builtins.object)
+     |  SQLite database cursor class.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __next__(self, /)
+     |      Implement next(self).
+     |
+     |  close(self, /)
+     |      Closes the cursor.
+     |
+     |  execute(self, sql, parameters=(), /)
+     |      Executes an SQL statement.
+     |
+     |  executemany(self, sql, seq_of_parameters, /)
+     |      Repeatedly executes an SQL statement.
+     |
+     |  executescript(self, sql_script, /)
+     |      Executes multiple SQL statements at once.
+     |
+     |  fetchall(self, /)
+     |      Fetches all rows from the resultset.
+     |
+     |  fetchmany(self, /, size=1)
+     |      Fetches several rows from the resultset.
+     |
+     |      size
+     |        The default value is set by the Cursor.arraysize attribute.
+     |
+     |  fetchone(self, /)
+     |      Fetches one row from the resultset.
+     |
+     |  setinputsizes(self, sizes, /)
+     |      Required by DB-API. Does nothing in sqlite3.
+     |
+     |  setoutputsize(self, size, column=None, /)
+     |      Required by DB-API. Does nothing in sqlite3.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  arraysize
+     |
+     |  connection
+     |
+     |  description
+     |
+     |  lastrowid
+     |
+     |  row_factory
+     |
+     |  rowcount
+
+    class DataError(DatabaseError)
+     |  Method resolution order:
+     |      DataError
+     |      DatabaseError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors inherited from Error:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class DatabaseError(Error)
+     |  Method resolution order:
+     |      DatabaseError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors inherited from Error:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class Error(builtins.Exception)
+     |  Method resolution order:
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors defined here:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class IntegrityError(DatabaseError)
+     |  Method resolution order:
+     |      IntegrityError
+     |      DatabaseError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors inherited from Error:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class InterfaceError(Error)
+     |  Method resolution order:
+     |      InterfaceError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors inherited from Error:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class InternalError(DatabaseError)
+     |  Method resolution order:
+     |      InternalError
+     |      DatabaseError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors inherited from Error:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class NotSupportedError(DatabaseError)
+     |  Method resolution order:
+     |      NotSupportedError
+     |      DatabaseError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors inherited from Error:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class OperationalError(DatabaseError)
+     |  Method resolution order:
+     |      OperationalError
+     |      DatabaseError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors inherited from Error:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class PrepareProtocol(builtins.object)
+     |  PEP 246 style object adaption protocol type.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+
+    class ProgrammingError(DatabaseError)
+     |  Method resolution order:
+     |      ProgrammingError
+     |      DatabaseError
+     |      Error
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors inherited from Error:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class Row(builtins.object)
+     |  Methods defined here:
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  keys(self, /)
+     |      Returns the keys of the row.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |
+     |  __new__(*args, **kwargs)
+     |      Create and return a new object.  See help(type) for accurate signature.
+
+    class Warning(builtins.Exception)
+     |  Method resolution order:
+     |      Warning
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors defined here:
+     |
+     |  __weakref__
+     |      list of weak references to the object
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) class method of builtins.Exception
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(self, /)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setstate__(self, object, /)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(self, object, /)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(self, object, /)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+FUNCTIONS
+    __getattr__(name)
+
+DATA
+    LEGACY_TRANSACTION_CONTROL = -1
+    PARSE_COLNAMES = 2
+    PARSE_DECLTYPES = 1
+    SQLITE_ABORT = 4
+    SQLITE_ABORT_ROLLBACK = 516
+    SQLITE_ALTER_TABLE = 26
+    SQLITE_ANALYZE = 28
+    SQLITE_ATTACH = 24
+    SQLITE_AUTH = 23
+    SQLITE_AUTH_USER = 279
+    SQLITE_BUSY = 5
+    SQLITE_BUSY_RECOVERY = 261
+    SQLITE_BUSY_SNAPSHOT = 517
+    SQLITE_BUSY_TIMEOUT = 773
+    SQLITE_CANTOPEN = 14
+    SQLITE_CANTOPEN_CONVPATH = 1038
+    SQLITE_CANTOPEN_DIRTYWAL = 1294
+    SQLITE_CANTOPEN_FULLPATH = 782
+    SQLITE_CANTOPEN_ISDIR = 526
+    SQLITE_CANTOPEN_NOTEMPDIR = 270
+    SQLITE_CANTOPEN_SYMLINK = 1550
+    SQLITE_CONSTRAINT = 19
+    SQLITE_CONSTRAINT_CHECK = 275
+    SQLITE_CONSTRAINT_COMMITHOOK = 531
+    SQLITE_CONSTRAINT_FOREIGNKEY = 787
+    SQLITE_CONSTRAINT_FUNCTION = 1043
+    SQLITE_CONSTRAINT_NOTNULL = 1299
+    SQLITE_CONSTRAINT_PINNED = 2835
+    SQLITE_CONSTRAINT_PRIMARYKEY = 1555
+    SQLITE_CONSTRAINT_ROWID = 2579
+    SQLITE_CONSTRAINT_TRIGGER = 1811
+    SQLITE_CONSTRAINT_UNIQUE = 2067
+    SQLITE_CONSTRAINT_VTAB = 2323
+    SQLITE_CORRUPT = 11
+    SQLITE_CORRUPT_INDEX = 779
+    SQLITE_CORRUPT_SEQUENCE = 523
+    SQLITE_CORRUPT_VTAB = 267
+    SQLITE_CREATE_INDEX = 1
+    SQLITE_CREATE_TABLE = 2
+    SQLITE_CREATE_TEMP_INDEX = 3
+    SQLITE_CREATE_TEMP_TABLE = 4
+    SQLITE_CREATE_TEMP_TRIGGER = 5
+    SQLITE_CREATE_TEMP_VIEW = 6
+    SQLITE_CREATE_TRIGGER = 7
+    SQLITE_CREATE_VIEW = 8
+    SQLITE_CREATE_VTABLE = 29
+    SQLITE_DBCONFIG_DEFENSIVE = 1010
+    SQLITE_DBCONFIG_DQS_DDL = 1014
+    SQLITE_DBCONFIG_DQS_DML = 1013
+    SQLITE_DBCONFIG_ENABLE_FKEY = 1002
+    SQLITE_DBCONFIG_ENABLE_FTS3_TOKENIZER = 1004
+    SQLITE_DBCONFIG_ENABLE_LOAD_EXTENSION = 1005
+    SQLITE_DBCONFIG_ENABLE_QPSG = 1007
+    SQLITE_DBCONFIG_ENABLE_TRIGGER = 1003
+    SQLITE_DBCONFIG_ENABLE_VIEW = 1015
+    SQLITE_DBCONFIG_LEGACY_ALTER_TABLE = 1012
+    SQLITE_DBCONFIG_LEGACY_FILE_FORMAT = 1016
+    SQLITE_DBCONFIG_NO_CKPT_ON_CLOSE = 1006
+    SQLITE_DBCONFIG_RESET_DATABASE = 1009
+    SQLITE_DBCONFIG_TRIGGER_EQP = 1008
+    SQLITE_DBCONFIG_TRUSTED_SCHEMA = 1017
+    SQLITE_DBCONFIG_WRITABLE_SCHEMA = 1011
+    SQLITE_DELETE = 9
+    SQLITE_DENY = 1
+    SQLITE_DETACH = 25
+    SQLITE_DONE = 101
+    SQLITE_DROP_INDEX = 10
+    SQLITE_DROP_TABLE = 11
+    SQLITE_DROP_TEMP_INDEX = 12
+    SQLITE_DROP_TEMP_TABLE = 13
+    SQLITE_DROP_TEMP_TRIGGER = 14
+    SQLITE_DROP_TEMP_VIEW = 15
+    SQLITE_DROP_TRIGGER = 16
+    SQLITE_DROP_VIEW = 17
+    SQLITE_DROP_VTABLE = 30
+    SQLITE_EMPTY = 16
+    SQLITE_ERROR = 1
+    SQLITE_ERROR_MISSING_COLLSEQ = 257
+    SQLITE_ERROR_RETRY = 513
+    SQLITE_ERROR_SNAPSHOT = 769
+    SQLITE_FORMAT = 24
+    SQLITE_FULL = 13
+    SQLITE_FUNCTION = 31
+    SQLITE_IGNORE = 2
+    SQLITE_INSERT = 18
+    SQLITE_INTERNAL = 2
+    SQLITE_INTERRUPT = 9
+    SQLITE_IOERR = 10
+    SQLITE_IOERR_ACCESS = 3338
+    SQLITE_IOERR_AUTH = 7178
+    SQLITE_IOERR_BEGIN_ATOMIC = 7434
+    SQLITE_IOERR_BLOCKED = 2826
+    SQLITE_IOERR_CHECKRESERVEDLOCK = 3594
+    SQLITE_IOERR_CLOSE = 4106
+    SQLITE_IOERR_COMMIT_ATOMIC = 7690
+    SQLITE_IOERR_CONVPATH = 6666
+    SQLITE_IOERR_CORRUPTFS = 8458
+    SQLITE_IOERR_DATA = 8202
+    SQLITE_IOERR_DELETE = 2570
+    SQLITE_IOERR_DELETE_NOENT = 5898
+    SQLITE_IOERR_DIR_CLOSE = 4362
+    SQLITE_IOERR_DIR_FSYNC = 1290
+    SQLITE_IOERR_FSTAT = 1802
+    SQLITE_IOERR_FSYNC = 1034
+    SQLITE_IOERR_GETTEMPPATH = 6410
+    SQLITE_IOERR_LOCK = 3850
+    SQLITE_IOERR_MMAP = 6154
+    SQLITE_IOERR_NOMEM = 3082
+    SQLITE_IOERR_RDLOCK = 2314
+    SQLITE_IOERR_READ = 266
+    SQLITE_IOERR_ROLLBACK_ATOMIC = 7946
+    SQLITE_IOERR_SEEK = 5642
+    SQLITE_IOERR_SHMLOCK = 5130
+    SQLITE_IOERR_SHMMAP = 5386
+    SQLITE_IOERR_SHMOPEN = 4618
+    SQLITE_IOERR_SHMSIZE = 4874
+    SQLITE_IOERR_SHORT_READ = 522
+    SQLITE_IOERR_TRUNCATE = 1546
+    SQLITE_IOERR_UNLOCK = 2058
+    SQLITE_IOERR_VNODE = 6922
+    SQLITE_IOERR_WRITE = 778
+    SQLITE_LIMIT_ATTACHED = 7
+    SQLITE_LIMIT_COLUMN = 2
+    SQLITE_LIMIT_COMPOUND_SELECT = 4
+    SQLITE_LIMIT_EXPR_DEPTH = 3
+    SQLITE_LIMIT_FUNCTION_ARG = 6
+    SQLITE_LIMIT_LENGTH = 0
+    SQLITE_LIMIT_LIKE_PATTERN_LENGTH = 8
+    SQLITE_LIMIT_SQL_LENGTH = 1
+    SQLITE_LIMIT_TRIGGER_DEPTH = 10
+    SQLITE_LIMIT_VARIABLE_NUMBER = 9
+    SQLITE_LIMIT_VDBE_OP = 5
+    SQLITE_LIMIT_WORKER_THREADS = 11
+    SQLITE_LOCKED = 6
+    SQLITE_LOCKED_SHAREDCACHE = 262
+    SQLITE_LOCKED_VTAB = 518
+    SQLITE_MISMATCH = 20
+    SQLITE_MISUSE = 21
+    SQLITE_NOLFS = 22
+    SQLITE_NOMEM = 7
+    SQLITE_NOTADB = 26
+    SQLITE_NOTFOUND = 12
+    SQLITE_NOTICE = 27
+    SQLITE_NOTICE_RECOVER_ROLLBACK = 539
+    SQLITE_NOTICE_RECOVER_WAL = 283
+    SQLITE_OK = 0
+    SQLITE_OK_LOAD_PERMANENTLY = 256
+    SQLITE_OK_SYMLINK = 512
+    SQLITE_PERM = 3
+    SQLITE_PRAGMA = 19
+    SQLITE_PROTOCOL = 15
+    SQLITE_RANGE = 25
+    SQLITE_READ = 20
+    SQLITE_READONLY = 8
+    SQLITE_READONLY_CANTINIT = 1288
+    SQLITE_READONLY_CANTLOCK = 520
+    SQLITE_READONLY_DBMOVED = 1032
+    SQLITE_READONLY_DIRECTORY = 1544
+    SQLITE_READONLY_RECOVERY = 264
+    SQLITE_READONLY_ROLLBACK = 776
+    SQLITE_RECURSIVE = 33
+    SQLITE_REINDEX = 27
+    SQLITE_ROW = 100
+    SQLITE_SAVEPOINT = 32
+    SQLITE_SCHEMA = 17
+    SQLITE_SELECT = 21
+    SQLITE_TOOBIG = 18
+    SQLITE_TRANSACTION = 22
+    SQLITE_UPDATE = 23
+    SQLITE_WARNING = 28
+    SQLITE_WARNING_AUTOINDEX = 284
+    adapters = {(<class 'datetime.date'>, <class 'sqlite3.PrepareProtocol'...
+    apilevel = '2.0'
+    converters = {'DATE': <function register_adapters_and_converters.<loca...
+    paramstyle = 'qmark'
+    sqlite_version = '3.46.1'
+    sqlite_version_info = (3, 46, 1)
+    threadsafety = 3
+
+FILE
+    /usr/lib/python3.13/sqlite3/__init__.py
+
+

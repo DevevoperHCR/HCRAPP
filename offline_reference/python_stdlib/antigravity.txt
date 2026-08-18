@@ -1,0 +1,25 @@
+Help on module antigravity:
+
+NAME
+    antigravity
+
+MODULE REFERENCE
+    https://docs.python.org/3.13/library/antigravity.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+FUNCTIONS
+    geohash(latitude, longitude, datedow)
+        Compute geohash() using the Munroe algorithm.
+
+        >>> geohash(37.421542, -122.085589, b'2005-05-26-10458.68')
+        37.857713 -122.544543
+
+FILE
+    /usr/lib/python3.13/antigravity.py
+
+

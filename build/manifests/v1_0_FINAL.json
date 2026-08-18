@@ -1,0 +1,25 @@
+{
+  "product": "DeveloperHCR:AI Agent — BETA v1.0",
+  "version": "1.0.0-beta",
+  "release": "beta",
+  "base": "DeveloperHCR_V1_0_BETA_FIXED-3",
+  "preserves_existing_owner": true,
+  "owner_password_reset": false,
+  "features": [
+    "HCR AI Agent / AI Chat / model manager",
+    "HCR AI Agent animation and voice controls",
+    "HCR Store with paid locks",
+    "Friends Only and Subscribers Only",
+    "Windows-style desktop and Android responsive UI",
+    "EXE support and real Wine installation",
+    "Python/C/C++/JavaScript/TypeScript/Rust/Go/Java playground",
+    "Developer toolchains",
+    "DevApps GitHub repository connection",
+    "Ultra Max display/performance mode",
+    "Settings and Control Panel",
+    "Games, Browser, File Manager, Camera, Wallpaper, System Monitor",
+    "Updates and repository status"
+  ],
+  "repository": "https://github.com/DevevoperHCR/Devapps",
+  "build_label": "V1.0 BETA FIX"
+}

@@ -1,0 +1,370 @@
+{
+  "version": "2.2.0-beta",
+  "file_count": 72,
+  "files": [
+    {
+      "path": "BUILD_MANIFEST.json",
+      "size": 11132,
+      "sha256": "62c96b7f09221108c6ad05804996ee3c5e779a654f8673e8a2b534d066f0bc50"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "size": 3411,
+      "sha256": "195b0f0240a0f9e23eee92d78084f198bd222e8b8f8d63b9c852d24fbec07150"
+    },
+    {
+      "path": "DeveloperHCR_AI_Agent_FEATURES_v0.6.txt",
+      "size": 1877,
+      "sha256": "b967630a1b8aab873339d253a5dbd09bf8b04266665bf2ed715b5e64fd6c4cec"
+    },
+    {
+      "path": "DeveloperHCR_AI_Agent_FEATURES_v0.7.txt",
+      "size": 1441,
+      "sha256": "8026bd9cab8fadfd82c6f8e4ec624293ee00f45879e3dd9f4b2ef3c153438950"
+    },
+    {
+      "path": "DeveloperHCR_AI_Agent_FEATURES_v0.8.txt",
+      "size": 2074,
+      "sha256": "c8475d08350f0361910715864cfa7c85723fc39bcac7838c7e80711b678c798e"
+    },
+    {
+      "path": "DeveloperHCR_AI_Agent_FEATURES_v0.9.txt",
+      "size": 1371,
+      "sha256": "0f1b2b5b4fb8a3681fa81e77edb4f318de8f6a43b0f8f61d06c49db7c0ede547"
+    },
+    {
+      "path": "DeveloperHCR_v1_2_FEATURES.md",
+      "size": 1428,
+      "sha256": "b2554661e8d05e1d79a683d5f90f921a7a3c1834269687d46b5edcbd439bb4a8"
+    },
+    {
+      "path": "DeveloperHCR_v1_3_FEATURES.md",
+      "size": 1825,
+      "sha256": "8b836df99d73041ac18b484419b11d950bbbae0c761c71e23cd864b388c4a3a4"
+    },
+    {
+      "path": "DeveloperHCR_v1_4_FEATURES.md",
+      "size": 1245,
+      "sha256": "e74cd198ec31ab921a1e3ba86e518aeb6c3dbee214029b005f41205d3b48aec4"
+    },
+    {
+      "path": "DeveloperHCR_v1_5_FEATURES.md",
+      "size": 1962,
+      "sha256": "ba9648d9d92bff6fbb428b7fdfd7a5259f04e4fe420581722212978c0856be0a"
+    },
+    {
+      "path": "DeveloperHCR_v1_6_FEATURES.md",
+      "size": 822,
+      "sha256": "bfac7491c77478907b7602137b3deac7097abc5cb39413e2ebc32c1234c45d86"
+    },
+    {
+      "path": "DeveloperHCR_v1_8_FEATURES.md",
+      "size": 430,
+      "sha256": "3472beed54a613f8f4682243e1b68d1cfde253a52b927979b03469b75b6e6274"
+    },
+    {
+      "path": "FIXES_v0.9.1.txt",
+      "size": 405,
+      "sha256": "c80c43d58a91731f7b2f935f059694d2a02cfb45ed2a9c28bea0f8a05c78ead6"
+    },
+    {
+      "path": "FULL_FEATURE_AUDIT_v1_8.md",
+      "size": 505,
+      "sha256": "6dc7690922a0cb5570aaf792915eab8de995f00774e7f7a27986d32d2253d888"
+    },
+    {
+      "path": "FULL_FEATURE_PRESERVATION_REPORT.json",
+      "size": 840,
+      "sha256": "d489018b735f4e30b5f27fe9fe31c4fded6356a49928452297493ead685aa339"
+    },
+    {
+      "path": "FULL_FEATURE_PRESERVATION_REPORT.md",
+      "size": 307,
+      "sha256": "46c1f1a950a3aaf66de97a86a128afd95511a4f83d779341b1a3e21749d00e61"
+    },
+    {
+      "path": "README.md",
+      "size": 5767,
+      "sha256": "ac0c5320ef5cb60400b5eb07016446f4ceb39bbad193c699f6049d885e096503"
+    },
+    {
+      "path": "REDMI.md",
+      "size": 5767,
+      "sha256": "00243c5803d04d960d866296cacea1aa5a8a4f50e3aa032d46a9feaa6ffa578c"
+    },
+    {
+      "path": "REDMI_v1_5.md",
+      "size": 2400,
+      "sha256": "b1d3fa140e18740d9538145fb15e6f76afed9ed0d38c19cfaacb7b89cf21cdd0"
+    },
+    {
+      "path": "REDMI_v1_6.md",
+      "size": 2138,
+      "sha256": "187235e41ed4405eaa911f71556ffa34e660d2471f5d6ff33681c96ea2893efc"
+    },
+    {
+      "path": "REDMI_v1_8.md",
+      "size": 589,
+      "sha256": "c05c1f3583696c249c5bac2f660f8407335c9a185ae4e819d2b61d132a9b700b"
+    },
+    {
+      "path": "VERSION",
+      "size": 11,
+      "sha256": "2d88ae20206c6850f3a9caff39f25163648cfd6a33ffbd50900d767541494a1b"
+    },
+    {
+      "path": "ai/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "ai/errors.py",
+      "size": 959,
+      "sha256": "f4152d993ff6f97d41cbd9e7c97239ae4660a58e94fab3f8d55cc3c0172da9c1"
+    },
+    {
+      "path": "ai/manager.py",
+      "size": 563,
+      "sha256": "b6ec7a035b3b52a8a316955bf88468bea7763b09def5017601b7a5419d536b5b"
+    },
+    {
+      "path": "ai/providers/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "ai/providers/base.py",
+      "size": 607,
+      "sha256": "2d38b4bc04cb35ed3b8ff07bf1da91e13c22a72633f5e2ba17546f6f952e679c"
+    },
+    {
+      "path": "ai/providers/gguf.py",
+      "size": 5489,
+      "sha256": "64643521fd9412acc719b9f4d372473a326092eb26bc503bb9c65949874525c2"
+    },
+    {
+      "path": "ai/providers/ollama.py",
+      "size": 4735,
+      "sha256": "21cf6eb49de448f7b86aeb49828d4090f6153f653358079b2b7d4796af637ac2"
+    },
+    {
+      "path": "backend/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/ai_models.py",
+      "size": 3037,
+      "sha256": "8545c5b0a859f23b657b5da4fd68c2ecab53e4b25498cc9adef78fcb1da46f2a"
+    },
+    {
+      "path": "backend/auth.py",
+      "size": 4590,
+      "sha256": "5e233c0446b2fb24ed0de1ebe73e7d1a2607bc31a9e6af14830a9661ad6705a8"
+    },
+    {
+      "path": "backend/db.py",
+      "size": 6842,
+      "sha256": "32bcc9dbcb0f141eb5da46c5f81b723aaa85f4942dbf173d5bfa4d56b0f047cb"
+    },
+    {
+      "path": "config.py",
+      "size": 2861,
+      "sha256": "ef211c9014b3acbc3dd80bff4d77d9a51af8238502c1d3f8b4585db837dad028"
+    },
+    {
+      "path": "data/developerhcr.db",
+      "size": 122880,
+      "sha256": "5d32b5b0dab214a6f348bcfaf638b5a4d3e39fb3ea0c69f0d9161e5f2a0464d2"
+    },
+    {
+      "path": "data/legacy_v1_1/developerhcr.db",
+      "size": 73728,
+      "sha256": "04ecb911ee1a8d4adfc3df9ef17e345c6e03185ffd3172cc4378f6e805b03b67"
+    },
+    {
+      "path": "desktop/JARVIS_DESKTOP_INTEGRATION.md",
+      "size": 569,
+      "sha256": "da7613e01481663d0389171271198ecbbf988d33ad081b0528aedb3b2d7485ee"
+    },
+    {
+      "path": "desktop/jarvis_overlay.md",
+      "size": 447,
+      "sha256": "4c3700ed8b516e3283b5787d8f1a7d74ed4e65a4701d7ed96fd1fd98224c96d7"
+    },
+    {
+      "path": "games/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "games/engine.py",
+      "size": 564,
+      "sha256": "c3405c5022d513a1b530d803e404c1696b842e190032316be78e8006b0533b68"
+    },
+    {
+      "path": "games/registry.py",
+      "size": 241,
+      "sha256": "cc5209e4dc4de3d718eb082555b35f33535cde0f48980e9dfac9bb8b6edec71e"
+    },
+    {
+      "path": "jarvis/__init__.py",
+      "size": 92,
+      "sha256": "44451b0a4841b0559f6daee27cb2762d5fd68f558f292a44045f83df30779748"
+    },
+    {
+      "path": "jarvis/__main__.py",
+      "size": 64,
+      "sha256": "207432b5c045521b4d451cc6b3350724637410c4d4f3ebe04e145309c9dc1afa"
+    },
+    {
+      "path": "jarvis/action_log.py",
+      "size": 1233,
+      "sha256": "9f8febc7347eee4b551944f05c6d82d81c303ab03c931694a53a7a4c3eba9f79"
+    },
+    {
+      "path": "jarvis/control_policy.py",
+      "size": 630,
+      "sha256": "7268ee3d8a1b9fc47b41448b29de699ce8c74c64017476ba12193f69294aefb7"
+    },
+    {
+      "path": "jarvis/core.py",
+      "size": 10558,
+      "sha256": "0d56d21737035b9f82f052d5136f7bfa19ab798b613000814a98a55e9d03df17"
+    },
+    {
+      "path": "jarvis/desktop_bridge.py",
+      "size": 1792,
+      "sha256": "0b152c036b29d1ee401a35d80d9e1fc98882ad98e707e1eb6796a9931e6d1d35"
+    },
+    {
+      "path": "jarvis/event_bus.py",
+      "size": 776,
+      "sha256": "91eb2fb87bd54779968d834bfa47c3755095a19cc7310759e9e7f44c5e98a91f"
+    },
+    {
+      "path": "jarvis/level7.py",
+      "size": 2027,
+      "sha256": "c3c50ed25709871500f1fcc7ba135e61e08c5b2cbdcc16e254591a7a3456287f"
+    },
+    {
+      "path": "jarvis/runtime_registry.py",
+      "size": 2950,
+      "sha256": "c24d7cd662ee98024e0c792bee5f86d2777fc3a45d26e822f1c35c4af5b6bfa2"
+    },
+    {
+      "path": "jarvis/service.py",
+      "size": 920,
+      "sha256": "321e17820878538865217eb390164daa1e78ea2e87079056e7b8c7cac66ca565"
+    },
+    {
+      "path": "jarvis/settings_store.py",
+      "size": 1150,
+      "sha256": "d05f055e3f2cde2ca0274a20a4764be9bd3cada77177fb025825cc657bc755b1"
+    },
+    {
+      "path": "jarvis/v09_api.py",
+      "size": 1116,
+      "sha256": "612e49a76a1dd4b9bf439c75ad53ee32829e1d84557ad19814a2cd5d2d13a546"
+    },
+    {
+      "path": "jarvis/voice_contract.py",
+      "size": 451,
+      "sha256": "0d21cf6867b8a1cf6f824a7b9753576dbb591653283b2897515d2b4a57b08779"
+    },
+    {
+      "path": "jarvis_v09.py",
+      "size": 70,
+      "sha256": "7d463b08abc70aa6ce0a9c1684dd03f22e5836eb531c62f1083b9a32e1be349a"
+    },
+    {
+      "path": "launcher.py",
+      "size": 4911,
+      "sha256": "613ac2d3079d63288d656f527606c8954573619ee36fb35d27da51939e166b8a"
+    },
+    {
+      "path": "plugins/README.md",
+      "size": 457,
+      "sha256": "5b5de84308e6c54e6927efd5f9edc89f8976878fc0749d9ddbfda63961b01de9"
+    },
+    {
+      "path": "plugins/example.manifest.json",
+      "size": 126,
+      "sha256": "f81b8fb12cc4f95df3f2712c205559b0cc73147c8ae678d48625e84017e41617"
+    },
+    {
+      "path": "redmi.md",
+      "size": 589,
+      "sha256": "c05c1f3583696c249c5bac2f660f8407335c9a185ae4e819d2b61d132a9b700b"
+    },
+    {
+      "path": "requirements.txt",
+      "size": 401,
+      "sha256": "6aa2f49d324b92cc0a571a191c23c4d84a1fb37834a2b6b15aa9494b7c1e4ce4"
+    },
+    {
+      "path": "server.py",
+      "size": 99421,
+      "sha256": "7547e4194cb3d9ced4beac611dfea5ce32cf61089a364d500fa9c3c2af2a480d"
+    },
+    {
+      "path": "start_windows.bat",
+      "size": 303,
+      "sha256": "eb4144f4bb23e2f6a27379188aeaccdae0c2765c24f2962d77f1f43a66290271"
+    },
+    {
+      "path": "static/app.js",
+      "size": 130091,
+      "sha256": "dbcccb7e13798d849902530be403b3436c0d20b0e2c9d3820b9d91333bb09280"
+    },
+    {
+      "path": "static/developerhcr-logo.jpg",
+      "size": 55372,
+      "sha256": "a946eeb4d204bab86dbabe628560fd92955df838c35398ef98671b5516376b3b"
+    },
+    {
+      "path": "static/index.html",
+      "size": 5040,
+      "sha256": "2f7c20c4ecd89921f149e7395ae43257e2d10323a6fe4e779eff84d124efd5e2"
+    },
+    {
+      "path": "static/style.css",
+      "size": 20659,
+      "sha256": "a85133f2f48d1406af65f25dfc4cfd677be1acce504ee38752c6e5f2cb7a8abe"
+    },
+    {
+      "path": "tests/test_level7.py",
+      "size": 575,
+      "sha256": "8e80c31cc5decd88c469c45d6211e00b538bd8e829a3b9a8ad3a4a71992efcc9"
+    },
+    {
+      "path": "tests/test_smoke.py",
+      "size": 1482,
+      "sha256": "a01bf61ab80a47f92d0899dc145484d28ea7d80fc89fc79c4e2dd76d702ce27c"
+    },
+    {
+      "path": "tests/test_v09.py",
+      "size": 788,
+      "sha256": "a92710419aa6dc59fcfab7cc35452277eeb49aa2bada630623322ec247ce2492"
+    },
+    {
+      "path": "tests/test_v16_startup.py",
+      "size": 419,
+      "sha256": "f7c2192a26c79c18d454da3e0813b05ffd0abfb2eb8526bb0e636e90ea7d3661"
+    },
+    {
+      "path": "tui.py",
+      "size": 2618,
+      "sha256": "63baac3f7046ad19edb3bfbbdc03143b56fa880a0902064e29e5f542c98737b4"
+    },
+    {
+      "path": "updater.py",
+      "size": 2881,
+      "sha256": "a92a10824bcd85d5e55fd03c65b8397af982a165b28d54eadb5d1078460e4ad2"
+    }
+  ],
+  "release": "Account + Subscription + Admin/Owner approval workflow",
+  "subscription_flow": "pending_request -> WhatsApp configured link -> Owner/Admin approval",
+  "owner_preconfigured": true,
+  "meaningful_features_preserved": "v2.1 baseline preserved; additive changes only"
+}

@@ -1,0 +1,15 @@
+Help on package backend:
+
+NAME
+    backend
+
+PACKAGE CONTENTS
+    ai_models
+    auth
+    db
+    feature_locks
+
+FILE
+    /tmp/hcr_work/HCRAPP/backend/__init__.py
+
+

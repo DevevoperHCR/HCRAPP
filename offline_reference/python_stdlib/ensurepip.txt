@@ -1,0 +1,43 @@
+Help on package ensurepip:
+
+NAME
+    ensurepip
+
+MODULE REFERENCE
+    https://docs.python.org/3.13/library/ensurepip.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+PACKAGE CONTENTS
+    __main__
+    _uninstall
+
+FUNCTIONS
+    bootstrap(
+        *,
+        root=None,
+        upgrade=False,
+        user=False,
+        altinstall=False,
+        default_pip=False,
+        verbosity=0
+    )
+        Bootstrap pip into the current Python installation (or the given root
+        directory).
+
+        Note that calling this function will alter both sys.path and os.environ.
+
+    version()
+        Returns a string specifying the bundled version of pip.
+
+DATA
+    __all__ = ['version', 'bootstrap']
+
+FILE
+    /usr/lib/python3.13/ensurepip/__init__.py
+
+

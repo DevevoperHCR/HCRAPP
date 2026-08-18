@@ -1,0 +1,808 @@
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --panel-2: #1f232c;
+  --accent: #4f8cff;
+  --text: #e6e8ec;
+  --text-dim: #8a8f9a;
+  --border: #2a2f3a;
+}
+body.theme-light {
+  --bg: #eef1f5;
+  --panel: #ffffff;
+  --panel-2: #f4f6f9;
+  --accent: #2f6fed;
+  --text: #16181d;
+  --text-dim: #5a606b;
+  --border: #d9dee5;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* ---- Boot screen ---- */
+#boot-screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 40%, #1a1e27, #0a0b0f);
+  color: #e6e8ec;
+}
+.boot-logo { font-size: 2.4rem; font-weight: 700; letter-spacing: 2px; }
+.boot-sub { color: var(--text-dim); margin-bottom: 24px; letter-spacing: 3px; font-size: 0.85rem; }
+#boot-log { font-family: "Cascadia Code", Consolas, monospace; font-size: 0.85rem; color: #7fd77f; width: 420px; min-height: 220px; }
+#boot-log div { padding: 2px 0; opacity: 0; animation: fadeIn 0.25s forwards; }
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* ---- Desktop ---- */
+#desktop { height: 100vh; position: relative; overflow:hidden; background:
+  radial-gradient(circle at 70% 28%, rgba(31,95,160,.20), transparent 32%),
+  radial-gradient(circle at 20% 75%, rgba(60,70,130,.16), transparent 28%),
+  linear-gradient(135deg,#0a0d12,#111722 55%,#090b10); }
+#desktop::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 85%);}
+#windows-layer { position: absolute; inset: 0 0 46px 0; z-index: 20; pointer-events: none; }
+
+#taskbar {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 46px;
+  background: var(--panel); border-top: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 10px; gap: 8px; z-index: 5000;
+}
+#launcher-btn {
+  background: var(--accent); border: none; color: white; width: 36px; height: 36px;
+  border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.65rem;
+}
+#open-apps-tray { display: flex; gap: 6px; flex: 1; }
+.tray-item {
+  background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+  padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;
+}
+.tray-item.active { border-color: var(--accent); }
+#taskbar-right { display: flex; align-items: center; gap: 14px; color: var(--text-dim); font-size: 0.8rem; }
+#net-status { color: #4caf50; }
+#net-status.offline { color: #e05252; }
+
+/* ---- App launcher ---- */
+#app-launcher {
+  position: fixed; left: 10px; bottom: 56px; width: 360px; max-height: 70vh; overflow-y: auto;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px; z-index: 6000; box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+#app-launcher.hidden { display: none; }
+#app-launcher { touch-action: manipulation; }
+.app-icon { user-select:none; -webkit-user-select:none; touch-action:manipulation; }
+.launcher-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.app-icon {
+  background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px 6px; text-align: center; cursor: pointer; font-size: 0.75rem; color: var(--text);
+}
+.app-icon:hover { border-color: var(--accent); }
+.app-icon .glyph { font-size: 1.4rem; display: block; margin-bottom: 6px; }
+
+/* ---- Windows ---- */
+.win {
+  position: absolute; min-width: 320px; min-height: 220px;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; z-index: 30; pointer-events: auto; flex-direction: column; overflow: hidden;
+}
+.win-titlebar {
+  background: var(--panel-2); padding: 8px 10px; display: flex; align-items: center;
+  cursor: move; border-bottom: 1px solid var(--border); user-select: none;
+}
+.win-title { flex: 1; font-size: 0.82rem; font-weight: 600; }
+.win-controls button {
+  background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 0.9rem; margin-left: 6px;
+}
+.win-controls button:hover { color: var(--text); }
+.win-body { flex: 1; overflow: auto; padding: 12px; font-size: 0.85rem; }
+.win-resize { position: absolute; right: 0; bottom: 0; width: 16px; height: 16px; cursor: nwse-resize; }
+
+/* ---- Generic widgets ---- */
+input, textarea, select, button.btn {
+  background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 6px; padding: 6px 8px; font-family: inherit; font-size: 0.85rem;
+}
+button.btn { cursor: pointer; }
+button.btn:hover { border-color: var(--accent); }
+table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+th, td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--border); }
+.dim { color: var(--text-dim); }
+.row { display: flex; gap: 8px; align-items: center; }
+.stack { display: flex; flex-direction: column; gap: 8px; }
+.grid-2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.note-card { background: var(--panel-2); border: 1px solid var(--border); border-radius: 6px; padding: 8px; margin-bottom: 8px; }
+.calc-display { font-size: 1.6rem; text-align: right; padding: 10px; background: var(--panel-2); border-radius: 6px; margin-bottom: 8px; }
+.term-log { background: #000; color: #7fd77f; font-family: Consolas, monospace; padding: 8px; height: 220px; overflow-y: auto; border-radius: 6px; margin-bottom: 6px; }
+
+/* v4.0 login polish */
+.auth-minimal{width:min(520px,92vw);padding:34px 30px;box-shadow:0 22px 70px rgba(0,0,0,.42)}
+.auth-minimal .boot-logo img{width:112px;height:112px;border-radius:28px}
+.login-action-row{display:grid;grid-template-columns:1.2fr 1fr 1.35fr;gap:8px;align-items:stretch}
+.login-action-row .btn{min-height:42px}
+.login-start{font-weight:700}
+.login-troubleshoot{color:#fff!important;background:#1677ff!important;border-color:#1677ff!important}
+.login-troubleshoot:hover{background:#0d67e8!important;border-color:#0d67e8!important}
+.login-link{background:transparent!important;border-color:var(--border)!important}
+.login-doc-row{display:flex;justify-content:flex-start;margin-top:4px}
+.login-readme{color:#8fb8ff!important;border-color:#4267a8!important;background:rgba(79,140,255,.08)!important}
+.login-help-box{width:min(560px,92vw)}
+
+/* v4.0 Windows-like desktop launcher */
+#launcher-btn{width:42px;height:38px;border-radius:8px;padding:4px;background:var(--panel-2);border:1px solid var(--border);box-shadow:inset 0 1px rgba(255,255,255,.05)}
+#launcher-btn .launcher-logo-img{width:28px;height:28px;border-radius:7px;object-fit:cover;vertical-align:middle}
+#app-launcher{width:min(520px,calc(100vw - 20px));padding:12px;background:rgba(23,26,33,.97);backdrop-filter:blur(16px);border-radius:14px}
+.launcher-search-row{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:10px;background:var(--panel-2);border:1px solid var(--border);border-radius:9px}
+.launcher-search-row input{border:0;background:transparent;outline:none;flex:1;min-width:0}
+.launcher-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-height:52vh;overflow:auto;padding:2px}
+.app-icon{min-height:86px;padding:10px 6px;border-radius:10px;background:linear-gradient(180deg,var(--panel-2),var(--panel));transition:transform .12s ease,border-color .12s ease,background .12s ease}
+.app-icon:active{transform:scale(.97)}
+#taskbar{height:48px;padding:3px 8px;background:rgba(23,26,33,.96);backdrop-filter:blur(14px)}
+.tray-item{min-height:34px}
+
+/* ---- v0.2: Auth screen ---- */
+#auth-screen { height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 40%, #1a1e27, #0a0b0f); }
+#agreement-screen { position: fixed; inset: 0; z-index: 99998; align-items: center; justify-content: center; background: rgba(10,11,15,0.92); }
+.auth-box { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 28px; width: 320px; }
+.auth-box .stack { margin-top: 14px; }
+.auth-box input { width: 100%; }
+.auth-error { color: #e05252; font-size: 0.8rem; min-height: 1.2em; }
+.hidden { display: none; }
+.badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.7rem; background: var(--panel-2); border: 1px solid var(--border); }
+.badge-owner { color: #ffb84f; border-color: #ffb84f; }
+
+/* v0.5 Jarvis */
+.jarvis-shell{display:flex;flex-direction:column;gap:7px;min-height:100%;}
+.jarvis-top{justify-content:space-between}.jarvis-orb{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;margin:8px auto;font-size:2rem;font-weight:800;border:1px solid var(--accent);box-shadow:0 0 24px rgba(80,130,255,.22)}
+.jarvis-orb.jarvis-active{animation:jarvisPulse 1s infinite}.jarvis-screen-wrap{background:#050505;border:1px solid var(--border);border-radius:8px;padding:4px;max-height:45vh;overflow:auto}.jarvis-screen-wrap img{display:block;width:100%;height:auto}.jarvis-screen-wrap.hidden{display:none}
+@keyframes jarvisPulse{50%{transform:scale(1.08);box-shadow:0 0 38px rgba(80,130,255,.55)}}
+body.landscape-mode .win{min-width:560px}body.landscape-mode #windows-layer{inset:0 0 46px 0}body.landscape-mode .win-body{font-size:.92rem}
+
+/* v0.8 Level 8 — landscape-first desktop and assistant animation */
+body.landscape-mode #windows-layer{display:block;overflow:hidden;}
+body.landscape-mode .win{position:absolute;min-width:420px;min-height:300px;}
+.level8{position:relative}.level8:before{content:"";position:absolute;inset:-20px;background:radial-gradient(circle at 50% 15%,rgba(79,140,255,.12),transparent 42%);pointer-events:none;animation:ambientGlow 4s ease-in-out infinite;}
+.assistant-state-row{display:flex;align-items:center;gap:8px;font-size:.72rem;letter-spacing:1.5px}.assistant-state-row #assistant-state-dot{width:8px;height:8px;border-radius:50%;background:#6f7785;box-shadow:0 0 8px rgba(255,255,255,.15)}
+.jarvis-orb{position:relative;overflow:visible}.jarvis-orb:before,.jarvis-orb:after{content:"";position:absolute;inset:-8px;border:1px solid rgba(79,140,255,.22);border-radius:50%;animation:orbitRing 5s linear infinite}.jarvis-orb:after{inset:-15px;animation-duration:8s;animation-direction:reverse}.jarvis-orb i{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--accent);top:-12px;left:50%;box-shadow:0 0 14px var(--accent);animation:orbitDot 3s linear infinite}
+.jarvis-orb.jarvis-active{animation:jarvisPulse .8s infinite}.recording-badge{color:#ff5252;font-weight:700;animation:recordBlink 1s infinite}.runtime-card{padding:9px;margin:5px 0;border:1px solid var(--border);border-radius:8px;background:var(--panel-2)}
+@keyframes ambientGlow{50%{opacity:.5;transform:scale(1.01)}}@keyframes orbitRing{to{transform:rotate(360deg)}}@keyframes orbitDot{to{transform:rotate(360deg) translateX(42px) rotate(-360deg)}}@keyframes recordBlink{50%{opacity:.35}}
+@media(max-width:900px){body.landscape-mode #windows-layer{grid-template-columns:1fr}.jarvis-orb{margin-top:20px}}
+
+/* ================= v1.0 additions ================= */
+
+/* ---- Force-landscape mode: rotates the whole app on narrow/portrait
+   screens so the full app renders sideways like a landscape app. Only
+   kicks in on small portrait viewports; desktop/tablet-landscape is
+   untouched. Toggle with body.force-landscape (Settings > Desktop). ---- */
+@media (max-width: 900px) and (orientation: portrait) {
+  body.force-landscape {
+    /* Do not rotate the whole document. Android/system UI and browser chrome
+       remain upright; the desktop simply switches to a compact landscape-like
+       two-column workspace. */
+    transform: none;
+    position: static;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  body.force-landscape #desktop { height: 100%; width: 100%; }
+  body.force-landscape .launcher-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  body.force-landscape .win { min-width: min(420px,96vw); }
+  body.force-landscape .settings-nav, body.force-landscape .settings-tabs { overflow-x:auto; white-space:nowrap; }
+}
+
+/* ---- UI Zoom (in/out, manual only — never automatic) ---- */
+#desktop {
+  transform: scale(var(--ui-zoom, 1));
+  transform-origin: 0 0;
+  width: calc(100% / var(--ui-zoom, 1));
+  height: calc(100% / var(--ui-zoom, 1));
+}
+.tbtn {
+  background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 6px; width: 26px; height: 26px; cursor: pointer; font-size: 0.75rem;
+  display: inline-flex; align-items: center; justify-content: center; line-height: 1;
+}
+.tbtn:hover { border-color: var(--accent); }
+#zoom-level { font-size: 0.7rem; min-width: 34px; text-align: center; }
+
+/* ---- Custom cursor: follows mouse, turns into a text-beam over text
+   fields / editable text. Falls back to native cursor on touch devices. ---- */
+body.custom-cursor-mode, body.custom-cursor-mode * { cursor: none !important; }
+#custom-cursor {
+  position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+  border: 2px solid var(--accent); border-radius: 50%;
+  pointer-events: none; z-index: 999999; transform: translate(-50%, -50%);
+  transition: width .08s ease, height .08s ease, border-radius .08s ease, background .08s ease;
+  display: none; mix-blend-mode: difference;
+}
+body.custom-cursor-mode #custom-cursor { display: block; }
+#custom-cursor.cc-text { width: 2px; height: 20px; border-radius: 2px; background: var(--accent); border: none; }
+#custom-cursor.cc-click { width: 22px; height: 22px; background: rgba(79,140,255,0.35); }
+@media (hover: none) { body.custom-cursor-mode.virtual-mouse #custom-cursor { display: block !important; } body.custom-cursor-mode:not(.virtual-mouse) #custom-cursor { display: none !important; } body.custom-cursor-mode:not(.virtual-mouse), body.custom-cursor-mode:not(.virtual-mouse) * { cursor: auto !important; } }
+
+/* ---- Desktop icons ---- */
+#desktop-icons {
+  position: absolute; top: 14px; left: 14px; bottom: 60px;
+  display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start;
+  gap: 4px; z-index: 10; pointer-events: none;
+}
+.desktop-icon {
+  width: 78px; text-align: center; cursor: pointer; color: var(--text);
+  font-size: 0.7rem; padding: 8px 4px; border-radius: 8px; pointer-events: auto;
+  user-select: none; text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.desktop-icon .glyph { font-size: 1.7rem; display: block; margin-bottom: 4px; }
+.desktop-icon:hover, .desktop-icon.selected { background: rgba(79,140,255,0.18); }
+body.landscape-mode #desktop-icons { display: none; }
+body.landscape-mode #desktop-icons.has-shortcuts { display:flex; }
+
+/* ---- Window maximize / fullscreen ---- */
+.win.maximized {
+  position: fixed !important; left: 0 !important; top: 0 !important;
+  width: 100% !important; height: calc(100% - 46px) !important;
+  border-radius: 0; z-index: 8000 !important;
+}
+.win.minimized { display: none !important; }
+
+/* ---- Advanced terminal ---- */
+.term-toolbar { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+.term-toolbar button { font-size: 0.72rem; padding: 4px 8px; }
+.term-log { position: relative; }
+.term-suggest {
+  position: absolute; bottom: 100%; left: 8px; background: var(--panel-2);
+  border: 1px solid var(--border); border-radius: 6px; font-size: 0.75rem;
+  max-height: 140px; overflow-y: auto; display: none; z-index: 10;
+}
+.term-suggest div { padding: 4px 10px; cursor: pointer; }
+.term-suggest div:hover, .term-suggest div.active { background: var(--accent); color: #fff; }
+.term-log .term-err { color: #ff6b6b; }
+.term-log .term-ok { color: #7fd77f; }
+
+/* ---- Settings: tabs ---- */
+.settings-shell { display: flex; gap: 12px; height: 100%; min-height: 380px; }
+.settings-tabs { display: flex; flex-direction: column; gap: 2px; width: 150px; flex-shrink: 0; }
+.settings-tabs button {
+  text-align: left; background: transparent; border: 1px solid transparent; color: var(--text-dim);
+  padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;
+}
+.settings-tabs button:hover { background: var(--panel-2); }
+.settings-tabs button.active { background: var(--panel-2); color: var(--text); border-color: var(--accent); font-weight: 600; }
+.settings-panel { flex: 1; overflow-y: auto; padding-right: 4px; }
+.settings-panel .pane { display: none; }
+.settings-panel .pane.active { display: flex; flex-direction: column; gap: 8px; }
+.settings-row label { width: 170px; flex-shrink: 0; }
+
+/* ---- Voice model download ---- */
+.voice-model-card { border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: var(--panel-2); }
+.voice-progress { height: 8px; border-radius: 4px; background: var(--panel); overflow: hidden; margin-top: 8px; }
+.voice-progress-bar { height: 100%; width: 0%; background: var(--accent); transition: width .15s linear; }
+.voice-status-ready { color: #7fd77f; font-weight: 600; }
+
+@media (max-width: 700px) {
+  .settings-shell { flex-direction: column; }
+  .settings-tabs { flex-direction: row; flex-wrap: wrap; width: 100%; }
+}
+
+/* v1.2 desktop polish */
+body.app-fullscreen-fallback #desktop{position:fixed;inset:0;z-index:99999;}
+.app-locked{opacity:.62;position:relative;}
+.app-locked small{display:block;color:var(--text-dim);font-size:.62rem;margin-top:3px;}
+.browser-shell{display:flex;flex-direction:column;gap:8px;height:100%;min-height:300px}.browser-shell iframe{flex:1;width:100%;min-height:260px;border:1px solid var(--border);border-radius:8px;background:#fff}.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}.plan-card{min-height:150px}.price{font-size:1.5rem;font-weight:700;margin:5px 0}.control-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.control-grid .note-card{margin:0;text-align:center}@media(max-width:700px){.control-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* v1.3 visual identity: supplied DeveloperHCR logo + unique app marks */
+.boot-logo img{width:92px;height:92px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 8px;box-shadow:0 0 30px rgba(40,170,255,.25)}
+.app-icon{min-width:96px;min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border-radius:14px;transition:transform .16s ease,box-shadow .16s ease}
+.app-icon:hover{transform:translateY(-2px)}
+.app-logo,.tray-logo{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;width:42px;height:42px;font-size:1.45rem;background:linear-gradient(145deg,rgba(35,115,180,.35),rgba(20,25,45,.9));border:1px solid rgba(100,180,255,.25);box-shadow:0 5px 18px rgba(0,0,0,.22)}
+.app-icon[data-app="aichat"] .app-logo,.app-icon[data-app="jarvis"] .app-logo{background:linear-gradient(145deg,rgba(60,80,180,.5),rgba(15,20,50,.95))}
+.app-icon[data-app="store"] .app-logo{background:linear-gradient(145deg,rgba(170,80,220,.5),rgba(30,15,50,.95))}
+.app-icon[data-app="games"] .app-logo{background:linear-gradient(145deg,rgba(30,150,100,.5),rgba(10,40,30,.95))}
+.app-icon[data-app="owner"] .app-logo{background:linear-gradient(145deg,rgba(190,140,35,.55),rgba(45,30,10,.95))}
+.app-icon[data-app="admin"] .app-logo{background:linear-gradient(145deg,rgba(70,130,200,.5),rgba(15,30,50,.95))}
+.app-label{max-width:110px;text-align:center;font-size:.78rem}
+.tray-item{display:flex!important;align-items:center;gap:5px}
+.tray-logo{width:22px;height:22px;border-radius:6px;font-size:.8rem;box-shadow:none}
+.remember-row{font-size:.78rem;color:var(--text-dim);display:flex;gap:6px;align-items:center}
+#owner-plan-editor .plan-edit-row input{min-width:0}
+#owner-plan-editor .plan-id{width:95px}
+#owner-plan-editor .plan-label{flex:1}
+#owner-plan-editor .plan-features{width:100%;margin-top:6px}
+
+/* v1.5 mobile desktop improvements */
+.tbtn.active { border-color: var(--accent); box-shadow: 0 0 10px rgba(79,140,255,.35); }
+.jarvis-orb-wrap{position:relative;width:190px;height:190px;margin:8px auto 4px;display:grid;place-items:center;}
+.jarvis-orb{width:116px!important;height:116px!important;margin:0!important;position:relative;overflow:hidden;border-width:2px!important;background:#05070b;}
+.jarvis-orb img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;filter:saturate(1.15) contrast(1.08);}
+.jarvis-orb .orb-ring{position:absolute;inset:-8px;border:1px solid rgba(79,140,255,.55);border-radius:50%;box-shadow:0 0 22px rgba(79,140,255,.35), inset 0 0 18px rgba(79,140,255,.2);animation:orbRing 2.2s linear infinite;}
+.jarvis-orb.jarvis-active .orb-ring{animation:orbRing .75s linear infinite, orbGlow .65s ease-in-out infinite alternate;}
+@keyframes orbRing{to{transform:rotate(360deg)}}
+@keyframes orbGlow{to{box-shadow:0 0 48px rgba(79,140,255,.85),inset 0 0 28px rgba(255,40,80,.35);}}
+.voice-dots{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:5px;pointer-events:none;}
+.voice-dots i{position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.32;box-shadow:0 0 8px var(--accent);transform:rotate(calc(var(--i) * 8.5714deg)) translateY(-86px);animation:dotIdle 2.8s linear infinite;animation-delay:calc(var(--i) * -55ms);}
+.voice-dots.voice-active i{animation:dotTalk .72s ease-in-out infinite alternate;animation-delay:calc(var(--i) * -22ms);opacity:.95;}
+@keyframes dotIdle{0%,100%{transform:rotate(calc(var(--i) * 8.5714deg)) translateY(-86px) scale(.7);opacity:.25}50%{transform:rotate(calc(var(--i) * 8.5714deg + 8deg)) translateY(-86px) scale(1.1);opacity:.55}}@keyframes dotTalk{from{transform:rotate(calc(var(--i) * 8.5714deg)) translateY(-70px) scale(.55);opacity:.35}to{transform:rotate(calc(var(--i) * 8.5714deg)) translateY(-102px) scale(1.45);opacity:1}}
+body.virtual-mouse #custom-cursor{display:block!important;width:18px;height:18px;background:rgba(79,140,255,.16);border-color:#8db5ff;box-shadow:0 0 12px rgba(79,140,255,.65);}
+body.virtual-mouse #mouse-mode-btn{border-color:var(--accent);}
+@media (max-width:900px) and (orientation:portrait){
+  body.force-landscape #boot-screen, body.force-landscape #auth-screen, body.force-landscape #desktop{width:100vh!important;height:100vw!important;}
+  body.force-landscape #taskbar{height:46px;}
+  body.force-landscape #app-launcher{max-height:78vh;width:420px;}
+}
+
+.boot-progress{width:min(360px,72vw);height:5px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin:14px auto 8px}.boot-progress>div{height:100%;width:0;background:var(--accent);transition:width .2s ease}.boot-skip{margin-top:12px;opacity:.9}.modal-screen{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(8px)}.agreement-box{width:min(720px,90vw);max-height:86vh;overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:0 24px 80px rgba(0,0,0,.45)}.agreement-box p{color:var(--text-dim);line-height:1.5}.agreement-box select{width:100%;margin:12px 0;padding:10px}
+
+/* v1.8 interaction fixes */
+button, .app-icon, .win-titlebar, .win-resize { touch-action: manipulation; }
+.win-titlebar { touch-action: none; }
+.win-resize { touch-action: none; }
+#boot-screen { z-index: 100000; position: fixed; inset: 0; pointer-events: auto; }
+#boot-skip { position: relative; z-index: 100001; pointer-events: auto; touch-action: manipulation; }
+#desktop-icons { pointer-events: auto; }
+.drag-ghost { position: fixed; z-index: 1000000; width: 48px; height: 48px; transform: translate(-50%,-50%); display:grid; place-items:center; border:1px solid var(--accent); border-radius:12px; background:rgba(23,26,33,.92); box-shadow:0 12px 40px rgba(0,0,0,.45); font-size:1.6rem; pointer-events:none; }
+.desktop-icon { touch-action:none; }
+@media (hover:none) { .win-titlebar { cursor: grab; } .win-titlebar:active { cursor: grabbing; } }
+
+.desktop-drop-hint{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);padding:10px 16px;border:1px dashed var(--border);border-radius:10px;color:var(--text-dim);font-size:.78rem;opacity:.55;pointer-events:none;z-index:2}.desktop-icon~.desktop-drop-hint{display:none}.desktop-drop-hint:has(+ #windows-layer){display:none}#desktop:has(#desktop-icons .desktop-icon) #desktop-drop-hint{display:none}
+
+/* v1.9: reliable mobile startup controls */
+.boot-skip {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: max(28px, env(safe-area-inset-bottom)) !important;
+  transform: translateX(-50%) !important;
+  min-width: 190px;
+  padding: 12px 20px !important;
+  color: #fff !important;
+  background: #1677ff !important;
+  border: 1px solid #4f9bff !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 26px rgba(22,119,255,.35) !important;
+  font-weight: 600;
+  z-index: 100002 !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: rgba(22,119,255,.25);
+}
+.boot-skip:active { transform: translateX(-50%) scale(.97) !important; background:#0d63d8 !important; }
+#boot-screen.boot-finished { display:none !important; pointer-events:none !important; }
+
+/* v2.0 startup escape: blue, lower-center, touch-safe button. */
+.boot-skip-hint{position:fixed;left:50%;bottom:max(8px,calc(env(safe-area-inset-bottom) + 4px));transform:translateX(-50%);font-size:.66rem;color:rgba(255,255,255,.55);z-index:100001;pointer-events:none;white-space:nowrap}
+.boot-skip{bottom:max(34px,calc(env(safe-area-inset-bottom) + 30px)) !important}
+
+/* v2.4 — landscape-only UI. On portrait phones the whole app is rotated into
+   a stable landscape canvas; desktop/tablet landscape remains untouched. */
+body.landscape-only { overflow: hidden !important; }
+@media (max-width: 900px) and (orientation: portrait) {
+  html, body { overflow: hidden !important; }
+  body.landscape-only {
+    position: fixed !important;
+    left: 100vw !important;
+    top: 0 !important;
+    width: 100vh !important;
+    height: 100vw !important;
+    transform: rotate(90deg) !important;
+    transform-origin: left top !important;
+    overflow: hidden !important;
+  }
+  body.landscape-only #boot-screen,
+  body.landscape-only #auth-screen,
+  body.landscape-only #desktop {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+  }
+  body.landscape-only .auth-box { width: min(620px, 72vw) !important; }
+  body.landscape-only #boot-log { width: min(560px, 72vw) !important; min-height: 120px !important; }
+  body.landscape-only .boot-logo img { width: 74px !important; height: 74px !important; }
+}
+.boot-countdown {
+  margin-top: 8px;
+  min-width: 54px;
+  text-align: center;
+  font: 700 1.05rem/1.4 "Segoe UI",system-ui,sans-serif;
+  color: var(--accent);
+  letter-spacing: .08em;
+}
+
+/* v2.5: games, accessibility and store install controls */
+.games-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.game-stage{min-height:120px;display:grid;place-items:center;background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:10px;overflow:hidden}
+.game-canvas{max-width:100%;height:auto;background:#050505;border:1px solid var(--border);border-radius:8px;touch-action:none}
+.cube-scene{width:220px;height:220px;perspective:600px;display:grid;place-items:center}
+.cube3d{width:100px;height:100px;position:relative;transform-style:preserve-3d;animation:cubeSpin 5s linear infinite}
+.cube3d i{position:absolute;inset:0;border:2px solid var(--accent);background:rgba(79,140,255,.12)}
+.cube3d i:nth-child(1){transform:translateZ(50px)}.cube3d i:nth-child(2){transform:rotateY(180deg) translateZ(50px)}.cube3d i:nth-child(3){transform:rotateY(90deg) translateZ(50px)}.cube3d i:nth-child(4){transform:rotateY(-90deg) translateZ(50px)}.cube3d i:nth-child(5){transform:rotateX(90deg) translateZ(50px)}.cube3d i:nth-child(6){transform:rotateX(-90deg) translateZ(50px)}
+@keyframes cubeSpin{to{transform:rotateX(360deg) rotateY(360deg)}}
+body.a11y-large{font-size:110%}body.a11y-large .btn,body.a11y-large input,body.a11y-large select{font-size:1rem}body.a11y-contrast .win,body.a11y-contrast .note-card,body.a11y-contrast .app-icon{border-width:2px}body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+@media(max-width:900px){.games-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.games-grid{grid-template-columns:1fr}}
+
+/* v2.6 startup AI monitor + original futuristic HUD */
+.boot-ai-runtimes{margin-top:10px;width:min(460px,90vw);background:rgba(8,12,20,.72);border:1px solid var(--border);border-radius:10px;padding:9px;text-align:left;backdrop-filter:blur(8px)}
+.boot-ai-title{font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}.boot-ai-row{display:grid;grid-template-columns:10px 1fr auto auto;gap:7px;align-items:center;font-size:.72rem;padding:4px 0}.ai-dot{width:7px;height:7px;border-radius:50%;background:#69707d}.ai-dot.online{background:#63e6a2;box-shadow:0 0 10px rgba(99,230,162,.8)}
+.jarvis-orb-wrap{position:relative;width:150px;height:130px;margin:0 auto;display:grid;place-items:center}.jarvis-orb{width:92px;height:92px}.jarvis-orb img{width:58px;height:58px;border-radius:50%;object-fit:cover;position:relative;z-index:2}.voice-dots{position:absolute;inset:4px;display:flex;align-items:center;justify-content:center;gap:5px;pointer-events:none}.voice-dots i{width:4px;height:18px;border-radius:4px;background:var(--accent);opacity:.55;transform:translateY(0) scaleY(.45);animation:voiceIdle 1.1s ease-in-out infinite;animation-delay:calc(var(--i) * 55ms)}.jarvis-orb.jarvis-active ~ .voice-dots i{animation-name:voiceTalk;opacity:1}.jarvis-orb-wrap:after{content:"";position:absolute;inset:4px;border:1px solid rgba(79,140,255,.18);border-radius:50%;animation:orbitRing 10s linear infinite}
+@keyframes voiceIdle{50%{transform:scaleY(.7)}}@keyframes voiceTalk{0%,100%{transform:translateY(0) scaleY(.35)}50%{transform:translateY(calc((var(--i) % 3 - 1) * 10px)) scaleY(1.5)}}
+/* Fullscreen: hide bottom taskbar and expose a top restore control. */
+body.desktop-fullscreen #taskbar{display:none!important}body.desktop-fullscreen.fullscreen-taskbar-visible #taskbar{display:flex!important}body.desktop-fullscreen #fullscreen-restore-btn{display:flex!important}.fullscreen-restore-btn{display:none;position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:100000;width:42px;height:26px;border:1px solid var(--accent);border-radius:8px;background:rgba(10,14,22,.88);color:var(--text);align-items:center;justify-content:center;cursor:pointer;box-shadow:0 0 16px rgba(79,140,255,.28)}
+.toolchain-card{border-left:3px solid var(--accent)}
+
+/* v2.7 auth: secondary action styling */
+.btn.secondary { opacity: .88; border: 1px solid rgba(120,180,255,.45); }
+#signup-form { margin-top: 8px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.08); }
+
+/* v2.8 branding and launcher */
+.launcher-logo-img{width:30px;height:30px;border-radius:8px;object-fit:cover;display:block;box-shadow:0 0 12px rgba(100,160,255,.35)}
+#launcher-btn .logo-mark{display:none}
+.app-logo{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.06);font-size:22px}
+.note-card{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;margin:8px 0}
+
+/* v2.9 login/logo/wallpaper polish */
+.boot-logo img{width:96px;height:96px;object-fit:contain;border-radius:22px;display:block;margin:0 auto 12px;filter:drop-shadow(0 8px 24px rgba(0,0,0,.35))}
+#auth-screen .auth-box{min-width:min(440px,92vw);padding:28px;border-radius:20px;box-shadow:0 20px 70px rgba(0,0,0,.45)}
+#auth-screen input{min-height:44px;font-size:1rem}
+#login-submit,#signup-submit{min-height:46px;font-size:1rem;font-weight:700}
+.wallpaper-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}.wallpaper-card{min-height:100px;border:1px solid var(--border);border-radius:14px;color:#fff;font-weight:700;text-shadow:0 2px 8px #000;cursor:pointer;background-size:cover;background-position:center}.wallpaper-card:hover{transform:translateY(-1px);border-color:var(--accent)}
+
+/* v3.1 display controls */
+body.taskbar-compact #taskbar{padding:4px 8px;min-height:38px}
+body.taskbar-compact #taskbar .tbtn,body.taskbar-compact #launcher-btn{min-width:34px;min-height:32px}
+body.no-motion *,body.no-motion *::before,body.no-motion *::after{animation:none!important;transition:none!important}
+
+.launcher-search-row{display:flex;align-items:center;gap:7px;margin-bottom:10px;padding:6px 8px;background:var(--panel-2);border:1px solid var(--border);border-radius:8px}.launcher-search-row input{flex:1;border:0;background:transparent;outline:none}.launcher-search-row input:focus{border-color:var(--accent)}
+.environment-card{display:flex;justify-content:space-between;align-items:center}
+
+/* v3.4 authentication UI */
+#show-agreement{font-size:.88em}
+
+/* v3.9 minimal startup/login UI */
+.auth-minimal { width: min(360px, 82vw); padding: 24px; text-align: center; }
+.auth-minimal .boot-logo { margin-bottom: 8px; }
+.auth-minimal .stack { gap: 10px; }
+.auth-minimal .auth-error:empty { display: none; }
+.auth-minimal #login-submit { width: 100%; margin-top: 4px; font-size: 1rem; }
+#boot-screen .boot-sub { margin-bottom: 14px; }
+#boot-screen .boot-progress { width: min(360px, 72vw); }
+#boot-screen .boot-skip { margin-top: 14px; }
+
+.login-brand{text-align:center;font-size:.95rem;font-weight:700;letter-spacing:3px;color:var(--text-dim);margin-top:10px}.login-footer{text-align:center;color:var(--text-dim);font-size:.68rem;margin-top:4px}
+
+
+/* v4.2 mobile/Android desktop fixes */
+#taskbar-right { min-width: 0; }
+#open-apps-tray { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; min-width: 0; }
+#open-apps-tray::-webkit-scrollbar { display:none; }
+.input-helper-panel { position: fixed; right: 10px; bottom: 58px; width: min(560px, calc(100vw - 20px)); z-index: 9000; padding: 10px; background: rgba(23,26,33,.98); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 18px 50px rgba(0,0,0,.55); backdrop-filter: blur(16px); }
+.input-helper-title { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.input-helper-keys { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:6px; }
+.input-helper-keys .btn { min-height:40px; touch-action:manipulation; }
+@media (max-width: 700px) {
+  #taskbar { gap:4px; padding:3px 5px; }
+  #taskbar-right { gap:4px; }
+  #taskbar-right #user-widget { display:none; }
+  .tray-item { padding:5px 8px; max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #app-launcher { left:6px; bottom:54px; width:calc(100vw - 12px); max-height:78vh; }
+  .launcher-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .win { min-width:0 !important; max-width:calc(100vw - 12px); }
+  .win-body { padding:10px; }
+  .login-action-row { grid-template-columns:1fr; }
+  .login-utility-row { flex-direction:column; align-items:stretch; }
+  .remember-me { justify-content:center; }
+  .input-helper-keys { grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
+@media (orientation: portrait) and (max-width: 700px) {
+  #desktop { min-height:100dvh; }
+  #windows-layer { inset:0 0 48px 0; }
+}
+
+/* ================= v1.0 Android + PC UI ================= */
+.remember-me{font-size:.72rem;color:var(--text-dim);display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
+.remember-me input{width:15px!important;height:15px!important;min-height:15px!important;}
+.login-action-row{grid-template-columns:1fr 1fr;}
+.login-utility-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px;}
+.owner-free-badge{padding:8px 10px;border:1px solid rgba(99,230,162,.35);border-radius:8px;color:#63e6a2;background:rgba(99,230,162,.08);font-weight:700;}
+.camera-app video{width:100%;max-height:55vh;background:#000;border:1px solid var(--border);border-radius:12px;object-fit:cover;}
+.camera-status{padding:8px 10px;border-radius:8px;background:var(--panel-2);border:1px solid var(--border);font-size:.8rem;}
+@media (max-width:700px){
+  body{overflow:hidden;}
+  #desktop{transform:none!important;width:100%!important;height:100%!important;position:fixed;inset:0;}
+  #desktop-icons{display:none!important;}
+  #windows-layer{inset:0 0 54px 0!important;overflow:hidden;}
+  .win{position:absolute!important;left:6px!important;top:6px!important;width:calc(100% - 12px)!important;height:calc(100% - 12px)!important;min-width:0!important;min-height:0!important;border-radius:14px;}
+  .win-titlebar{min-height:44px;padding:9px 10px;}
+  .win-title{font-size:.9rem;}
+  .win-controls button{font-size:1.05rem;padding:5px 8px;}
+  .win-body{padding:12px;font-size:.88rem;-webkit-overflow-scrolling:touch;}
+  #taskbar{height:54px;padding:5px 7px;gap:5px;}
+  #launcher-btn{width:42px;height:42px;}
+  #open-apps-tray{overflow-x:auto;min-width:0;}
+  .tray-item{min-width:40px;padding:5px 7px;}
+  .tray-item .tray-label{display:none;}
+  #taskbar-right{gap:5px;}
+  #taskbar-right #user-widget{display:none;}
+  #taskbar-right #clock-widget{font-size:.68rem;}
+  .tbtn{width:34px;height:34px;font-size:.9rem;}
+  #app-launcher{left:7px;right:7px;bottom:61px;width:auto;max-height:calc(100vh - 72px);padding:10px;border-radius:16px;}
+  .launcher-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-height:calc(100vh - 150px);}
+  .app-icon{min-height:92px;padding:10px 4px;}
+  .app-logo{width:48px;height:48px;font-size:27px;border-radius:12px;}
+  .app-label{font-size:.72rem;line-height:1.15;margin-top:3px;}
+  .auth-minimal{width:min(430px,92vw);padding:22px 18px;}
+  .auth-minimal .boot-logo img{width:88px;height:88px;}
+  .login-action-row{grid-template-columns:1fr 1fr;}
+  .login-utility-row{justify-content:space-between;}
+  #login-readme{font-size:.72rem;padding:6px 8px;}
+  .remember-me{font-size:.7rem;}
+  .settings-shell{min-height:0;}
+}
+@media (min-width:701px){
+  body:not(.landscape-mode) #windows-layer{overflow:auto;}
+}
+
+/* ================= Android / Windows UI split ================= */
+body.android-ui #desktop-icons { display:grid !important; }
+body.android-ui #desktop { position:fixed; inset:0; width:100%; height:100dvh; }
+body.android-ui #windows-layer { inset:0 0 56px 0 !important; overflow:auto !important; }
+body.android-ui .win { left:7px !important; top:7px !important; width:calc(100% - 14px) !important; height:calc(100% - 14px) !important; min-width:0 !important; min-height:0 !important; border-radius:16px; }
+body.android-ui .win-titlebar { min-height:48px; padding:10px 12px; }
+body.android-ui .win-title { font-size:1rem; }
+body.android-ui .win-controls button { font-size:1.15rem; padding:6px 9px; }
+body.android-ui #app-launcher { left:7px; right:7px; bottom:62px; width:auto; max-height:calc(100dvh - 76px); }
+body.android-ui .launcher-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+body.android-ui .app-icon { min-height:104px; padding:12px 7px; border-radius:14px; }
+body.android-ui .app-icon .glyph, body.android-ui .app-logo { font-size:2rem; }
+body.android-ui .app-logo { width:58px; height:58px; border-radius:14px; }
+body.android-ui .app-label { max-width:140px; font-size:.82rem; line-height:1.2; }
+body.android-ui .remember-me { font-size:.76rem; }
+body.android-ui #login-remember { width:16px !important; height:16px !important; }
+body.windows-ui #desktop-icons { display:grid !important; }
+@media (max-width:700px) {
+  body.android-ui #auth-screen { padding:16px; }
+  body.android-ui .auth-minimal { width:min(430px,94vw); padding:22px 18px; }
+  body.android-ui .login-action-row { grid-template-columns:1fr; }
+  body.android-ui .login-utility-row { align-items:center; }
+  body.android-ui #taskbar { height:56px; }
+}
+
+@media (max-width:900px) and (orientation:portrait) {
+  body.android-ui.landscape-only { position:static !important; transform:none !important; width:100% !important; height:100% !important; }
+}
+
+/* v1.0.2 Android/AI interaction fixes */
+.ai-chat-shell{min-width:0}.ai-chat-toolbar{flex-wrap:wrap}.ai-runtime-hint{padding:7px 9px;border:1px solid var(--border);border-radius:7px;background:var(--panel-2);font-size:.75rem}.ai-chat-input-row{position:sticky;bottom:0;background:var(--panel);padding-top:5px}.ai-message.user{border-left:3px solid var(--accent)}.ai-message.ai{border-left:3px solid rgba(120,180,255,.45)}
+body.android-ui #desktop{min-width:100vw;min-height:100vh}.jarvis-shell{min-width:0}.jarvis-orb-wrap{isolation:isolate}.voice-dots{z-index:1}.jarvis-orb{z-index:2}
+@media(max-width:900px) and (orientation:portrait){body.force-landscape #desktop{position:fixed;left:0;top:0;width:100vh!important;height:100vw!important;transform:rotate(90deg) translateY(-100%);transform-origin:top left;overflow:hidden}body.force-landscape #taskbar{position:absolute;left:0;right:0;bottom:0}body.force-landscape #windows-layer{bottom:46px!important}body.force-landscape #app-launcher{max-height:calc(100vw - 60px);overflow:auto}}
+body.custom-cursor-mode #custom-cursor{transition:none}.mouse-moving #custom-cursor{box-shadow:0 0 18px var(--accent),0 0 4px var(--accent);transform:translate(-50%,-50%) scale(1.18)}
+
+/* BETA pointer fix: use the browser/OS pointer. The old glowing circle cursor
+   is intentionally disabled because it lagged on Android/remote mouse input. */
+body.custom-cursor-mode, body.custom-cursor-mode * { cursor: auto !important; }
+#custom-cursor { display:none !important; }
+.market-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;margin-top:8px}
+.market-card{display:flex;flex-direction:column;gap:3px;text-align:left;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--panel-2);color:var(--text);cursor:pointer}
+.market-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.market-card span{font-size:.7rem;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.market-card strong{font-size:1rem}.market-card small{color:var(--text-dim)}
+.trading-dashboard{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media(max-width:700px){.trading-dashboard{grid-template-columns:1fr}.market-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* BETA v1.0 UI refinement — presentation only; existing app behavior preserved. */
+:root{--accent-2:#7aa7ff;--glass:rgba(23,26,33,.82)}
+#boot-screen{background:radial-gradient(circle at 50% 35%,#20283a 0%,#0a0d13 58%,#05070a 100%);}
+.boot-logo img{width:132px;height:132px;object-fit:cover;border-radius:30px;box-shadow:0 18px 60px rgba(0,0,0,.48);animation:bootFloat 2.4s ease-in-out infinite;}
+.boot-progress{width:min(460px,78vw);height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin:14px 0 8px;box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
+#boot-progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:inherit;transition:width .12s linear}
+.boot-countdown{font-size:.75rem;color:var(--text-dim);letter-spacing:1px}
+@keyframes bootFloat{50%{transform:translateY(-5px) scale(1.015)}}
+#desktop{background:radial-gradient(circle at 72% 20%,rgba(79,140,255,.14),transparent 30%),radial-gradient(circle at 18% 78%,rgba(112,91,190,.13),transparent 28%),linear-gradient(135deg,#080b10,#111827 55%,#080a0e)}
+.win{border-radius:14px;box-shadow:0 18px 55px rgba(0,0,0,.48);backdrop-filter:blur(12px);}
+.win-titlebar{min-height:40px;padding:8px 12px;background:rgba(31,35,44,.88)}
+.app-icon:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.2)}
+button.btn,.tray-item,input,textarea,select{transition:border-color .15s ease,box-shadow .15s ease,transform .1s ease}
+button.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+@media(max-width:720px){.launcher-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.win{min-width:280px;max-width:calc(100vw - 12px)}#taskbar-right{gap:7px}.tray-item{max-width:28vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+@media(orientation:landscape) and (max-height:520px){#taskbar{height:42px}.win-body{padding:9px}.app-icon{min-height:72px;padding:7px 4px}.launcher-grid{max-height:44vh}}
+
+/* v1.0.3 COMPLETE DESKTOP CONTROLS — additive only */
+#desktop-icons{position:absolute;left:14px;top:14px;bottom:58px;display:grid;grid-template-columns:repeat(auto-fill,88px);grid-auto-rows:92px;gap:8px;align-content:start;z-index:5;max-width:55vw;overflow:auto;padding:4px}
+#desktop-icons.has-shortcuts{display:grid!important}
+.desktop-icon{border:1px solid transparent;background:rgba(18,22,30,.32);color:var(--text);border-radius:10px;padding:7px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;text-align:center;font:inherit;font-size:.68rem;min-width:78px;touch-action:manipulation}
+.desktop-icon:hover,.desktop-icon:focus-visible{border-color:var(--accent);background:rgba(79,140,255,.12);outline:none}
+.desktop-icon-glyph{font-size:2rem;line-height:1;filter:drop-shadow(0 3px 7px rgba(0,0,0,.35))}
+.taskbar-search{display:flex;align-items:center;gap:4px;min-width:150px;max-width:250px}
+.taskbar-search input{width:100%;height:32px;padding:5px 9px;border-radius:7px}
+#taskbar .tbtn{min-width:34px;height:34px}
+.mouse-panel{width:min(430px,calc(100vw - 20px))}
+.mouse-pad{height:180px;border:1px solid var(--border);border-radius:12px;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 24px),repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 1px,transparent 1px 24px),var(--panel-2);display:flex;align-items:center;justify-content:center;touch-action:none;user-select:none}
+.mouse-cross{font-size:1.5rem;color:var(--accent);opacity:.75}
+.mouse-buttons{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+@media(max-width:700px){.taskbar-search{min-width:34px;max-width:34px}.taskbar-search input{display:none}#desktop-icons{grid-template-columns:repeat(4,72px);grid-auto-rows:78px;left:5px;top:5px}.desktop-icon{min-width:66px;font-size:.6rem}.desktop-icon-glyph{font-size:1.7rem}}
+@media(max-width:900px) and (orientation:landscape){#desktop-icons{max-width:45vw}#windows-layer{bottom:52px!important}.taskbar-search{min-width:110px}.launcher-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+/* Search must remain usable in both orientations. */
+#taskbar-search-btn{display:flex;align-items:center;justify-content:center}
+@media(max-width:520px){#taskbar-search{min-width:34px!important}.taskbar-search input{display:none!important}}
+
+/* v1.0 BETA COMPLETE DESKTOP SHELL: icons stay visible in every orientation. */
+#desktop-icons, body.android-ui #desktop-icons, body.windows-ui #desktop-icons, body.landscape-mode #desktop-icons, body.force-landscape #desktop-icons { display:grid !important; }
+#desktop-icons { grid-template-columns:repeat(auto-fill,88px); grid-auto-rows:92px; align-content:start; }
+.desktop-icon { width:82px; min-height:82px; padding:6px 4px; border-radius:10px; text-shadow:0 1px 3px #000; }
+.desktop-icon:hover, .desktop-icon:focus { background:rgba(255,255,255,.10); outline:1px solid rgba(255,255,255,.14); }
+.desktop-icon .app-logo { width:48px; height:48px; font-size:1.65rem; }
+.system-location-hero { display:flex; align-items:center; gap:14px; padding:14px; border:1px solid var(--border); border-radius:12px; background:linear-gradient(135deg,rgba(79,140,255,.12),rgba(255,255,255,.02)); }
+.system-location-icon { width:64px; height:64px; display:grid; place-items:center; border-radius:14px; background:rgba(255,255,255,.08); font-size:2rem; }
+.system-control-grid { display:grid; grid-template-columns:repeat(5,minmax(110px,1fr)); gap:8px; margin-top:10px; }
+.system-control { min-height:86px; display:flex; flex-direction:column; align-items:flex-start; gap:3px; padding:10px; border:1px solid var(--border); border-radius:10px; background:var(--panel-2); color:var(--text); cursor:pointer; }
+.system-control:hover { border-color:var(--accent); transform:translateY(-1px); }
+.system-control span { font-size:1.45rem; }.system-control small { color:var(--text-dim); }
+.cp-header { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+@media(max-width:900px){.system-control-grid{grid-template-columns:repeat(3,minmax(90px,1fr));}}
+@media(max-width:560px){.system-control-grid{grid-template-columns:repeat(2,minmax(90px,1fr));}.desktop-icon{width:72px}.desktop-icon .app-logo{width:42px;height:42px;font-size:1.45rem;}}
+
+
+/* v1.0 BETA shell reliability patch: Start/Search must always sit above the desktop. */
+#taskbar { z-index: 50000 !important; }
+#launcher-btn, #taskbar-search-btn, #taskbar-search-input { position: relative; z-index: 50001; pointer-events: auto !important; }
+#app-launcher { z-index: 60000 !important; pointer-events: auto !important; }
+#app-launcher.hidden { display: none !important; }
+#launcher-grid { position: relative; z-index: 60001; pointer-events: auto !important; }
+.app-icon { position: relative; z-index: 60002; pointer-events: auto !important; cursor: pointer !important; }
+.launcher-empty { padding: 24px 12px; text-align: center; color: var(--text-dim); grid-column: 1 / -1; }
+#date-widget { font-variant-numeric: tabular-nums; white-space: nowrap; }
+#clock-widget { font-variant-numeric: tabular-nums; white-space: nowrap; min-width: 76px; }
+#desktop-icons { z-index: 20 !important; display: grid !important; grid-template-columns: repeat(auto-fill, 88px); grid-auto-rows: 92px; align-content: start; pointer-events: auto !important; overflow: auto; max-height: calc(100% - 70px); }
+.desktop-icon { pointer-events: auto !important; z-index: 21; }
+@media(max-width:900px){ #date-widget { display:inline !important; } #clock-widget{min-width:66px;} }
+
+/* v1.0 BETA — FINAL INTERACTION SAFETY PATCH
+   Keep shell controls above every desktop/window layer on touch and mouse.
+   This patch is additive and does not remove existing app styles. */
+#taskbar {
+  position: fixed !important;
+  isolation: isolate;
+  z-index: 200000 !important;
+}
+#launcher-btn {
+  position: relative !important;
+  z-index: 200010 !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: rgba(79,140,255,.28);
+}
+#launcher-btn > * { pointer-events: none !important; }
+#app-launcher {
+  position: fixed !important;
+  z-index: 210000 !important;
+  pointer-events: auto !important;
+  display: block;
+}
+#app-launcher.hidden { display: none !important; }
+#launcher-grid, #launcher-grid .app-icon, #launcher-search {
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+}
+#desktop-icons { z-index: 100 !important; pointer-events: auto !important; }
+#desktop-icons .desktop-icon { z-index: 101 !important; pointer-events: auto !important; }
+#hcr-quick-rail { min-width: 0; display: flex; gap: 4px; }
+.quick-launch { min-width: 32px; height: 34px; padding: 2px 7px; border-radius: 7px; background: var(--panel-2); color: var(--text); border: 1px solid var(--border); cursor: pointer; touch-action: manipulation; }
+.quick-launch:hover, .quick-launch:focus-visible { border-color: var(--accent); }
+.launcher-search-row { position: sticky; top: 0; z-index: 2; }
+@media (max-width: 700px) {
+  #taskbar { height: 62px !important; padding: 6px !important; gap: 6px !important; }
+  #launcher-btn { width: 48px !important; height: 48px !important; flex: 0 0 48px; }
+  #launcher-btn .launcher-logo-img { width: 34px !important; height: 34px !important; }
+  #hcr-quick-rail { display: none !important; }
+  #open-apps-tray { flex: 1 1 auto !important; min-width: 0 !important; }
+  .taskbar-search { flex: 0 0 150px; min-width: 150px !important; max-width: 150px !important; }
+  .taskbar-search input { display: block !important; min-width: 0; }
+  #taskbar-right { flex: 0 0 auto; gap: 3px !important; }
+  #taskbar-right .tbtn { width: 38px !important; min-width: 38px !important; height: 40px !important; }
+  #desktop { height: 100dvh !important; }
+  #windows-layer { inset: 0 0 62px 0 !important; }
+  #app-launcher { left: 6px !important; right: 6px !important; bottom: 68px !important; max-height: calc(100dvh - 80px) !important; }
+  #desktop-icons { display: grid !important; left: 6px !important; top: 6px !important; bottom: 68px !important; max-width: 100% !important; grid-template-columns: repeat(4, minmax(66px, 1fr)) !important; grid-auto-rows: 82px !important; overflow: auto !important; }
+  .desktop-icon { width: 66px !important; min-width: 66px !important; min-height: 76px !important; background: rgba(12,16,24,.48) !important; }
+}
+
+/* v1.0 BETA — final shell visibility/accessibility */
+.launcher-text { margin-left: 4px; font-size: .66rem; font-weight: 700; letter-spacing: .2px; color: var(--text); }
+@media (max-width: 700px) {
+  .launcher-text { display: none; }
+  #date-widget { display: inline !important; font-size: .52rem !important; }
+  #clock-widget { font-size: .62rem !important; min-width: 52px !important; }
+}
+@media (min-width: 701px) {
+  .launcher-text { display: inline; }
+}
+
+/* v1.0 BETA NEXT mobile interaction repair */
+body.force-landscape{transform:none!important;width:100%!important;height:100%!important;overflow:hidden!important}body.force-landscape #desktop{position:relative!important;width:100%!important;height:100dvh!important;transform:none!important}body.force-landscape #taskbar{position:fixed!important;left:0!important;right:0!important;bottom:0!important;top:auto!important;transform:none!important}body.force-landscape #windows-layer{inset:0 0 62px 0!important;transform:none!important}body.force-landscape #app-launcher{left:6px!important;right:6px!important;bottom:68px!important;width:auto!important;max-height:calc(100dvh - 80px)!important;transform:none!important}
+#desktop-icons{position:absolute!important;inset:0 0 62px 0!important;display:block!important;max-width:none!important;max-height:none!important;overflow:hidden!important;padding:0!important;z-index:100!important}.desktop-icon{position:absolute!important;width:82px!important;min-width:82px!important;height:82px!important;min-height:82px!important;padding:6px 4px!important;cursor:grab!important;user-select:none!important;touch-action:none!important}.desktop-icon:active{cursor:grabbing!important}.desktop-icon[data-size="small"]{width:64px!important;min-width:64px!important;height:66px!important;min-height:66px!important;font-size:.62rem!important}.desktop-icon[data-size="small"] .app-logo{width:34px!important;height:34px!important;font-size:1.2rem!important}.desktop-icon[data-size="large"]{width:104px!important;min-width:104px!important;height:104px!important;min-height:104px!important;font-size:.78rem!important}.desktop-icon[data-size="large"] .app-logo{width:62px!important;height:62px!important;font-size:2rem!important}
+.taskbar-search{min-width:40px!important;max-width:40px!important;flex:0 0 40px!important}.taskbar-search input{display:none!important}#taskbar-search-btn{width:40px!important}
+.settings-shell{min-width:0!important}.settings-tabs{flex-direction:row!important;flex-wrap:nowrap!important;width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin;padding-bottom:4px}.settings-tabs button{flex:0 0 auto!important;white-space:nowrap!important}.settings-panel{min-width:0!important}@media(max-width:700px){.settings-tabs{-webkit-overflow-scrolling:touch}.settings-tabs button{font-size:.72rem!important;padding:7px 9px!important}.settings-panel{width:100%!important}.win{max-width:calc(100vw - 10px)!important}}
+.win-body button:not(:disabled),.win-body input:not(:disabled),.win-body select:not(:disabled),.win-body textarea:not(:disabled){opacity:1!important;pointer-events:auto!important}.win-body button:disabled{opacity:.55}
+
+/* ================= BETA 2.0 — interaction and window isolation fixes ================= */
+/* Desktop shortcuts live behind application windows. They must never cover an app. */
+#desktop-icons { z-index: 5 !important; pointer-events: auto !important; }
+#desktop-icons .desktop-icon { z-index: 6 !important; }
+#windows-layer { z-index: 20 !important; pointer-events: none !important; }
+#windows-layer .win { z-index: 30; pointer-events: auto !important; }
+#windows-layer .win.window-active { z-index: 1000 !important; }
+#windows-layer .win:not(.window-active) { opacity: .94; }
+/* Never hide the real mouse cursor. Virtual-mouse mode is an optional helper only. */
+html, body, body *, button, input, textarea, select, .win-titlebar, .win-resize { cursor: auto !important; }
+body.virtual-mouse #custom-cursor { pointer-events:none !important; }
+/* Landscape is a layout mode, not a page rotation. */
+body.force-landscape, body.force-landscape #desktop { transform:none !important; }
+/* Make every Settings control reachable on narrow screens. */
+.settings-shell, .settings-panel { min-width:0 !important; width:100% !important; }
+.settings-tabs { display:flex !important; flex-wrap:nowrap !important; overflow-x:auto !important; overflow-y:hidden !important; gap:6px !important; scrollbar-width:thin; }
+.settings-tabs button { flex:0 0 auto !important; pointer-events:auto !important; }
+/* Prevent a transparent overlay from stealing mouse/touch input. */
+.jarvis-shell.level8:before, .voice-dots, #desktop::before, .desktop-drop-hint { pointer-events:none !important; }
+
+/* V2.0 desktop/wallpaper polish */
+#desktop::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,var(--hcr-wallpaper-dim,0));pointer-events:none!important;z-index:1}
+#desktop-icons{z-index:5!important}
+.wallpaper-app .wallpaper-card{min-height:92px;border-radius:12px;border:1px solid var(--border);color:#fff;text-shadow:0 1px 4px #000;cursor:pointer}
+.wallpaper-app .wallpaper-card:hover{transform:translateY(-2px);outline:2px solid var(--accent)}
+.wallpaper-app input[type=range]{accent-color:var(--accent)}
+.game-pad{justify-content:center;flex-wrap:wrap}
+.game-pad .btn{min-width:52px;min-height:44px}
+
+/* V2.0 BETA interaction patch: keep the taskbar visible in fullscreen when enabled. */
+body.desktop-fullscreen.fullscreen-taskbar-visible #windows-layer{bottom:62px!important}
+#desktop-clear-btn{min-width:34px!important}
+@media(max-width:700px){#desktop-clear-btn{display:flex!important;min-width:38px!important}}
+
+/* V2.0 BETA+: standalone game visuals */
+.orbit-scene{width:min(420px,90%);height:300px;position:relative;display:grid;place-items:center;perspective:700px;overflow:hidden;border-radius:14px;background:radial-gradient(circle at center,#18243a,#090d16 70%)}
+.orbit-star{width:52px;height:52px;border-radius:50%;background:#ffd66b;box-shadow:0 0 35px #ffd66b;z-index:3}
+.orbit-ring{position:absolute;border:2px solid rgba(90,150,255,.7);border-radius:50%;transform:rotateX(68deg);animation:orbitSpin 4s linear infinite}
+.orbit-a{width:180px;height:180px}.orbit-b{width:290px;height:290px;animation-duration:7s}.orbit-planet{position:absolute;width:22px;height:22px;border-radius:50%;background:#65a7ff;transform:translateX(90px) rotateX(-68deg);box-shadow:0 0 14px #65a7ff;animation:planetSpin 4s linear infinite}
+@keyframes orbitSpin{to{transform:rotateX(68deg) rotateZ(360deg)}}@keyframes planetSpin{to{transform:translateX(90px) rotateX(-68deg) rotateZ(360deg)}}
+.memory-grid{display:grid;grid-template-columns:repeat(4,minmax(58px,1fr));gap:8px;max-width:360px;width:100%}.memory-card{min-height:64px;font-size:1.5rem}
+
+/* V2.0 BETA+ visual isolation: desktop shortcuts never show through an open app window. */
+#desktop.windows-open #desktop-icons { visibility:hidden !important; pointer-events:none !important; }
+#desktop.windows-open #desktop-drop-hint { display:none !important; }
+.win { background:var(--panel) !important; }
+.win-body { background:var(--panel) !important; }
+/* V2.0 BETA+ Solar System 3D game */
+.solar-scene{width:min(440px,92%);height:300px;position:relative;display:grid;place-items:center;perspective:800px;overflow:hidden;border-radius:14px;background:radial-gradient(circle at 50% 50%,#15243c,#050811 72%);}
+.solar-sun{width:58px;height:58px;border-radius:50%;background:#ffd66b;box-shadow:0 0 42px #ffd66b;}
+.solar-orbit{position:absolute;border:1px solid rgba(120,170,255,.45);border-radius:50%;transform:rotateX(68deg);animation:solarSpin 7s linear infinite;}
+.solar-orbit.o1{width:100px;height:100px;animation-duration:4s}.solar-orbit.o2{width:180px;height:180px;animation-duration:7s}.solar-orbit.o3{width:270px;height:270px;animation-duration:11s}
+.solar-planet{position:absolute;top:50%;left:100%;width:16px;height:16px;border-radius:50%;transform:translate(-50%,-50%) rotateX(-68deg);background:#6fb2ff;box-shadow:0 0 10px #6fb2ff}.solar-planet.p2{width:22px;height:22px;background:#d88bff}.solar-planet.p3{width:28px;height:28px;background:#64d69a}
+@keyframes solarSpin{to{transform:rotateX(68deg) rotateZ(360deg)}}
+
+/* V2.0 BETA ghost-icon repair: touch scrolling never renders a drag proxy. */
+.launcher-grid { touch-action: pan-y; overscroll-behavior: contain; }
+.drag-ghost { will-change: transform; }
+@media (hover: none) and (pointer: coarse) {
+  .launcher-grid { touch-action: pan-y !important; }
+  .drag-ghost { display: none !important; }
+}
+
+/* V2.0 BETA Admin Control Center */
+.admin-control-center{min-width:min(100%,900px)}
+.admin-hero{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(135deg,rgba(40,55,80,.65),rgba(20,25,35,.9));box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.admin-kicker{font-size:.72rem;letter-spacing:.18em;opacity:.7}
+.admin-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.admin-control-center .note-card{min-width:0}
+@media(max-width:700px){.admin-hero{align-items:flex-start;flex-direction:column}.admin-control-center .table-scroll{overflow-x:auto}}
+
+.support-contact-card{display:flex;flex-direction:column;gap:8px}
+.support-contact-row{justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-top:1px solid var(--border)}
+.support-contact-row a,.admin-contact-list a{color:var(--accent,#69a7ff);text-decoration:none}
+.support-contact-row a:hover,.admin-contact-list a:hover{text-decoration:underline}
+.admin-contact-list{display:flex;flex-direction:column;gap:6px;margin-top:8px;line-height:1.35}
+@media(max-width:600px){.support-contact-row{align-items:flex-start;flex-direction:column;gap:3px}}

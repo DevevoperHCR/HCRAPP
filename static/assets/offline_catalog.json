@@ -1,0 +1,69 @@
+{
+  "catalog_version": "2.1",
+  "generated": "2026-08-17",
+  "apps": [
+    {
+      "id": "local-tool-01",
+      "name": "Developer Toolkit",
+      "description": "Base64, URL encoding, SHA-256 and UUID utilities",
+      "offline": true,
+      "version": "2.1.0"
+    },
+    {
+      "id": "local-tool-02",
+      "name": "Text Tools",
+      "description": "Case conversion, sorting and cleanup",
+      "offline": true,
+      "version": "2.1.0"
+    },
+    {
+      "id": "local-tool-03",
+      "name": "Regex Tester",
+      "description": "Local regular-expression testing",
+      "offline": true,
+      "version": "2.1.0"
+    },
+    {
+      "id": "local-tool-04",
+      "name": "Color Lab",
+      "description": "HEX/RGB/HSL conversion and swatches",
+      "offline": true,
+      "version": "2.1.0"
+    },
+    {
+      "id": "local-tool-05",
+      "name": "CSV Tools",
+      "description": "Local CSV table preview and TSV copy",
+      "offline": true,
+      "version": "2.1.0"
+    },
+    {
+      "id": "local-tool-06",
+      "name": "Local Secure Locker",
+      "description": "WebCrypto AES-GCM encrypted local note",
+      "offline": true,
+      "version": "2.1.0"
+    },
+    {
+      "id": "local-tool-07",
+      "name": "Password Audit",
+      "description": "Local password strength checker",
+      "offline": true,
+      "version": "2.1.0"
+    },
+    {
+      "id": "local-tool-08",
+      "name": "Image Data URL",
+      "description": "Convert an image to a data URL",
+      "offline": true,
+      "version": "2.1.0"
+    },
+    {
+      "id": "local-tool-09",
+      "name": "Random Tools",
+      "description": "Random numbers and item picker",
+      "offline": true,
+      "version": "2.1.0"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "release": "DeveloperHCR AI Agent V2.0 BETA",
+  "beta_only": true,
+  "repository": "https://github.com/DevevoperHCR/HCRAPP.git",
+  "focus": [
+    "ghost-icon touch-scroll repair",
+    "unlimited desktop shortcuts by default",
+    "first-admin setup reliability",
+    "safe reset confirmation",
+    "read-only file checkup",
+    "independent 2D/3D games",
+    "offline developer/productivity tools",
+    "security/app-lock features",
+    "HD wallpaper expansion"
+  ],
+  "verification": {
+    "pytest": "42 passed",
+    "python_compile": "pass",
+    "javascript_syntax": "pass"
+  }
+}

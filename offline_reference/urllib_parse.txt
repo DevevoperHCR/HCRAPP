@@ -1,0 +1,1249 @@
+Help on module urllib.parse in urllib:
+
+NAME
+    urllib.parse - Parse (absolute and relative) URLs.
+
+MODULE REFERENCE
+    https://docs.python.org/3.13/library/urllib.parse.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    urlparse module is based upon the following RFC specifications.
+
+    RFC 3986 (STD66): "Uniform Resource Identifiers" by T. Berners-Lee, R. Fielding
+    and L.  Masinter, January 2005.
+
+    RFC 2732 : "Format for Literal IPv6 Addresses in URL's by R.Hinden, B.Carpenter
+    and L.Masinter, December 1999.
+
+    RFC 2396:  "Uniform Resource Identifiers (URI)": Generic Syntax by T.
+    Berners-Lee, R. Fielding, and L. Masinter, August 1998.
+
+    RFC 2368: "The mailto URL scheme", by P.Hoffman , L Masinter, J. Zawinski, July 1998.
+
+    RFC 1808: "Relative Uniform Resource Locators", by R. Fielding, UC Irvine, June
+    1995.
+
+    RFC 1738: "Uniform Resource Locators (URL)" by T. Berners-Lee, L. Masinter, M.
+    McCahill, December 1994
+
+    RFC 3986 is considered the current standard and any future changes to
+    urlparse module should conform with it.  The urlparse module is
+    currently not entirely compliant with this RFC due to defacto
+    scenarios for parsing, and for backward compatibility purposes, some
+    parsing quirks from older RFCs are retained. The testcases in
+    test_urlparse.py provides a good indicator of parsing behavior.
+
+    The WHATWG URL Parser spec should also be considered.  We are not compliant with
+    it either due to existing user code API behavior expectations (Hyrum's Law).
+    It serves as a useful guide when making changes.
+
+CLASSES
+    DefragResult(builtins.tuple)
+        DefragResult(DefragResult, _ResultMixinStr)
+        DefragResultBytes(DefragResult, _ResultMixinBytes)
+    ParseResult(builtins.tuple)
+        ParseResult(ParseResult, _NetlocResultMixinStr)
+        ParseResultBytes(ParseResult, _NetlocResultMixinBytes)
+    SplitResult(builtins.tuple)
+        SplitResult(SplitResult, _NetlocResultMixinStr)
+        SplitResultBytes(SplitResult, _NetlocResultMixinBytes)
+    _NetlocResultMixinBytes(_NetlocResultMixinBase, _ResultMixinBytes)
+        ParseResultBytes(ParseResult, _NetlocResultMixinBytes)
+        SplitResultBytes(SplitResult, _NetlocResultMixinBytes)
+    _NetlocResultMixinStr(_NetlocResultMixinBase, _ResultMixinStr)
+        ParseResult(ParseResult, _NetlocResultMixinStr)
+        SplitResult(SplitResult, _NetlocResultMixinStr)
+    _ResultMixinBytes(builtins.object)
+        DefragResultBytes(DefragResult, _ResultMixinBytes)
+    _ResultMixinStr(builtins.object)
+        DefragResult(DefragResult, _ResultMixinStr)
+
+    class DefragResult(DefragResult, _ResultMixinStr)
+     |  DefragResult(url, fragment)
+     |
+     |  # Structured result objects for string data
+     |
+     |  Method resolution order:
+     |      DefragResult
+     |      DefragResult
+     |      builtins.tuple
+     |      _ResultMixinStr
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  geturl(self)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  _encoded_counterpart = <class 'urllib.parse.DefragResultBytes'>
+     |      # Structured result objects for bytes data
+     |
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from DefragResult:
+     |
+     |  __getnewargs__(self) from collections.DefragResult
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |
+     |  __replace__ = _replace(self, /, **kwds)
+     |
+     |  __repr__(self) from collections.DefragResult
+     |      Return a nicely formatted representation string
+     |
+     |  _asdict(self) from collections.DefragResult
+     |      Return a new dict which maps field names to their values.
+     |
+     |  _replace(self, /, **kwds) from collections.DefragResult
+     |      Return a new DefragResult object replacing specified fields with new values
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from DefragResult:
+     |
+     |  _make(iterable) from collections.DefragResult
+     |      Make a new DefragResult object from a sequence or iterable
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from DefragResult:
+     |
+     |  __new__(_cls, url, fragment) from namedtuple_DefragResult.DefragResult
+     |      Create new instance of DefragResult(url, fragment)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from DefragResult:
+     |
+     |  url
+     |      The URL with no fragment identifier.
+     |
+     |  fragment
+     |      Fragment identifier separated from URL, that allows indirect identification of a
+     |      secondary resource by reference to a primary resource and additional identifying
+     |      information.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from DefragResult:
+     |
+     |  __match_args__ = ('url', 'fragment')
+     |
+     |  _field_defaults = {}
+     |
+     |  _fields = ('url', 'fragment')
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __contains__(self, key, /)
+     |      Return bool(key in self).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |
+     |      Raises ValueError if the value is not present.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.tuple:
+     |
+     |  __class_getitem__(object, /)
+     |      See PEP 585
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ResultMixinStr:
+     |
+     |  encode(self, encoding='ascii', errors='strict')
+
+    class DefragResultBytes(DefragResult, _ResultMixinBytes)
+     |  DefragResultBytes(url, fragment)
+     |
+     |  # Structured result objects for bytes data
+     |
+     |  Method resolution order:
+     |      DefragResultBytes
+     |      DefragResult
+     |      builtins.tuple
+     |      _ResultMixinBytes
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  geturl(self)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  _decoded_counterpart = <class 'urllib.parse.DefragResult'>
+     |      # Structured result objects for string data
+     |
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from DefragResult:
+     |
+     |  __getnewargs__(self) from collections.DefragResult
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |
+     |  __replace__ = _replace(self, /, **kwds)
+     |
+     |  __repr__(self) from collections.DefragResult
+     |      Return a nicely formatted representation string
+     |
+     |  _asdict(self) from collections.DefragResult
+     |      Return a new dict which maps field names to their values.
+     |
+     |  _replace(self, /, **kwds) from collections.DefragResult
+     |      Return a new DefragResult object replacing specified fields with new values
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from DefragResult:
+     |
+     |  _make(iterable) from collections.DefragResult
+     |      Make a new DefragResult object from a sequence or iterable
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from DefragResult:
+     |
+     |  __new__(_cls, url, fragment) from namedtuple_DefragResult.DefragResult
+     |      Create new instance of DefragResult(url, fragment)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from DefragResult:
+     |
+     |  url
+     |      The URL with no fragment identifier.
+     |
+     |  fragment
+     |      Fragment identifier separated from URL, that allows indirect identification of a
+     |      secondary resource by reference to a primary resource and additional identifying
+     |      information.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from DefragResult:
+     |
+     |  __match_args__ = ('url', 'fragment')
+     |
+     |  _field_defaults = {}
+     |
+     |  _fields = ('url', 'fragment')
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __contains__(self, key, /)
+     |      Return bool(key in self).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |
+     |      Raises ValueError if the value is not present.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.tuple:
+     |
+     |  __class_getitem__(object, /)
+     |      See PEP 585
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ResultMixinBytes:
+     |
+     |  decode(self, encoding='ascii', errors='strict')
+
+    class ParseResult(ParseResult, _NetlocResultMixinStr)
+     |  ParseResult(scheme, netloc, path, params, query, fragment)
+     |
+     |  Method resolution order:
+     |      ParseResult
+     |      ParseResult
+     |      builtins.tuple
+     |      _NetlocResultMixinStr
+     |      _NetlocResultMixinBase
+     |      _ResultMixinStr
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  geturl(self)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  _encoded_counterpart = <class 'urllib.parse.ParseResultBytes'>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ParseResult:
+     |
+     |  __getnewargs__(self) from collections.ParseResult
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |
+     |  __replace__ = _replace(self, /, **kwds)
+     |
+     |  __repr__(self) from collections.ParseResult
+     |      Return a nicely formatted representation string
+     |
+     |  _asdict(self) from collections.ParseResult
+     |      Return a new dict which maps field names to their values.
+     |
+     |  _replace(self, /, **kwds) from collections.ParseResult
+     |      Return a new ParseResult object replacing specified fields with new values
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from ParseResult:
+     |
+     |  _make(iterable) from collections.ParseResult
+     |      Make a new ParseResult object from a sequence or iterable
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from ParseResult:
+     |
+     |  __new__(_cls, scheme, netloc, path, params, query, fragment) from namedtuple_ParseResult.ParseResult
+     |      Create new instance of ParseResult(scheme, netloc, path, params, query, fragment)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from ParseResult:
+     |
+     |  scheme
+     |      Specifies URL scheme for the request.
+     |
+     |  netloc
+     |      Network location where the request is made to.
+     |
+     |  path
+     |      The hierarchical path, such as the path to a file to download.
+     |
+     |  params
+     |      Parameters for last path element used to dereference the URI in order to provide
+     |      access to perform some operation on the resource.
+     |
+     |  query
+     |      The query component, that contains non-hierarchical data, that along with data
+     |      in path component, identifies a resource in the scope of URI's scheme and
+     |      network location.
+     |
+     |  fragment
+     |      Fragment identifier, that allows indirect identification of a secondary resource
+     |      by reference to a primary resource and additional identifying information.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from ParseResult:
+     |
+     |  __match_args__ = ('scheme', 'netloc', 'path', 'params', 'query', 'frag...
+     |
+     |  _field_defaults = {}
+     |
+     |  _fields = ('scheme', 'netloc', 'path', 'params', 'query', 'fragment')
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __contains__(self, key, /)
+     |      Return bool(key in self).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |
+     |      Raises ValueError if the value is not present.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.tuple:
+     |
+     |  __class_getitem__(object, /)
+     |      See PEP 585
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from _NetlocResultMixinStr:
+     |
+     |  _hostinfo
+     |
+     |  _userinfo
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from _NetlocResultMixinBase:
+     |
+     |  hostname
+     |
+     |  password
+     |
+     |  port
+     |
+     |  username
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ResultMixinStr:
+     |
+     |  encode(self, encoding='ascii', errors='strict')
+
+    class ParseResultBytes(ParseResult, _NetlocResultMixinBytes)
+     |  ParseResultBytes(scheme, netloc, path, params, query, fragment)
+     |
+     |  Method resolution order:
+     |      ParseResultBytes
+     |      ParseResult
+     |      builtins.tuple
+     |      _NetlocResultMixinBytes
+     |      _NetlocResultMixinBase
+     |      _ResultMixinBytes
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  geturl(self)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  _decoded_counterpart = <class 'urllib.parse.ParseResult'>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ParseResult:
+     |
+     |  __getnewargs__(self) from collections.ParseResult
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |
+     |  __replace__ = _replace(self, /, **kwds)
+     |
+     |  __repr__(self) from collections.ParseResult
+     |      Return a nicely formatted representation string
+     |
+     |  _asdict(self) from collections.ParseResult
+     |      Return a new dict which maps field names to their values.
+     |
+     |  _replace(self, /, **kwds) from collections.ParseResult
+     |      Return a new ParseResult object replacing specified fields with new values
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from ParseResult:
+     |
+     |  _make(iterable) from collections.ParseResult
+     |      Make a new ParseResult object from a sequence or iterable
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from ParseResult:
+     |
+     |  __new__(_cls, scheme, netloc, path, params, query, fragment) from namedtuple_ParseResult.ParseResult
+     |      Create new instance of ParseResult(scheme, netloc, path, params, query, fragment)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from ParseResult:
+     |
+     |  scheme
+     |      Specifies URL scheme for the request.
+     |
+     |  netloc
+     |      Network location where the request is made to.
+     |
+     |  path
+     |      The hierarchical path, such as the path to a file to download.
+     |
+     |  params
+     |      Parameters for last path element used to dereference the URI in order to provide
+     |      access to perform some operation on the resource.
+     |
+     |  query
+     |      The query component, that contains non-hierarchical data, that along with data
+     |      in path component, identifies a resource in the scope of URI's scheme and
+     |      network location.
+     |
+     |  fragment
+     |      Fragment identifier, that allows indirect identification of a secondary resource
+     |      by reference to a primary resource and additional identifying information.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from ParseResult:
+     |
+     |  __match_args__ = ('scheme', 'netloc', 'path', 'params', 'query', 'frag...
+     |
+     |  _field_defaults = {}
+     |
+     |  _fields = ('scheme', 'netloc', 'path', 'params', 'query', 'fragment')
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __contains__(self, key, /)
+     |      Return bool(key in self).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |
+     |      Raises ValueError if the value is not present.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.tuple:
+     |
+     |  __class_getitem__(object, /)
+     |      See PEP 585
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from _NetlocResultMixinBytes:
+     |
+     |  _hostinfo
+     |
+     |  _userinfo
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from _NetlocResultMixinBase:
+     |
+     |  hostname
+     |
+     |  password
+     |
+     |  port
+     |
+     |  username
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ResultMixinBytes:
+     |
+     |  decode(self, encoding='ascii', errors='strict')
+
+    class SplitResult(SplitResult, _NetlocResultMixinStr)
+     |  SplitResult(scheme, netloc, path, query, fragment)
+     |
+     |  Method resolution order:
+     |      SplitResult
+     |      SplitResult
+     |      builtins.tuple
+     |      _NetlocResultMixinStr
+     |      _NetlocResultMixinBase
+     |      _ResultMixinStr
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  geturl(self)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  _encoded_counterpart = <class 'urllib.parse.SplitResultBytes'>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SplitResult:
+     |
+     |  __getnewargs__(self) from collections.SplitResult
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |
+     |  __replace__ = _replace(self, /, **kwds)
+     |
+     |  __repr__(self) from collections.SplitResult
+     |      Return a nicely formatted representation string
+     |
+     |  _asdict(self) from collections.SplitResult
+     |      Return a new dict which maps field names to their values.
+     |
+     |  _replace(self, /, **kwds) from collections.SplitResult
+     |      Return a new SplitResult object replacing specified fields with new values
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from SplitResult:
+     |
+     |  _make(iterable) from collections.SplitResult
+     |      Make a new SplitResult object from a sequence or iterable
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from SplitResult:
+     |
+     |  __new__(_cls, scheme, netloc, path, query, fragment) from namedtuple_SplitResult.SplitResult
+     |      Create new instance of SplitResult(scheme, netloc, path, query, fragment)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SplitResult:
+     |
+     |  scheme
+     |      Specifies URL scheme for the request.
+     |
+     |  netloc
+     |      Network location where the request is made to.
+     |
+     |  path
+     |      The hierarchical path, such as the path to a file to download.
+     |
+     |  query
+     |      The query component, that contains non-hierarchical data, that along with data
+     |      in path component, identifies a resource in the scope of URI's scheme and
+     |      network location.
+     |
+     |  fragment
+     |      Fragment identifier, that allows indirect identification of a secondary resource
+     |      by reference to a primary resource and additional identifying information.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from SplitResult:
+     |
+     |  __match_args__ = ('scheme', 'netloc', 'path', 'query', 'fragment')
+     |
+     |  _field_defaults = {}
+     |
+     |  _fields = ('scheme', 'netloc', 'path', 'query', 'fragment')
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __contains__(self, key, /)
+     |      Return bool(key in self).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |
+     |      Raises ValueError if the value is not present.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.tuple:
+     |
+     |  __class_getitem__(object, /)
+     |      See PEP 585
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from _NetlocResultMixinStr:
+     |
+     |  _hostinfo
+     |
+     |  _userinfo
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from _NetlocResultMixinBase:
+     |
+     |  hostname
+     |
+     |  password
+     |
+     |  port
+     |
+     |  username
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ResultMixinStr:
+     |
+     |  encode(self, encoding='ascii', errors='strict')
+
+    class SplitResultBytes(SplitResult, _NetlocResultMixinBytes)
+     |  SplitResultBytes(scheme, netloc, path, query, fragment)
+     |
+     |  Method resolution order:
+     |      SplitResultBytes
+     |      SplitResult
+     |      builtins.tuple
+     |      _NetlocResultMixinBytes
+     |      _NetlocResultMixinBase
+     |      _ResultMixinBytes
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  geturl(self)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  _decoded_counterpart = <class 'urllib.parse.SplitResult'>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SplitResult:
+     |
+     |  __getnewargs__(self) from collections.SplitResult
+     |      Return self as a plain tuple.  Used by copy and pickle.
+     |
+     |  __replace__ = _replace(self, /, **kwds)
+     |
+     |  __repr__(self) from collections.SplitResult
+     |      Return a nicely formatted representation string
+     |
+     |  _asdict(self) from collections.SplitResult
+     |      Return a new dict which maps field names to their values.
+     |
+     |  _replace(self, /, **kwds) from collections.SplitResult
+     |      Return a new SplitResult object replacing specified fields with new values
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from SplitResult:
+     |
+     |  _make(iterable) from collections.SplitResult
+     |      Make a new SplitResult object from a sequence or iterable
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from SplitResult:
+     |
+     |  __new__(_cls, scheme, netloc, path, query, fragment) from namedtuple_SplitResult.SplitResult
+     |      Create new instance of SplitResult(scheme, netloc, path, query, fragment)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from SplitResult:
+     |
+     |  scheme
+     |      Specifies URL scheme for the request.
+     |
+     |  netloc
+     |      Network location where the request is made to.
+     |
+     |  path
+     |      The hierarchical path, such as the path to a file to download.
+     |
+     |  query
+     |      The query component, that contains non-hierarchical data, that along with data
+     |      in path component, identifies a resource in the scope of URI's scheme and
+     |      network location.
+     |
+     |  fragment
+     |      Fragment identifier, that allows indirect identification of a secondary resource
+     |      by reference to a primary resource and additional identifying information.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from SplitResult:
+     |
+     |  __match_args__ = ('scheme', 'netloc', 'path', 'query', 'fragment')
+     |
+     |  _field_defaults = {}
+     |
+     |  _fields = ('scheme', 'netloc', 'path', 'query', 'fragment')
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.tuple:
+     |
+     |  __add__(self, value, /)
+     |      Return self+value.
+     |
+     |  __contains__(self, key, /)
+     |      Return bool(key in self).
+     |
+     |  __eq__(self, value, /)
+     |      Return self==value.
+     |
+     |  __ge__(self, value, /)
+     |      Return self>=value.
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __getitem__(self, key, /)
+     |      Return self[key].
+     |
+     |  __gt__(self, value, /)
+     |      Return self>value.
+     |
+     |  __hash__(self, /)
+     |      Return hash(self).
+     |
+     |  __iter__(self, /)
+     |      Implement iter(self).
+     |
+     |  __le__(self, value, /)
+     |      Return self<=value.
+     |
+     |  __len__(self, /)
+     |      Return len(self).
+     |
+     |  __lt__(self, value, /)
+     |      Return self<value.
+     |
+     |  __mul__(self, value, /)
+     |      Return self*value.
+     |
+     |  __ne__(self, value, /)
+     |      Return self!=value.
+     |
+     |  __rmul__(self, value, /)
+     |      Return value*self.
+     |
+     |  count(self, value, /)
+     |      Return number of occurrences of value.
+     |
+     |  index(self, value, start=0, stop=9223372036854775807, /)
+     |      Return first index of value.
+     |
+     |      Raises ValueError if the value is not present.
+     |
+     |  ----------------------------------------------------------------------
+     |  Class methods inherited from builtins.tuple:
+     |
+     |  __class_getitem__(object, /)
+     |      See PEP 585
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from _NetlocResultMixinBytes:
+     |
+     |  _hostinfo
+     |
+     |  _userinfo
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from _NetlocResultMixinBase:
+     |
+     |  hostname
+     |
+     |  password
+     |
+     |  port
+     |
+     |  username
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from _ResultMixinBytes:
+     |
+     |  decode(self, encoding='ascii', errors='strict')
+
+FUNCTIONS
+    __getattr__(name)
+
+    parse_qs(
+        qs,
+        keep_blank_values=False,
+        strict_parsing=False,
+        encoding='utf-8',
+        errors='replace',
+        max_num_fields=None,
+        separator='&'
+    )
+        Parse a query given as a string argument.
+
+        Arguments:
+
+        qs: percent-encoded query string to be parsed
+
+        keep_blank_values: flag indicating whether blank values in
+            percent-encoded queries should be treated as blank strings.
+            A true value indicates that blanks should be retained as
+            blank strings.  The default false value indicates that
+            blank values are to be ignored and treated as if they were
+            not included.
+
+        strict_parsing: flag indicating what to do with parsing errors.
+            If false (the default), errors are silently ignored.
+            If true, errors raise a ValueError exception.
+
+        encoding and errors: specify how to decode percent-encoded sequences
+            into Unicode characters, as accepted by the bytes.decode() method.
+
+        max_num_fields: int. If set, then throws a ValueError if there
+            are more than n fields read by parse_qsl().
+
+        separator: str. The symbol to use for separating the query arguments.
+            Defaults to &.
+
+        Returns a dictionary.
+
+    parse_qsl(
+        qs,
+        keep_blank_values=False,
+        strict_parsing=False,
+        encoding='utf-8',
+        errors='replace',
+        max_num_fields=None,
+        separator='&'
+    )
+        Parse a query given as a string argument.
+
+        Arguments:
+
+        qs: percent-encoded query string to be parsed
+
+        keep_blank_values: flag indicating whether blank values in
+            percent-encoded queries should be treated as blank strings.
+            A true value indicates that blanks should be retained as blank
+            strings.  The default false value indicates that blank values
+            are to be ignored and treated as if they were  not included.
+
+        strict_parsing: flag indicating what to do with parsing errors. If
+            false (the default), errors are silently ignored. If true,
+            errors raise a ValueError exception.
+
+        encoding and errors: specify how to decode percent-encoded sequences
+            into Unicode characters, as accepted by the bytes.decode() method.
+
+        max_num_fields: int. If set, then throws a ValueError
+            if there are more than n fields read by parse_qsl().
+
+        separator: str. The symbol to use for separating the query arguments.
+            Defaults to &.
+
+        Returns a list, as G-d intended.
+
+    quote(string, safe='/', encoding=None, errors=None)
+        quote('abc def') -> 'abc%20def'
+
+        Each part of a URL, e.g. the path info, the query, etc., has a
+        different set of reserved characters that must be quoted. The
+        quote function offers a cautious (not minimal) way to quote a
+        string for most of these parts.
+
+        RFC 3986 Uniform Resource Identifier (URI): Generic Syntax lists
+        the following (un)reserved characters.
+
+        unreserved    = ALPHA / DIGIT / "-" / "." / "_" / "~"
+        reserved      = gen-delims / sub-delims
+        gen-delims    = ":" / "/" / "?" / "#" / "[" / "]" / "@"
+        sub-delims    = "!" / "$" / "&" / "'" / "(" / ")"
+                      / "*" / "+" / "," / ";" / "="
+
+        Each of the reserved characters is reserved in some component of a URL,
+        but not necessarily in all of them.
+
+        The quote function %-escapes all characters that are neither in the
+        unreserved chars ("always safe") nor the additional chars set via the
+        safe arg.
+
+        The default for the safe arg is '/'. The character is reserved, but in
+        typical usage the quote function is being called on a path where the
+        existing slash characters are to be preserved.
+
+        Python 3.7 updates from using RFC 2396 to RFC 3986 to quote URL strings.
+        Now, "~" is included in the set of unreserved characters.
+
+        string and safe may be either str or bytes objects. encoding and errors
+        must not be specified if string is a bytes object.
+
+        The optional encoding and errors parameters specify how to deal with
+        non-ASCII characters, as accepted by the str.encode method.
+        By default, encoding='utf-8' (characters are encoded with UTF-8), and
+        errors='strict' (unsupported characters raise a UnicodeEncodeError).
+
+    quote_from_bytes(bs, safe='/')
+        Like quote(), but accepts a bytes object rather than a str, and does
+        not perform string-to-bytes encoding.  It always returns an ASCII string.
+        quote_from_bytes(b'abc def?') -> 'abc%20def%3f'
+
+    quote_plus(string, safe='', encoding=None, errors=None)
+        Like quote(), but also replace ' ' with '+', as required for quoting
+        HTML form values. Plus signs in the original string are escaped unless
+        they are included in safe. It also does not have safe default to '/'.
+
+    unquote(string, encoding='utf-8', errors='replace')
+        Replace %xx escapes by their single-character equivalent. The optional
+        encoding and errors parameters specify how to decode percent-encoded
+        sequences into Unicode characters, as accepted by the bytes.decode()
+        method.
+        By default, percent-encoded sequences are decoded with UTF-8, and invalid
+        sequences are replaced by a placeholder character.
+
+        unquote('abc%20def') -> 'abc def'.
+
+    unquote_plus(string, encoding='utf-8', errors='replace')
+        Like unquote(), but also replace plus signs by spaces, as required for
+        unquoting HTML form values.
+
+        unquote_plus('%7e/abc+def') -> '~/abc def'
+
+    unquote_to_bytes(string)
+        unquote_to_bytes('abc%20def') -> b'abc def'.
+
+    urldefrag(url)
+        Removes any existing fragment from URL.
+
+        Returns a tuple of the defragmented URL and the fragment.  If
+        the URL contained no fragments, the second element is the
+        empty string.
+
+    urlencode(
+        query,
+        doseq=False,
+        safe='',
+        encoding=None,
+        errors=None,
+        quote_via=<function quote_plus at 0x7fd885330180>
+    )
+        Encode a dict or sequence of two-element tuples into a URL query string.
+
+        If any values in the query arg are sequences and doseq is true, each
+        sequence element is converted to a separate parameter.
+
+        If the query arg is a sequence of two-element tuples, the order of the
+        parameters in the output will match the order of parameters in the
+        input.
+
+        The components of a query arg may each be either a string or a bytes type.
+
+        The safe, encoding, and errors parameters are passed down to the function
+        specified by quote_via (encoding and errors only if a component is a str).
+
+    urljoin(base, url, allow_fragments=True)
+        Join a base URL and a possibly relative URL to form an absolute
+        interpretation of the latter.
+
+    urlparse(url, scheme='', allow_fragments=True)
+        Parse a URL into 6 components:
+        <scheme>://<netloc>/<path>;<params>?<query>#<fragment>
+
+        The result is a named 6-tuple with fields corresponding to the
+        above. It is either a ParseResult or ParseResultBytes object,
+        depending on the type of the url parameter.
+
+        The username, password, hostname, and port sub-components of netloc
+        can also be accessed as attributes of the returned object.
+
+        The scheme argument provides the default value of the scheme
+        component when no scheme is found in url.
+
+        If allow_fragments is False, no attempt is made to separate the
+        fragment component from the previous component, which can be either
+        path or query.
+
+        Note that % escapes are not expanded.
+
+    urlsplit(url, scheme='', allow_fragments=True)
+        Parse a URL into 5 components:
+        <scheme>://<netloc>/<path>?<query>#<fragment>
+
+        The result is a named 5-tuple with fields corresponding to the
+        above. It is either a SplitResult or SplitResultBytes object,
+        depending on the type of the url parameter.
+
+        The username, password, hostname, and port sub-components of netloc
+        can also be accessed as attributes of the returned object.
+
+        The scheme argument provides the default value of the scheme
+        component when no scheme is found in url.
+
+        If allow_fragments is False, no attempt is made to separate the
+        fragment component from the previous component, which can be either
+        path or query.
+
+        Note that % escapes are not expanded.
+
+    urlunparse(components)
+        Put a parsed URL back together again.  This may result in a
+        slightly different, but equivalent URL, if the URL that was parsed
+        originally had redundant delimiters, e.g. a ? with an empty query
+        (the draft states that these are equivalent).
+
+    urlunsplit(components)
+        Combine the elements of a tuple as returned by urlsplit() into a
+        complete URL as a string. The data argument can be any five-item iterable.
+        This may result in a slightly different, but equivalent URL, if the URL that
+        was parsed originally had unnecessary delimiters (for example, a ? with an
+        empty query; the RFC states that these are equivalent).
+
+DATA
+    __all__ = ['urlparse', 'urlunparse', 'urljoin', 'urldefrag', 'urlsplit...
+
+FILE
+    /usr/lib/python3.13/urllib/parse.py
+
+
