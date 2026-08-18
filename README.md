@@ -5,7 +5,10 @@ DeveloperHCR is a browser-based, local-first AI desktop/agent environment with g
 > **Repository:** https://github.com/DevevoperHCR/HCRAPP.git
 >
 > **Release:** V2.0 BETA
+> Video Hear
+------------------------------------------------
 
+------------------------------------------------
 
 ## V2.0 BETA — Admin persistence repair
 
