@@ -1,237 +1,175 @@
-# DeveloperHCR: AI Agent — V2.0 BETA
+# DeveloperHCR: AI Agent
 
-DeveloperHCR is a browser-based, local-first AI desktop/agent environment with games, utilities, developer tools, security controls, an app store, update support, and a modular plugin system.
+A local-first desktop, mobile and terminal environment for running the DeveloperHCR workspace across Windows, Linux/Kali Linux, Android/Termux and browser-capable systems.
 
-> **Repository:** https://github.com/DevevoperHCR/HCRAPP.git
->
-> **Release:** V2.0 BETA
-> Video Hear
-------------------------------------------------
+> **Important:** This README describes the project's features and operation only. It intentionally does not list a software version.
 
-------------------------------------------------
+<details>
+<summary><strong>▼ Features</strong></summary>
 
-## V2.0 BETA — Admin persistence repair
+### Desktop and workspace
+- Windows-style desktop with taskbar, launcher, movable windows, minimize/maximize, resize and full-screen controls.
+- Device-aware presentation: desktop/PC UI for computers and a Termux-safe UI for Android terminals.
+- Landscape-first layout with orientation controls where the host platform permits them.
+- Direct launcher workflow on supported desktop systems, with browser/headless compatibility available when needed.
+- Top-area Settings access and organized application controls.
+- Theme, zoom, full-screen, mouse/cursor and keyboard support.
+- Wallpaper selector with built-in visual themes and HD backgrounds.
+- DeveloperHCR branding and logo throughout the interface.
+- Animated startup/login presentation and lightweight UI sound feedback.
 
-The release package intentionally does **not** include a runtime SQLite database or test accounts. A fresh extraction therefore shows **First Admin Setup** and lets the user choose the Admin username/password. The created Admin is persisted using a salted password hash and a portable recovery profile outside the extracted app directory, so re-opening or re-extracting the application does not incorrectly ask for Admin creation again. Factory Reset removes that recovery profile and intentionally starts First Admin Setup again.
+### Accounts and access
+- First-run user-facing Admin creation flow.
+- Admin authentication and role-based access controls.
+- Remember-me login and optional Quick Unlock PIN.
+- Admin recovery/management controls from Settings.
+- Friends Only and Subscribers Only access controls.
+- One-time File Checkup with countdown and Skip control, plus recovery behavior when enabled.
+- Troubleshooting and local diagnostics for common installation/runtime problems.
 
-After Admin login, the **Admin Control Center** opens automatically and provides Windows-style system health, support, security, AI status, user/access and subscription controls.
+### Apps and Store
+- HCR Store for free and paid applications.
+- Explicit app installation and access controls.
+- Searchable application launcher with individual icons and organized categories.
+- Separate Games area so games do not clutter the main desktop.
+- Built-in games framework for lightweight 2D, 3D and voxel-style experiences.
+- File Manager, storage tools, notes, calculator, system monitor and task-management utilities.
+- Backup and restore workflows for local application data.
+- Drag-and-drop support where the host platform allows it.
 
-## V2.0 BETA — latest fixes and additions
+### AI and developer tools
+- HCR voice/assistant framework with command-safety controls and runtime status handling.
+- AI provider/model detection and Ollama integration where available.
+- GGUF model management with explicit download actions.
+- Developer toolkit with code editing, playground and local development utilities.
+- Terminal integration for local developer commands.
+- Safe command policy so dangerous operations are not silently authorized.
+- Platform capability detection so unsupported features are reported instead of pretending to work.
 
-### First Admin Setup fix
-The login gate now retries the local authentication-status request during startup, so a slow server no longer hides the First Admin Setup screen. A **Create Admin** button is also available as a manual fallback.
+### Platform support
+- Windows setup and direct launcher scripts.
+- Linux and Kali Linux setup and launcher scripts.
+- Android/Termux setup designed for Termux private storage rather than Android shared-storage virtual environments.
+- Network, Bluetooth and other device capabilities are exposed only when supported by the host system.
+- EXE/Wine compatibility hooks on platforms where the required runtime exists.
+- Local-first operation with optional network features rather than a permanent online requirement.
 
-### Reset System confirmation
-Reset uses two clear confirmations: **Yes/OK → type YES**. **No/Cancel** leaves everything unchanged. The reset confirmation does **not** request an account password.
+### Updates and repository integration
+- Update Center with configurable GitHub repository support.
+- GitHub release/tag checking and update archive validation.
+- Repository information and support links are available from the application where appropriate.
 
-### File Checkup
-App Health Center now includes a read-only File Checkup. It is **OFF by default**. If enabled, it can be skipped and is automatically turned OFF after a manual check/skip. It reports real file-read issues and never modifies source files.
+</details>
 
-### Windows-style packaging
-The release includes Windows BAT/PowerShell setup, Linux setup, Termux setup, documentation, feature manifest, games, assets, tests and release checksums.
+<details>
+<summary><strong>▼ Manual Guide — Windows</strong></summary>
 
-### Real asset expansion
-`static/wallpapers_v2_beta/` contains a bundled HD wallpaper collection. These assets are part of the visual feature pack and are not artificial size filler.
+1. Extract the project folder to a normal writable location.
+2. Run `setup_windows.bat` once.
+3. Start the application with `start_windows.bat`.
+4. On the first run, complete the Admin creation screen.
+5. Use the top Settings control to configure access, assistant, appearance and health options.
+6. Use the launcher to open Store, Games, AI, File Manager and other tools.
 
-## What was added / repaired in this build
+If Windows blocks a script, open Command Prompt in the project folder and run the setup script from there.
 
-### Core/UI
-- Repaired app-menu and app-window organization.
-- Games open as independent app windows instead of replacing the main desktop.
-- Added App Health Center checks for core services and app registrations.
-- Improved Feedback & Support organization and repository/update configuration.
-- Preserved existing Settings, Store, AI, desktop, taskbar, terminal, developer, subscription, access, and update features.
+</details>
 
-### Games
-The bundled game registry contains 16 local games/demos:
-- Guess the Number
-- Dice Roller
-- Snake 2D
-- Pong 2D
-- Block Drop / Tetris 2D
-- Memory Match 2D
-- Tic-Tac-Toe 2D
-- Reflex Challenge
-- Cube 3D
-- Orbit 3D
-- Breakout 2D
-- Minesweeper 2D
-- Flappy 2D
-- Maze 2D
-- Starfield 3D
-- Solar System 3D
+<details>
+<summary><strong>▼ Manual Guide — Linux / Kali Linux</strong></summary>
 
-### Useful apps/tools
-The build includes or exposes local tools for:
-- Calculator, Tasks/Notes, Calendar & Reminders
-- JSON Viewer/Tools, Markdown Preview, Text/Code Editor
-- Developer Toolkit, Text Tools, Regex Tester, Color Lab, CSV Tools
-- Network Tools, System Information, Process Manager
-- Screenshot, Image Viewer, PDF Viewer, Media Player
-- AI Chat, AI Model Manager, AI Runtime Monitor
-- Environment Setup and EXE/Wine compatibility controls
-- HCR Store, Downloads, Update Center, Help Center
-- Wallpaper and Theme Manager
+1. Open a terminal in the extracted project directory.
+2. Run `bash setup_linux.sh`.
+3. Start the launcher with `python launcher.py`.
+4. Complete the Admin setup on the first run.
+5. Use the desktop UI for applications and Settings.
 
-### Security
-- HCR Security Center
-- RBAC/admin controls
-- App Lock / local security features retained
-- Local Secure Locker for small encrypted notes
-- Permission-gated system/process controls
-- Safe command policy and audit-oriented controls retained
+Keep the project in a writable directory. Avoid running the project from a read-only mount.
 
-### Visual/offline assets
-- Bundled offline wallpaper library, including the V2.1 visual pack.
-- No external CDN is required for the bundled wallpapers.
-- UI assets, sounds and logo remain inside `static/`.
+</details>
 
-## V2.0 BETA — Ghost icon repair and additional tools
+<details>
+<summary><strong>▼ Manual Guide — Android / Termux</strong></summary>
 
-The App Menu touch-scroll bug shown in the Android screenshots is fixed. Touch scrolling no longer starts icon dragging, stale drag proxies are cleaned on cancel/lost capture/scroll/blur, and mouse/pen pin-drag remains supported. The previous automatic 10-app desktop limit is migrated to **Unlimited** unless the user explicitly selected 10.
+1. Open Termux and enter the extracted project directory.
+2. Run:
 
-Five additional offline tools are included:
-- **Text Diff** — line-by-line local comparison.
-- **Timestamp Converter** — epoch seconds/milliseconds and ISO/local date conversion.
-- **System Diagnostics** — read-only browser/storage/viewport/server checks.
-- **File Hash Checker** — local SHA-256 file verification.
-- **Contrast Checker** — WCAG-oriented color contrast ratio check.
-
-Six additional HD wallpapers are bundled in `static/assets/v22/`. They are real visual assets exposed through Wallpaper Changer.
-
-The full V2.0 BETA source package is targeted at approximately **50 MB extracted**, using project code, tests and real UI/visual assets rather than filler or cache files.
-
-## Repository structure
-
-```text
-DeveloperHCR/
-├── ai/                 # AI manager and AI errors
-├── backend/            # auth, DB, model and feature-lock logic
-├── build/              # manifests and feature catalog
-├── data/               # runtime data; created locally, not committed
-├── desktop/            # desktop/overlay documentation
-├── docs/               # repair notes, guides and changelogs
-├── games/              # game engine and game registry
-├── jarvis/             # HCR/Jarvis-compatible assistant services
-├── plugins/            # plugin manifests/examples
-├── static/             # web UI, CSS, JS, images, sounds, wallpapers
-├── tests/              # automated regression tests
-├── launcher.py         # launcher
-├── server.py           # local web server/API
-├── updater.py          # update support
-├── requirements.txt    # Python dependencies
-├── setup_windows.bat   # Windows setup
-├── setup_windows.ps1   # PowerShell setup
-├── setup_linux.sh      # Linux setup
-├── setup_termux.sh     # Android/Termux setup
-└── README.md           # this file
+```bash
+bash setup_termux.sh
 ```
 
-## Quick start
+3. When setup finishes, run:
 
-### Windows
-Run `setup_windows.bat`, then start the server with:
-
-```bat
+```bash
 python launcher.py
 ```
 
-If Python is already configured, `start_windows.bat` can also be used.
+4. If the setup script creates a Termux virtual environment, keep using the environment created by the script.
+5. Do not create the Python virtual environment directly inside `/storage/emulated/0/...`; Android shared storage can cause `lib64` permission/symlink errors.
+6. If the launcher reports missing packages, use the command it prints for the Termux requirements file rather than installing an incompatible desktop-only dependency set.
 
-### Linux
-```bash
-chmod +x setup_linux.sh
-./setup_linux.sh
-python3 launcher.py
-```
+The browser-compatible UI can still be used when a platform cannot provide a native desktop window.
 
-### Android / Termux
-```bash
-chmod +x setup_termux.sh
-./setup_termux.sh
-python launcher.py
-```
+</details>
 
-The app uses a browser-based UI and can run headless/local-server style. On Android, install the Python packages supported by the Termux environment you are using.
+<details>
+<summary><strong>▼ First Run and Daily Use</strong></summary>
 
-## Configuration
+### First run
+- Create the user-facing Admin when no Admin exists.
+- Configure optional Quick Unlock only if you want it.
+- Choose access restrictions such as Friends Only or Subscribers Only from Settings when required.
+- Complete File Checkup once if it is enabled.
 
-Copy `.env.example` to `.env` and set only the values you actually need. Do not commit `.env`, passwords, tokens, private keys, or local database files.
+### Later launches
+- A remembered session can take you directly to the main environment instead of asking for credentials every time.
+- Quick Unlock appears only when a PIN has actually been configured.
+- File Checkup is controlled by the health/checkup setting and is not intended to interrupt every normal launch.
 
-The configured update repository is:
+### When something is unavailable
+- Check the Troubleshoot/health tools first.
+- Confirm that the required runtime is installed for the platform.
+- Use the platform-specific setup script.
+- Features that the host cannot provide are reported as unavailable instead of being presented as fake working controls.
 
-```text
-https://github.com/DevevoperHCR/HCRAPP.git
-```
+</details>
 
-## Testing
+<details>
+<summary><strong>▼ GitHub Release / Assets Arrow</strong></summary>
 
-Run:
+GitHub itself provides an **Assets** section on a Release page. The small arrow beside **Assets** expands or collapses the downloadable files. That arrow is part of GitHub's interface and is not controlled by the README.
 
-```bash
-python -m pytest -q
-```
+For this project, place the distributable ZIP/archive in the GitHub Release **Assets** area. Users can then open the Release page and click the Assets arrow to reveal the download files.
 
-The release packaging also performs Python compilation and JavaScript syntax checks. The latest regression suite contains 42 passing tests.
+The README also uses the same expandable-arrow style (`<details>` / `<summary>`) for long feature and manual-guide sections, so the project page stays clean while the full information remains available on click.
 
-## Security notes
+</details>
 
-- Keep administrator credentials private.
-- Do not commit `data/`, `.env`, database files, recordings, screenshots, or local AI model files.
-- Optional AI/voice dependencies may require additional device permissions and runtimes.
-- EXE/Wine and process controls are permission-gated and depend on the host environment.
-- The Password Vault documentation explicitly warns that it is not a replacement for a hardened password manager.
+<details>
+<summary><strong>▼ Repository</strong></summary>
 
-## Release packages
+Official project repository:
 
-The release is split into practical ZIP packages:
+https://github.com/DevevoperHCR/HCRAPP
 
-| Package | Purpose |
-|---|---|
-| `HCRAPP_V2_0_BETA_FULL_50MB.zip` | Complete BETA source + features + HD assets + setup + tests |
-| `HCRAPP_V2_0_BETA_FEATURES_ADDED.zip` | Only the newly added/fixed V2.0 feature files and feature assets |
-| `HCRAPP_V2_0_BETA_GITHUB_SOURCE.zip` | GitHub-ready clean source tree |
-| `HCRAPP_V2_0_BETA_SETUP_WINDOWS_LINUX_TERMUX.zip` | Windows BAT/PowerShell, Linux and Termux setup |
-| `HCRAPP_V2_0_BETA_DOCUMENTATION.zip` | README, guides, changelogs, repair notes and feature manifest |
-| `HCRAPP_V2_0_BETA_GAMES.zip` | Game engine, registry and game UI resources |
-| `HCRAPP_V2_0_BETA_HD_ASSETS.zip` | Offline HD wallpaper/visual assets |
+</details>
 
-## Important size note
+<details>
+<summary><strong>▼ Included Files and Media</strong></summary>
 
-The V2.0 BETA full package extracts to approximately 50 MB and uses bundled visual assets. This clean release removes generated Python bytecode, pytest cache and local runtime database state from the distributable source. The size therefore represents real project code, UI, tests and assets rather than cache/filler files.
+- Application source and runtime modules.
+- Windows, Linux/Kali Linux and Termux setup/launcher scripts.
+- Static UI, JavaScript and CSS assets.
+- DeveloperHCR logo, sounds and wallpaper assets.
+- Selected project screenshots/reference photos in the media folder.
+- Tests and configuration required by the project.
+- This feature-focused README and the manual instructions above.
 
-## Factory Reset / New Admin
+</details>
 
-From the login screen, use **Reset System**. A single confirmation dialog asks you to click **OK / Yes to confirm**. After a successful local application-data reset, the app reloads and shows **First Admin Setup**, where a new Admin username and password can be created. The reset does not format the device or delete the application source.
+## Notes
 
-## Custom Branding — V2.0 BETA
-The application branding now uses the supplied custom image at `static/developerhcr-logo.jpg`. This is used by the boot/login screen, launcher, and hCR orb while retaining the existing application behavior.
-See `docs/CHANGELOG_CUSTOM_BRANDING_V2.md` for the branding change record.
-
-### v2.0 BETA Admin Setup visibility repair
-- The login screen's **Create Admin** button now opens the First Admin Setup form directly, even if the local status check is slow or temporarily unavailable.
-- The server remains the final authority and rejects duplicate Admin creation when an Admin already exists.
-- Release archives contain no runtime SQLite database or test Admin accounts, so a fresh extraction starts in the correct First Admin Setup state.
-- Browser cache-busting was updated for the repaired frontend assets.
-
-## v2.0 BETA — Latest Repair Pass
-
-This build includes the latest interaction and usability fixes:
-
-- Feedback & Support no longer throws `support is not defined` and no longer depends on WhatsApp; it shows 24×7 local support plus the GitHub repository.
-- Virtual Mouse is functional on touch devices with an on-screen cursor, movement pad, left/right click and scroll controls.
-- Command Center provides a simplified safe-command UI with a microphone button.
-- Normal AI Chat includes a Search button for browser web searches.
-- HCR Voxel World adds an original block-building sandbox with keyboard and touch controls.
-- Three new 4K offline wallpapers are included.
-- Existing applications and core features remain preserved; these changes are additive.
-
-**Release:** v2.0 BETA (mouse/AI/voxel repair pass)
-**Approx. extracted source size:** 59.75 MB (before OS-generated runtime data/cache).
-
-## v2.0 BETA Support Contacts
-- **Email:** developerhcr@gmail.com
-- **Instagram:** https://www.instagram.com/developerhcr?igsh=MW8wZ2M2MHk0MDAw
-- **GitHub:** https://github.com/DevevoperHCR/HCRAPP
-- WhatsApp support is not included in this release.
-- Admin credentials and the Admin login flow are unchanged by the support-contact update.
+- The project is designed to keep platform-specific behavior separate so Android/Termux-only constraints do not unnecessarily affect desktop systems.
+- Native desktop launching depends on the operating system and its available Python/runtime capabilities; the browser/headless UI is retained as a compatibility path.
+- Network-dependent features require network access, while the local workspace and core UI are designed to remain local-first.
+ 
