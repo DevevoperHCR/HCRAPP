@@ -1,0 +1,9 @@
+# DeveloperHCR Stable v1.0 — Termux/Android compatibility profile
+# Python 3.13 requires Pydantic >=1.10.20 for ForwardRef compatibility.
+# Keep FastAPI on the Pydantic-v1 line for this current backend.
+fastapi==0.99.1
+pydantic>=1.10.21,<2
+starlette==0.27.0
+uvicorn>=0.29,<0.32
+websockets>=12,<14
+httpx>=0.27,<0.28

@@ -1,0 +1,2 @@
+# Native desktop shell. The backend requirements remain in requirements.txt.
+pywebview>=5.4
