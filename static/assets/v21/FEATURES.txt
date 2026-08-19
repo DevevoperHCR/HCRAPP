@@ -1,8 +1,0 @@
-DeveloperHCR V2.0 BETA - Offline Expansion
-
-This pack adds a local visual library to the desktop:
-- 6 high-resolution 1600x900 wallpapers
-- Local manifest for asset discovery
-- No CDN dependency for these assets
-- Integrated into the existing Wallpaper Changer
-- Works with existing local-storage wallpaper persistence

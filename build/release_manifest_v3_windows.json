@@ -1,0 +1,25 @@
+{
+  "product": "DeveloperHCR:AI Agent",
+  "version": "3.0-beta-windows",
+  "platform": "Windows",
+  "entrypoint": "run_windows_v3.bat",
+  "python_entrypoint": "windows_app.py",
+  "python_policy": "detect; install from Python.org if missing; create local venv",
+  "server_bind": "127.0.0.1",
+  "features_added": [
+    "Windows-first Python bootstrap",
+    "Automatic Python detection",
+    "Python.org installation fallback",
+    "Automatic virtual environment",
+    "Automatic dependency installation",
+    "Dedicated Windows Python launcher",
+    "Global Speed & Performance settings",
+    "Battery Saver / Balanced / Performance / Turbo profiles"
+  ],
+  "preservation": "Existing working DeveloperHCR features are retained; no feature is intentionally removed for v3.0.",
+  "tests": {
+    "pytest": "46 passed",
+    "python_compile": "passed",
+    "javascript_syntax": "passed"
+  }
+}

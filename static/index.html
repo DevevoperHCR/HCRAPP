@@ -3,45 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DeveloperHCR:AI Agent — BETA v2.0</title>
-<link rel="stylesheet" href="/static/style.css?v=2.0-beta-persist-paidapps2">
+<title>DeveloperHCR:AI Agent — STABLE v1.0</title>
+<link rel="stylesheet" href="/static/style.css?v=stable-v1-0-final">
 </head>
 <body class="theme-dark">
 
   <div id="boot-screen">
     <div class="boot-logo"><img src="/static/developerhcr-logo.jpg" alt="DeveloperHCR logo"></div>
-    <div class="boot-sub">AI Agent — BETA v2.0</div>
+    <div class="boot-sub">DeveloperHCR AI Platform — STABLE v1.0</div><div class="boot-credit">Created by Abhimanyu Verma</div>
     <div class="boot-progress"><div id="boot-progress-bar"></div></div>
-    <div id="boot-status">Loading…</div>
+    <div id="boot-status">Starting DeveloperHCR…</div>
     <div id="boot-countdown" class="boot-countdown" aria-live="polite">5</div>
+    <button id="boot-skip" class="btn" type="button">Skip Checkup</button>
   </div>
 
   <div id="auth-screen" style="display:none">
-    <div class="auth-box auth-minimal">
-      <div class="boot-logo"><img src="/static/developerhcr-logo.jpg" alt="DeveloperHCR logo"></div>
+    <button class="login-corner-settings btn" id="login-settings" type="button" title="Open login settings">⚙ Settings</button>
+    <div class="auth-box auth-minimal auth-entry-animation">
+      <div class="boot-logo login-logo-animated"><img src="/static/developerhcr-logo.jpg" alt="DeveloperHCR logo"></div>
       <div class="login-brand">DeveloperHCR</div>
+      <div class="login-credit">Created by Abhimanyu Verma</div>
       <div id="login-form" class="stack">
         <input id="login-username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Admin username" aria-label="Username">
         <input id="login-password" type="password" autocomplete="off" placeholder="Password" aria-label="Password">
         <div class="login-action-row">
           <button class="btn primary login-start" id="login-submit" type="button">Start</button>
           <button class="btn login-troubleshoot" id="login-troubleshoot" type="button">Troubleshoot</button>
-          <button class="btn" id="login-create-admin" type="button" title="Create the first Admin account on a fresh installation">Create Admin</button>
-          <button class="btn" id="login-quick-unlock" type="button" title="Unlock quickly with your PIN (must be enabled first in Security Center)">Quick Unlock (PIN)</button>
+          <button class="btn" id="login-create-admin" style="display:none" type="button" title="Create the first Admin account">Create Admin</button>
+          <button class="btn" id="login-quick-unlock" style="display:none" type="button" title="Quick Unlock is available only when a PIN is enabled">Quick Unlock (PIN)</button>
         </div>
         <div class="login-utility-row">
-          <button class="btn login-readme" id="login-readme" type="button">README.txt</button>
-          <button class="btn" id="show-agreement" type="button">Privacy & Terms</button>
-          <button class="btn danger" id="login-factory-reset" type="button" title="Erase DeveloperHCR app data and start first-run setup again">Reset System</button>
           <label class="remember-me"><input id="login-remember" type="checkbox" checked> <span>Remember me</span></label>
-        </div>
-        <div class="login-guest-row">
-          <button class="btn" id="guest-friends">Friends Only</button>
-          <button class="btn" id="guest-subscribers">Subscribers Only</button>
         </div>
         <div id="guest-status" class="dim" aria-live="polite"></div>
         <div id="login-error" class="auth-error" aria-live="polite"></div>
       </div>
+    </div>
+    <div id="login-settings-panel" class="login-settings-panel" hidden>
+      <div class="login-settings-head"><b>Login Settings</b><button class="btn" id="login-settings-close" type="button">×</button></div>
+      <button class="btn" id="login-create-admin-settings" type="button" disabled>Create Admin</button>
+      <button class="btn" id="login-readme" type="button">README</button>
+      <button class="btn" id="show-agreement" type="button">Privacy & Terms</button>
+      <button class="btn" id="guest-friends" type="button">Friends Only</button>
+      <button class="btn" id="guest-subscribers" type="button">Subscribers Only</button>
+      <button class="btn danger" id="login-factory-reset" type="button">Reset System</button>
+      <div class="dim login-settings-note">Friends Only, Subscribers Only, Privacy & Terms and reset controls are kept here instead of cluttering the login screen.</div>
     </div>
   </div>
 
@@ -79,7 +85,7 @@
         <button class="tbtn" id="theme-toggle-btn" title="Change theme (Dark/Light)">🌓</button>
         <span id="net-status" title="Network status">●</span>
         <span id="user-widget" class="dim"></span>
-        <span id="desktop-status">V2.0 BETA</span><span id="date-widget">--/--/----</span><span id="clock-widget">--:--:--</span>
+        <span id="desktop-status">STABLE v1.0</span><span id="date-widget">--/--/----</span><span id="clock-widget">--:--:--</span>
       </div>
     </div>
 
@@ -93,43 +99,37 @@
   
 
   <script>
-    // v1.0: quick startup splash. Critical files are checked once when this server starts; reloads do not repeat the scan.
+    // One-time startup checkup. It is OFF by default. When enabled by Settings,
+    // it runs once; Skip permanently suppresses it until Settings re-enables it.
     (function(){
       window.__HCR_INLINE_BOOT_ACTIVE__=true;
-      var started=Date.now(), total=5000, count=document.getElementById("boot-countdown");
-      var bar=document.getElementById("boot-progress-bar"), status=document.getElementById("boot-status");
+      var skipKey="hcr-startup-check-skipped-v2";
       var boot=document.getElementById("boot-screen"), auth=document.getElementById("auth-screen");
-      var login=document.getElementById("login-form");
-      function showLogin(){
-        if(boot){boot.style.display="none";boot.style.pointerEvents="none";boot.setAttribute("aria-hidden","true");}
-        // v1.0 BETA fix: this splash timer fires on a fixed 5s clock, completely
-        // independent of the login flow. runAuthGate() usually finishes (and
-        // calls enterDesktop()) well before 5s, so this used to force the
-        // auth/login screen back over the already-loaded desktop every time —
-        // that's the "goes back to the first login screen after logging in" bug.
-        // Once the desktop has been entered, this timer must only hide the
-        // boot splash and leave the desktop alone.
-        if(window.__HCR_DESKTOP_ENTERED__) return;
-        if(auth){auth.style.display="flex";auth.style.pointerEvents="auto";}
-        if(login) login.classList.remove("hidden");
-      }
-      function tick(){
-        var left=Math.max(0,total-(Date.now()-started));
-        var sec=Math.max(1,Math.ceil(left/1000));
-        if(count) count.textContent=left>0?String(sec):"Ready";
-        if(bar) bar.style.width=Math.min(100,((total-left)/total)*100)+"%";
-        if(status) status.textContent=left>0?"Loading…":"Ready";
-        if(left<=0){showLogin();return;}
-        setTimeout(tick,100);
-      }
-      tick();
-      setTimeout(showLogin,5200);
+      var count=document.getElementById("boot-countdown"), bar=document.getElementById("boot-progress-bar"), status=document.getElementById("boot-status"), skip=document.getElementById("boot-skip");
+      function hideBoot(){ if(boot){boot.style.display="none";boot.setAttribute("aria-hidden","true");} if(auth&&!window.__HCR_DESKTOP_ENTERED__){auth.style.display="flex";auth.style.pointerEvents="auto";} }
+      function normalStart(){ hideBoot(); }
+      // Do not show a fake loading screen on normal launches.
+      try { if(localStorage.getItem(skipKey)==="1") { normalStart(); return; } } catch(_){}
+      // The server setting controls whether the checkup is enabled.
+      fetch("/api/startup/checkup-status",{credentials:"same-origin"}).then(r=>r.json()).then(cfg=>{
+        if(!cfg || !cfg.enabled){ normalStart(); return; }
+        var started=Date.now(), total=Math.max(1000,Number(cfg.timeout_seconds||5000)*1000);
+        skip.style.display="inline-flex";
+        skip.onclick=function(){ try{localStorage.setItem(skipKey,"1");}catch(_){} normalStart(); };
+        function tick(){
+          var left=Math.max(0,total-(Date.now()-started));
+          if(count) count.textContent=left>0?String(Math.ceil(left/1000)):"Ready";
+          if(bar) bar.style.width=Math.min(100,((total-left)/total)*100)+"%";
+          if(status) status.textContent=left>0?"Checking DeveloperHCR files…":"Ready";
+          if(left<=0){ try{localStorage.setItem(skipKey,"1");}catch(_){} normalStart(); return; }
+          setTimeout(tick,100);
+        }
+        tick();
+      }).catch(()=>normalStart());
     })();
   </script>
 
-
-
-  <script src="/static/app.js?v=2.0-beta-feedbackfix3"></script>
+  <script src="/static/app.js?v=stable-v1-final"></script>
   <script>
     (function(){
       function startHCR(){
@@ -138,8 +138,17 @@
         }
         var rd=document.getElementById("login-readme");
         var lt=document.getElementById("login-troubleshoot");
-        if(rd) rd.onclick=function(){window.open("/static/README.txt?v=1.0-beta-fix","_blank","noopener");};
-        if(lt) lt.onclick=function(){var err=document.getElementById("login-error"); if(err) err.textContent="Make sure start_windows.bat (Windows) or launcher.py (PC/Linux) is running, then try Start again.";};
+        if(rd) rd.onclick=function(){window.open("/static/README.txt?v=stable-v1-0","_blank","noopener");};
+        if(lt) lt.onclick=async function(){
+          var err=document.getElementById("login-error"); if(err) err.textContent="Running local diagnostics…";
+          try{
+            var r=await fetch("/api/diagnostics",{credentials:"same-origin"}).then(x=>x.json());
+            if(r && !r.error){
+              var bad=(r.checks||[]).filter(function(c){return !c.ok;});
+              err.textContent=bad.length ? ("Troubleshooting found "+bad.length+" issue(s): "+bad.map(function(c){return c.name+": "+c.detail;}).join(" | ")) : "Troubleshooting complete — all available local checks are healthy.";
+            } else err.textContent=(r&&r.error)||"Troubleshooting could not complete.";
+          }catch(e){err.textContent="Troubleshooting could not reach the local server: "+(e.message||e);}
+        };
       }
       if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",startHCR,{once:true}); else startHCR();
     })();

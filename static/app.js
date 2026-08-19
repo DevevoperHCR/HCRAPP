@@ -1,5 +1,5 @@
 window.__HCR_APP_JS_LOADED = true;
-// DeveloperHCR:AI Agent — v2.0-beta — frontend
+// DeveloperHCR:AI Agent — STABLE v1.0 — frontend
 // Desktop shell + window manager + built-in apps.
 // New apps are added by pushing into APPS[] — existing apps are never
 // removed/rewritten to add a new one (matches the project's modular rule).
@@ -28,35 +28,34 @@ function unlockAudio() {
   document.addEventListener(evt, unlockAudio, { once: true, passive: true })
 );
 
-function playUISound(kind = "open") {
-  if (appSettings.sound_enabled === false) return;
-  try {
-    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-    const tones = { boot:[220,330], login:[440,660], open:[520,760], click:[380,460], success:[520,780], error:[220,150] };
-    const pair = tones[kind] || tones.open;
-    const vol = Math.max(0.05, Math.min(0.5, Number(appSettings.sound_volume) || 0.45));
-    const fire = () => {
-      const now = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(pair[0], now);
-      osc.frequency.exponentialRampToValueAtTime(pair[1], now + 0.09);
-      gain.gain.setValueAtTime(vol * 0.5, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-      osc.connect(gain).connect(audioCtx.destination);
-      osc.start(now); osc.stop(now + 0.2);
-    };
-    // On mobile, a suspended context produces total silence even though no
-    // error is thrown - resume() first (this call happens inside a user
-    // gesture almost every time playUISound is used) and only fire once
-    // it's actually running, instead of firing blind.
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume().then(fire).catch(() => {});
-    } else {
-      fire();
-    }
-  } catch (_) {}
+const HCR_SOUND_FILES = {
+  boot:"/static/assets/sounds/open.wav", login:"/static/assets/sounds/success.wav",
+  open:"/static/assets/sounds/open.wav", click:"/static/assets/sounds/click.wav",
+  success:"/static/assets/sounds/success.wav", error:"/static/assets/sounds/error.wav",
+  warning:"/static/assets/sounds/warning.wav", notify:"/static/assets/sounds/notify.wav",
+  close:"/static/assets/sounds/close.wav", focus:"/static/assets/sounds/focus.wav"
+};
+const HCR_AUDIO_CACHE = {};
+function playUISound(kind="open"){
+  if(appSettings.sound_enabled===false)return;
+  try{
+    const src=HCR_SOUND_FILES[kind]||HCR_SOUND_FILES.open;
+    let a=HCR_AUDIO_CACHE[src];
+    if(!a){a=new Audio(src);a.preload="auto";HCR_AUDIO_CACHE[src]=a;}
+    a.pause();a.currentTime=0;a.volume=Math.max(0,Math.min(1,Number(appSettings.sound_volume)||0.45));
+    const p=a.play();
+    if(p&&p.catch)p.catch(()=>{
+      try{
+        audioCtx=audioCtx||(window.AudioContext&&new window.AudioContext());
+        if(!audioCtx||audioCtx.state==="suspended")return;
+        const tones={boot:[220,330],login:[440,660],open:[520,760],click:[380,460],success:[520,780],error:[220,150],warning:[300,220],notify:[660,880],close:[520,380]};
+        const pair=tones[kind]||tones.open,now=audioCtx.currentTime,osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+        osc.frequency.setValueAtTime(pair[0],now);osc.frequency.exponentialRampToValueAtTime(pair[1],now+.09);
+        gain.gain.setValueAtTime(a.volume*.35,now);gain.gain.exponentialRampToValueAtTime(.001,now+.18);
+        osc.connect(gain).connect(audioCtx.destination);osc.start(now);osc.stop(now+.2);
+      }catch(_){}
+    });
+  }catch(_){}
 }
 const openWindows = {}; // appId -> element
 
@@ -118,8 +117,21 @@ async function runAuthGate() {
   for (let attempt=0; attempt<8; attempt++) {
     try {
       const authStatus = await api("/api/auth/status", {timeoutMs:2500});
-      if (authStatus && authStatus.admin_configured === false) { if (setupHint) setupHint.textContent = "First launch: create your Admin account using Create Admin. The login screen is ready."; return; }
-      if (authStatus && authStatus.admin_configured === true) { if (setupHint) setupHint.textContent = ""; break; }
+      if (authStatus && authStatus.admin_configured === false) {
+        if (setupHint) setupHint.textContent = "First launch: create your Admin account.";
+        showAdminSetup();
+        return;
+      }
+      if (authStatus && authStatus.admin_configured === true) {
+        if (setupHint) setupHint.textContent = "";
+        const ca=document.getElementById("login-create-admin"); if(ca) ca.style.display="none";
+        const qs=document.getElementById("login-quick-unlock");
+        const uname=(document.getElementById("login-username")?.value||"").trim();
+        if(qs && uname){
+          try { const st=await api("/api/auth/quick-status?username="+encodeURIComponent(uname),{timeoutMs:1800}); qs.style.display=(st&&st.enabled)?"inline-flex":"none"; } catch(_){ qs.style.display="none"; }
+        } else if(qs) qs.style.display="none";
+        break;
+      }
     } catch (_) {}
     await new Promise(r=>setTimeout(r,500));
   }
@@ -274,13 +286,39 @@ function wireLoginForm() {
     } catch(e) { const err=document.getElementById("login-error"); if(err)err.textContent=e?.message||"Factory reset failed."; }
     finally { resetBtn.disabled=false; resetBtn.textContent="Reset System"; }
   };
-  const createAdminBtn=document.getElementById("login-create-admin");
-  if(createAdminBtn) createAdminBtn.onclick=async()=>{
-    // Always expose the First Admin form from the login screen. The server is
-    // the final authority and rejects duplicate Admin creation. This avoids a
-    // missing-setup UI when startup/status checks are delayed or cached.
-    showAdminSetup();
+  const loginSettings=document.getElementById("login-settings");
+  const settingsPanel=document.getElementById("login-settings-panel");
+  const closeSettings=document.getElementById("login-settings-close");
+  if(loginSettings && !loginSettings.dataset.wired){
+    loginSettings.dataset.wired="1";
+    loginSettings.onclick=()=>{ if(settingsPanel) settingsPanel.hidden=!settingsPanel.hidden; };
+  }
+  if(closeSettings && !closeSettings.dataset.wired){
+    closeSettings.dataset.wired="1";
+    closeSettings.onclick=()=>{ if(settingsPanel) settingsPanel.hidden=true; };
+  }
+  const usernameField=document.getElementById("login-username");
+  const refreshQuick=async()=>{
+    const q=document.getElementById("login-quick-unlock"); if(!q)return;
+    const u=(usernameField?.value||"").trim();
+    if(!u){q.style.display="none";return;}
+    try{const st=await api("/api/auth/quick-status?username="+encodeURIComponent(u),{timeoutMs:1800});q.style.display=(st&&st.enabled)?"inline-flex":"none";}catch(_){q.style.display="none";}
   };
+  usernameField?.addEventListener("blur",refreshQuick);
+  usernameField?.addEventListener("input",refreshQuick);
+
+  const createAdminBtn=document.getElementById("login-create-admin");
+  const createAdminSettings=document.getElementById("login-create-admin-settings");
+  const openFirstAdmin=()=>showAdminSetup();
+  if(createAdminBtn) createAdminBtn.onclick=openFirstAdmin;
+  if(createAdminSettings) createAdminSettings.onclick=openFirstAdmin;
+  // The settings-panel Create Admin control is enabled only during first-run
+  // setup. Once an Admin exists it remains visibly disabled until Factory Reset.
+  api("/api/auth/status",{timeoutMs:1800}).then(st=>{
+    const fresh=!!(st && st.admin_configured===false);
+    if(createAdminSettings) createAdminSettings.disabled=!fresh;
+    if(createAdminBtn) createAdminBtn.style.display=fresh?"inline-flex":"none";
+  }).catch(()=>{});
   [userEl, passEl].forEach(el => el.addEventListener("keydown", e => {
     if (e.key === "Enter") submit(e);
   }));
@@ -913,16 +951,16 @@ const APPS = [
   { id: "access", name: "Friends Only", glyph: "👥", render: renderAccessApp },
   { id: "subscriptions", name: "Subscription Center", glyph: "💳", render: renderSubscriptionApp },
   { id: "updates", name: "Update Center", glyph: "⬆️", render: renderUpdatesApp },
-  { id: "exe", name: "EXE / Wine", glyph: "🪟", render: renderExeApp, feature: "exe_support" },
+  { id: "exe", name: "EXE / Wine", glyph: "🪟", render: renderExeApp, feature: "exe_support", platform: "windows" },
   { id: "troubleshoot", name: "Troubleshooting", glyph: "🔧", render: renderTroubleshootApp },
   { id: "about", name: "About / DeveloperHCR v1.0", glyph: "ℹ️", render: renderAboutApp },
   { id: "pdfviewer", name: "PDF Viewer", glyph: "📕", render: renderPdfViewerApp, feature: "media" },
   { id: "passwords", name: "Password Vault", glyph: "🔑", render: renderPasswordVaultApp, feature: "security" },
   { id: "qr", name: "QR & Share", glyph: "🔳", render: renderQrShareApp },
-  { id: "recyclebin", name: "Recycle Bin", glyph: "🗑️", render: renderRecycleBinApp },
-  { id: "thispc", name: "This PC", glyph: "🖥️", render: renderSystemLocationApp.bind(null, "this_pc", "This PC") },
-  { id: "networkshortcut", name: "Network", glyph: "🌐", render: renderSystemLocationApp.bind(null, "network", "Network") },
-  { id: "bluetooth", name: "Bluetooth", glyph: "ᛒ", render: renderSystemLocationApp.bind(null, "bluetooth", "Bluetooth") },
+  { id: "recyclebin", name: "Recycle Bin", glyph: "🗑️", render: renderRecycleBinApp, platform: "windows" },
+  { id: "thispc", name: "This PC", glyph: "🖥️", render: renderSystemLocationApp.bind(null, "this_pc", "This PC"), platform: "windows" },
+  { id: "networkshortcut", name: "Network", glyph: "🌐", render: renderSystemLocationApp.bind(null, "network", "Network"), platform: "windows" },
+  { id: "bluetooth", name: "Bluetooth", glyph: "ᛒ", render: renderSystemLocationApp.bind(null, "bluetooth", "Bluetooth"), platform: "windows" },
   { id: "admin", name: "Admin Dashboard", glyph: "🧰", render: renderAdminApp, roleMin: "ADMIN" },
 ];
 
@@ -931,18 +969,13 @@ const APPS = [
 // The complete catalog remains available from HCR Store, including icons,
 // descriptions, versions, permissions and locks.
 const CORE_APP_IDS = new Set([
-  "files", "jarvis", "aichat", "notes", "calc", "terminal", "apphealth",
-  "browser", "settings", "store", "systeminfo", "help",
-  "clock", "calendar", "downloads", "screenshot", "imageviewer",
-  "pdfviewer", "media", "sysmon", "aimodels", "games", "trading",
-  "editor", "jsonviewer", "clipboard", "processes", "security",
-  "devtoolkit", "texttools", "regextester", "colorlab", "csvtools", "securelocker", "passwordaudit", "base64image", "randomtools",
-  "toolchains", "playground", "network", "wallpaper", "theme",
-  "textdiff", "timestamp", "diagnostics", "filehash", "colorcontrast",
-  "environment", "recyclebin", "thispc", "networkshortcut", "bluetooth",
-  "game-voxel", "game-snake", "game-pong", "game-tetris", "game-memory", "game-ttt", "game-reflex", "game-cube", "game-orbit", "game-dice", "game-guess",
-  "updates", "troubleshoot", "about", "archive", "backup"
+  "files", "jarvis", "terminal", "aichat", "settings", "store", "systeminfo", "apphealth", "help", "search"
 ]);
+const INSTALLED_STORE_KEY = "hcr-installed-store-apps-v1";
+function installedStoreApps(){ try { const x=JSON.parse(localStorage.getItem(INSTALLED_STORE_KEY)||"[]"); return Array.isArray(x)?x:[]; } catch(_){ return []; } }
+function isAppInstalled(id){ return CORE_APP_IDS.has(id) || installedStoreApps().includes(id); }
+function markAppInstalled(id){ const x=new Set(installedStoreApps()); x.add(id); localStorage.setItem(INSTALLED_STORE_KEY,JSON.stringify([...x])); }
+function unmarkAppInstalled(id){ const x=installedStoreApps().filter(x=>x!==id); localStorage.setItem(INSTALLED_STORE_KEY,JSON.stringify(x)); }
 
 const APP_PAID_FEATURES = {
   browser:"browser", aimodels:"ai_models", jarvis:"ai_models", trading:"friends_trading", feedback:"feedback", exe:"exe_support",
@@ -952,12 +985,23 @@ const APP_PAID_FEATURES = {
 };
 APPS.forEach(a=>{ if(!a.feature && APP_PAID_FEATURES[a.id]) a.feature=APP_PAID_FEATURES[a.id]; });
 
+const ANDROID_HIDDEN_APP_IDS = new Set([
+  "exe", "thispc", "networkshortcut", "recyclebin", "bluetooth"
+]);
+function platformAllowed(app) {
+  const ui = document.body?.dataset?.platformUi || "desktop";
+  if (app.platform === "windows" && ui !== "windows") return false;
+  if (app.platform === "desktop" && ui === "android") return false;
+  if (ui === "android" && ANDROID_HIDDEN_APP_IDS.has(app.id)) return false;
+  return true;
+}
+
 function visibleApps() {
   return APPS.filter(a => {
+    if (!platformAllowed(a)) return false;
     const roleOk = !a.roleMin || (currentUser && (currentUser.role === a.roleMin || (a.roleMin === "ADMIN" && currentUser.role === "ADMIN")));
-    const core = CORE_APP_IDS.has(a.id);
     const privileged = a.roleMin === "ADMIN";
-    return roleOk && (core || privileged) && appAllowed(a);
+    return roleOk && (isAppInstalled(a.id) || privileged) && appAllowed(a);
   });
 }
 function appAllowed(app) {
@@ -975,8 +1019,9 @@ function buildLauncher() {
   const search = document.getElementById("launcher-search");
   const q = (search?.value || "").trim().toLowerCase();
   const candidates = APPS.filter(a => {
+    if (!platformAllowed(a)) return false;
     const roleOk = !a.roleMin || (currentUser && (currentUser.role === a.roleMin || (a.roleMin === "ADMIN" && currentUser.role === "ADMIN")));
-    return roleOk && (!q || `${a.name} ${a.id}`.toLowerCase().includes(q));
+    return roleOk && (isAppInstalled(a.id) || a.roleMin === "ADMIN") && (!q || `${a.name} ${a.id}`.toLowerCase().includes(q));
   });
   grid.innerHTML = candidates.length ? candidates.map(app => {
     const locked = !appAllowed(app);
@@ -1048,6 +1093,7 @@ async function openApp(id) {
     <div class="win-titlebar">
       <span class="win-title">${app.glyph} ${app.name}</span>
       <span class="win-controls">
+        <button class="win-settings" title="Open Settings">⚙</button>
         <button class="win-min" title="Minimize">—</button>
         <button class="win-max" title="Maximize / Restore">⛶</button>
         <button class="win-close" title="Close">✕</button>
@@ -1064,6 +1110,7 @@ async function openApp(id) {
   makeResizable(win);
   win.addEventListener("mousedown", () => focusWindow(win));
 
+  win.querySelector(".win-settings").onclick = (e) => { e.stopPropagation(); openApp("settings"); };
   win.querySelector(".win-close").onclick = () => closeApp(id);
   win.querySelector(".win-min").onclick = () => { win.classList.add("minimized"); };
   win.querySelector(".win-max").onclick = () => toggleMaximize(win);
@@ -1175,7 +1222,7 @@ function makeResizable(win) {
 }
 
 // Windows-style desktop shortcuts with safe default limit and long-press placement.
-const DEFAULT_DESKTOP_APPS=["files","browser","aichat","jarvis","terminal","settings","store","notes","calc","games"];
+const DEFAULT_DESKTOP_APPS=["files","recyclebin","thispc"];
 function desktopShortcutLimit(){
   const v=localStorage.getItem("hcr-desktop-app-limit");
   const explicit=localStorage.getItem("hcr-desktop-app-limit-explicit")==="1";
@@ -1572,50 +1619,40 @@ function renderTerminalApp(body) {
 }
 
 // ================= APP: Clock / Timer / Alarm =================
-function renderClockApp(body) {
-  body.innerHTML = `
-    <div class="stack">
-      <div style="font-size:2rem;" id="clock-big">--:--:--</div>
-      <hr style="border-color:var(--border); width:100%;">
-      <div><b>Timer</b></div>
-      <div class="row">
-        <input id="timer-secs" type="number" placeholder="seconds" style="width:100px;">
-        <button class="btn" id="timer-start">Start</button>
-        <span id="timer-display" class="dim"></span>
-      </div>
-    </div>
-  `;
-  const big = body.querySelector("#clock-big");
-  function tickClock() {
-    if (!document.body.contains(body)) return;
-    big.textContent = new Date().toLocaleTimeString();
-    setTimeout(tickClock, 1000);
-  }
-  tickClock();
-
-  let timerHandle = null;
-  body.querySelector("#timer-start").onclick = () => {
-    let remaining = parseInt(body.querySelector("#timer-secs").value || "0", 10);
-    if (!remaining) return;
-    if (timerHandle) clearInterval(timerHandle);
-    const disp = body.querySelector("#timer-display");
-    timerHandle = setInterval(() => {
-      disp.textContent = `${remaining}s remaining`;
-      remaining -= 1;
-      if (remaining < 0) {
-        clearInterval(timerHandle);
-        disp.textContent = "Time's up!";
-        if (Notification && Notification.permission === "granted") {
-          new Notification("DeveloperHCR Timer", { body: "Time's up!" });
-        }
-      }
-    }, 1000);
+function renderClockApp(body){
+  body.innerHTML=`<div class="stack">
+    <div class="row" style="justify-content:space-between"><div><div style="font-size:2rem;font-weight:800" id="clock-big">--:--:--</div><div class="dim">Clock, timer and persistent alarms</div></div><button class="btn" id="alarm-test">🔊 Test Alarm Sound</button></div>
+    <hr style="border-color:var(--border);width:100%;">
+    <div class="note-card"><b>⏱ Timer</b><div class="row"><input id="timer-secs" type="number" min="1" placeholder="seconds" style="width:110px"><button class="btn primary" id="timer-start">Start</button><button class="btn" id="timer-stop">Stop</button><span id="timer-display" class="dim"></span></div></div>
+    <div class="note-card"><b>⏰ Alarm</b><div class="row"><input id="alarm-time" type="time" style="width:130px"><input id="alarm-label" placeholder="Alarm name" style="flex:1"><button class="btn primary" id="alarm-add">Add Alarm</button></div><div class="dim">Saved on this device. When it fires, HCR plays the alert sound and shows a visual notification.</div><div id="alarm-list" class="stack" style="margin-top:8px"></div></div>
+  </div>`;
+  const big=body.querySelector("#clock-big"),display=body.querySelector("#timer-display"),list=body.querySelector("#alarm-list"),key="hcr-alarms-v1";
+  let timer=null,interval=null;
+  let alarms=[]; try{alarms=JSON.parse(localStorage.getItem(key)||"[]");if(!Array.isArray(alarms))alarms=[];}catch(_){}
+  const save=()=>localStorage.setItem(key,JSON.stringify(alarms));
+  const notify=async()=>{try{if(window.Notification&&Notification.permission==="default")await Notification.requestPermission();}catch(_){}};
+  const fire=(a)=>{
+    playUISound("notify");[1000,2200,3400].forEach(ms=>setTimeout(()=>playUISound("notify"),ms));
+    try{navigator.vibrate?.([500,250,500,250,800]);}catch(_){}
+    try{if(window.Notification&&Notification.permission==="granted")new Notification("DeveloperHCR Alarm",{body:a.label||"Alarm",requireInteraction:true});}catch(_){}
+    const ov=document.createElement("div");ov.style.cssText="position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:18px";
+    ov.innerHTML=`<div class="auth-box"><h2>⏰ ${escapeHtml(a.label||"Alarm")}</h2><div class="dim">Alarm time reached.</div><button class="btn primary" id="alarm-dismiss">Dismiss</button></div>`;
+    document.body.appendChild(ov);ov.querySelector("#alarm-dismiss").onclick=()=>ov.remove();
+    a.enabled=false;save();draw();
   };
-  if (window.Notification && Notification.permission === "default") {
-    Notification.requestPermission();
-  }
+  const draw=()=>{list.innerHTML=alarms.length?alarms.map(a=>`<div class="note-card" style="display:flex;justify-content:space-between;gap:10px;align-items:center"><div><b>${escapeHtml(a.time)}</b> · ${escapeHtml(a.label||"HCR Alarm")}<div class="dim">${a.enabled?"Enabled":"Disabled"}</div></div><div class="row"><button class="btn" data-at="${a.id}">${a.enabled?"Disable":"Enable"}</button><button class="btn danger" data-ad="${a.id}">Delete</button></div></div>`).join(""):"<div class='dim'>No alarms set.</div>";
+    list.querySelectorAll("[data-at]").forEach(b=>b.onclick=()=>{const a=alarms.find(x=>String(x.id)===b.dataset.at);if(a){a.enabled=!a.enabled;a.lastFired="";save();draw();}});
+    list.querySelectorAll("[data-ad]").forEach(b=>b.onclick=()=>{alarms=alarms.filter(x=>String(x.id)!==b.dataset.ad);save();draw();});
+  };
+  const check=()=>{const now=new Date(),hhmm=now.toTimeString().slice(0,5),day=now.toISOString().slice(0,10);alarms.forEach(a=>{if(a.enabled&&a.time===hhmm&&a.lastFired!==day){a.lastFired=day;fire(a);}});save();};
+  const tick=()=>{if(!body.isConnected){clearInterval(interval);return;}big.textContent=new Date().toLocaleTimeString();check();};
+  interval=setInterval(tick,1000);tick();
+  body.querySelector("#alarm-test").onclick=()=>{playUISound("notify");setTimeout(()=>playUISound("notify"),700);};
+  body.querySelector("#alarm-add").onclick=async()=>{const time=body.querySelector("#alarm-time").value;if(!time)return;alarms.push({id:Date.now(),time,label:body.querySelector("#alarm-label").value.trim()||"HCR Alarm",enabled:true,lastFired:""});save();draw();await notify();body.querySelector("#alarm-label").value="";};
+  body.querySelector("#timer-start").onclick=()=>{let n=Math.max(1,parseInt(body.querySelector("#timer-secs").value||"0",10));if(timer)clearInterval(timer);timer=setInterval(()=>{display.textContent=`${n}s remaining`;n--;if(n<0){clearInterval(timer);timer=null;display.textContent="Time's up!";fire({id:"timer",label:"Timer complete"});}},1000);};
+  body.querySelector("#timer-stop").onclick=()=>{if(timer)clearInterval(timer);timer=null;display.textContent="Stopped.";};
+  draw();notify();
 }
-
 // ================= V2.0 BETA+: Utility apps =================
 function renderUnitConverterApp(body){
   const units={length:{m:1,km:1000,cm:.01,mm:.001,ft:.3048,inch:.0254},weight:{kg:1,g:.001,lb:.453592},time:{sec:1,min:60,hour:3600,day:86400}};
@@ -1690,6 +1727,7 @@ const SETTINGS_TABS = [
   { id: "data",       label: "💾 Data & Sync" },
   { id: "subscription", label: "💳 Subscription" },
   { id: "sound",     label: "🔊 Sounds" },
+  { id: "power",     label: "⚡ Speed & Performance" },
   { id: "system",     label: "🖥️ System"    },
   { id: "about",      label: "ℹ️ About"     },
 ];
@@ -1863,7 +1901,7 @@ async function renderSettingsApp(body) {
             <div class="row support-contact-row"><span>📧 Email</span><a href="mailto:developerhcr@gmail.com">developerhcr@gmail.com</a></div>
             <div class="row support-contact-row"><span>📸 Instagram</span><a href="https://www.instagram.com/developerhcr?igsh=MW8wZ2M2MHk0MDAw" target="_blank" rel="noopener">@developerhcr — Support Team</a></div>
             <div class="row support-contact-row"><span>📦 GitHub</span><a href="https://github.com/DevevoperHCR/HCRAPP" target="_blank" rel="noopener">DeveloperHCR/HCRAPP</a></div>
-            <div class="dim">No WhatsApp support is included in v2.0 BETA.</div>
+            <div class="dim">Official support is available through the configured support channels.</div>
           </div>
           <button class="btn primary" id="support-save">Save Support Preferences</button><div id="support-status" class="dim">Official support contacts are fixed; your feedback preferences are local.</div>
         </div>
@@ -1942,10 +1980,17 @@ async function renderSettingsApp(body) {
         <div class="pane" data-pane="environment"><div><b>🧰 Environment & Developer Setup</b></div><div class="dim">Open Environment Setup to detect/install Python, C/C++, Node.js, Rust, Go, Java, Git, Make, cURL, Wget, OpenSSH and other supported tools. Installations use the OS package manager when available.</div><div class="row"><button class="btn" id="settings-open-env">Open Environment Setup</button><button class="btn" id="settings-open-exe">Open EXE / Wine</button><button class="btn" id="settings-open-repo">Open DevApps Repository</button></div><div id="settings-env-status" class="dim"></div></div>
         <div class="pane" data-pane="network"><div><b>🌐 Network</b></div><div class="row"><button class="btn" id="network-check-now">Check Internet</button><button class="btn" id="network-open-browser">Open Browser</button></div><div id="network-status-detail" class="dim">Network state is checked only when requested or by the status indicator.</div><div class="note-card"><b>Internet usage</b><div class="dim">Browser, model downloads, toolchain installation, Wine installation and updates may use the internet. HCR does not silently download packages.</div></div></div>
         <div class="pane" data-pane="privacy"><div><b>🛡️ Privacy & Data</b></div><div class="row settings-row"><label>Private mode</label><input id="privacy-private" type="checkbox"></div><div class="row settings-row"><label>Allow optional diagnostics</label><input id="privacy-diagnostics" type="checkbox"></div><button class="btn" id="privacy-save">Save Privacy Settings</button><div id="privacy-status" class="dim"></div><div class="dim">Private mode prevents optional Admin Sync. Secrets and private content are not intentionally uploaded by the local sync feature.</div></div>
-        <div class="pane" data-pane="power"><div><b>🔋 Power & Performance</b></div><div class="row settings-row"><label>Performance mode</label><select id="power-mode"><option value="balanced">Balanced</option><option value="performance">Performance</option><option value="battery">Battery Saver</option></select></div><div class="row settings-row"><label>Reduce background polling</label><input id="power-polling" type="checkbox"></div><button class="btn" id="power-save">Save Power Settings</button><div id="power-status" class="dim"></div></div>
+        <div class="pane" data-pane="power">
+          <div><b>⚡ Speed & Performance</b></div>
+          <div class="dim">Controls the global UI animation/transition speed across the desktop and app windows. It is saved locally and applies immediately.</div>
+          <div class="row settings-row"><label>Global speed</label><select id="power-mode"><option value="battery">Battery Saver — slower, lowest animation load</option><option value="balanced">Balanced — recommended</option><option value="performance">Performance — faster UI</option><option value="turbo">Turbo — fastest UI response</option></select></div>
+          <div class="row settings-row"><label>Reduce background polling</label><input id="power-polling" type="checkbox"></div>
+          <div class="note-card"><b id="power-speed-status">Current: Balanced</b><div class="dim">The speed profile changes common transitions, animations and visual effects without changing app functionality.</div></div>
+          <button class="btn primary" id="power-save">Apply Speed & Performance</button><div id="power-status" class="dim"></div>
+        </div>
 
         <div class="pane" data-pane="about">
-          <div class="dim">DeveloperHCR v1.0 settings are modular. Future settings can be added without replacing existing features.</div>
+          <div class="dim">DeveloperHCR v3.0 Windows Edition settings are modular. Future settings can be added without replacing existing features.</div>
         </div>
 
       </div>
@@ -1982,7 +2027,22 @@ async function renderSettingsApp(body) {
   body.querySelector('#settings-open-env')?.addEventListener('click',()=>openApp('environment')); body.querySelector('#settings-open-exe')?.addEventListener('click',()=>openApp('exe')); body.querySelector('#settings-open-repo')?.addEventListener('click',()=>openApp('repo'));
   body.querySelector('#network-check-now')?.addEventListener('click',async()=>{const x=await api('/api/system');body.querySelector('#network-status-detail').textContent=x.online?'Internet: Online':'Internet: Offline';}); body.querySelector('#network-open-browser')?.addEventListener('click',()=>openApp('browser'));
   const pv=body.querySelector('#privacy-private'),pd=body.querySelector('#privacy-diagnostics'); if(pv)pv.checked=localStorage.getItem('hcr-private-mode')==='1'; if(pd)pd.checked=localStorage.getItem('hcr-allow-diagnostics')==='1'; body.querySelector('#privacy-save')?.addEventListener('click',()=>{localStorage.setItem('hcr-private-mode',pv.checked?'1':'0');localStorage.setItem('hcr-allow-diagnostics',pd.checked?'1':'0');body.querySelector('#privacy-status').textContent='Privacy settings saved.';});
-  const pm=body.querySelector('#power-mode'),pp=body.querySelector('#power-polling'); if(pm)pm.value=localStorage.getItem('hcr-power-mode')||'balanced'; if(pp)pp.checked=localStorage.getItem('hcr-power-polling')==='1'; body.querySelector('#power-save')?.addEventListener('click',()=>{localStorage.setItem('hcr-power-mode',pm.value);localStorage.setItem('hcr-power-polling',pp.checked?'1':'0');body.querySelector('#power-status').textContent='Power settings saved.';});
+  const pm=body.querySelector('#power-mode'),pp=body.querySelector('#power-polling');
+  const applyGlobalSpeed=(mode)=>{
+    const root=document.documentElement;
+    root.dataset.hcrSpeed=mode;
+    document.body.classList.remove('perf-battery','perf-balanced','perf-performance','perf-turbo');
+    document.body.classList.add('perf-'+mode);
+    localStorage.setItem('hcr-power-mode',mode);
+    const labels={battery:'Battery Saver',balanced:'Balanced',performance:'Performance',turbo:'Turbo'};
+    const status=body.querySelector('#power-speed-status'); if(status)status.textContent='Current: '+(labels[mode]||'Balanced');
+  };
+  const savedSpeed=localStorage.getItem('hcr-power-mode')||settings.performance_mode||'balanced';
+  if(pm)pm.value=['battery','balanced','performance','turbo'].includes(savedSpeed)?savedSpeed:'balanced';
+  if(pp)pp.checked=localStorage.getItem('hcr-power-polling')==='1';
+  applyGlobalSpeed(pm?.value||'balanced');
+  body.querySelector('#power-save')?.addEventListener('click',async()=>{applyGlobalSpeed(pm.value);localStorage.setItem('hcr-power-polling',pp.checked?'1':'0');const r=await api('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({performance_mode:pm.value})});body.querySelector('#power-status').textContent=r.error?r.error:'Speed and performance settings saved and applied immediately.';});
+  pm?.addEventListener('change',()=>applyGlobalSpeed(pm.value));
 
   // ---- tab switching ----
   body.querySelectorAll(".settings-tabs button").forEach(btn => {
@@ -2641,7 +2701,7 @@ async function renderControlPanelApp(body){
   body.querySelector('#cp-fullscreen').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen?.();else document.documentElement.requestFullscreen?.().catch(()=>{});};
   body.querySelector('#cp-landscape').onclick=()=>{document.body.classList.toggle('landscape-mode');try{screen.orientation?.lock?.('landscape');}catch(_){};};
   body.querySelector('#cp-settings').onclick=()=>openApp('settings'); body.querySelector('#cp-monitor').onclick=()=>openApp('sysmon'); body.querySelector('#cp-files').onclick=()=>openApp('files'); body.querySelector('#cp-network').onclick=()=>openApp('network'); body.querySelector('#cp-help').onclick=()=>openApp('help'); body.querySelector('#cp-downloads').onclick=()=>openApp('downloads'); body.querySelector('#cp-logout').onclick=logout;
-  body.querySelector('#cp-export-diagnostics').onclick=async()=>{const r=await api('/api/control-center',{timeoutMs:8000});const blob=new Blob([JSON.stringify({exported_at:new Date().toISOString(),version:'2.0-beta',control_center:r},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='DeveloperHCR-control-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);};
+  body.querySelector('#cp-export-diagnostics').onclick=async()=>{const r=await api('/api/control-center',{timeoutMs:8000});const blob=new Blob([JSON.stringify({exported_at:new Date().toISOString(),version:'1.0-stable',control_center:r},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='DeveloperHCR-control-diagnostics.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);};
   body.querySelectorAll('[data-open-system]').forEach(b=>b.onclick=async()=>{const target=b.dataset.openSystem;const r=await api('/api/system/open',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({target})});body.querySelector('#system-control-status').textContent=r.ok?`Opened ${target.replaceAll('_',' ')}.`:(r.error||'Could not open system control.');});
   const btStatus=body.querySelector('#cp-bt-status'); const btAction=async(action)=>{const r=await api('/api/control-center/bluetooth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action})});btStatus.textContent=r.error||r.output||`Bluetooth ${action} requested.`;await refreshControl();}; body.querySelector('#cp-bt-refresh').onclick=refreshControl; body.querySelector('#cp-bt-on').onclick=()=>btAction('on'); body.querySelector('#cp-bt-off').onclick=()=>btAction('off'); body.querySelector('#cp-bt-settings').onclick=async()=>{const r=await api('/api/system/open',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({target:'bluetooth'})});btStatus.textContent=r.error||r.note||'Bluetooth settings requested.';};
   body.querySelector('#cp-network-reset').onclick=async()=>{if(!confirm('Refresh the local DNS/network cache?'))return;const phrase=prompt('Type RESET NETWORK to confirm:');if(phrase!=='RESET NETWORK'){body.querySelector('#network-reset-status').textContent='Reset cancelled.';return;}const r=await api('/api/system/network-reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({confirm:phrase})});body.querySelector('#network-reset-status').textContent=r.error||r.output||r.note||'Network cache refreshed.';await refreshControl();};
@@ -2704,7 +2764,7 @@ async function renderTroubleshootApp(body){const r=await api('/api/diagnostics')
 
 async function renderAdminApp(body){
   body.innerHTML=`<div class="stack admin-control-center">
-    <div class="admin-hero"><div><div class="admin-kicker">DEVELOPERHCR</div><h2 style="margin:.15rem 0">Admin Control Center</h2><div class="dim">Windows-style system administration · local-first · BETA v2.0</div></div><button class="btn" id="admin-refresh">↻ Refresh</button></div>
+    <div class="admin-hero"><div><div class="admin-kicker">DEVELOPERHCR</div><h2 style="margin:.15rem 0">Admin Control Center</h2><div class="dim">Windows-style system administration · local-first · STABLE v1.0</div></div><button class="btn" id="admin-refresh">↻ Refresh</button></div>
     <div id="admin-summary" class="admin-card-grid"><div class="note-card">Loading…</div></div>
     <div class="admin-card-grid">
       <div class="note-card"><b>System Health</b><div id="admin-system" class="dim">Checking…</div></div>
@@ -2726,7 +2786,7 @@ async function renderAdminApp(body){
     body.querySelector('#admin-ai').textContent=ai.error?'Runtime unavailable':`Models: ${(ai.models||[]).length} · local AI status available`;
     const up=await api('/api/updates/check'); const st=await api('/api/settings');
     body.querySelector('#admin-update').textContent=up.error ? ('GitHub check failed: '+up.error) : (up.available ? `Update available: ${up.latest||'new release'} · ${up.name||''}` : `Up to date · ${up.latest||up.current||'current'}`);
-    body.querySelector('#admin-support-contacts').innerHTML=`<div>📧 <a href="mailto:developerhcr@gmail.com">developerhcr@gmail.com</a></div><div>📸 <a href="https://www.instagram.com/developerhcr?igsh=MW8wZ2M2MHk0MDAw" target="_blank" rel="noopener">@developerhcr — Support Team</a></div><div>📦 <a href="https://github.com/DevevoperHCR/HCRAPP" target="_blank" rel="noopener">GitHub Repository</a></div><div class="dim">No WhatsApp support in this release.</div>`;
+    body.querySelector('#admin-support-contacts').innerHTML=`<div>📧 <a href="mailto:developerhcr@gmail.com">developerhcr@gmail.com</a></div><div>📸 <a href="https://www.instagram.com/developerhcr?igsh=MW8wZ2M2MHk0MDAw" target="_blank" rel="noopener">@developerhcr — Support Team</a></div><div>📦 <a href="https://github.com/DevevoperHCR/HCRAPP" target="_blank" rel="noopener">GitHub Repository</a></div><div class="dim">No WhatsApp support. Use Email + Instagram Support.</div>`;
     const cat=await api('/api/admin/store/apps'); body.querySelector('#admin-store-list').innerHTML=(cat.apps||[]).map(a=>`<div class="note-card"><b>${escapeHtml(a.icon||'📦')} ${escapeHtml(a.name)}</b> · ₹${Number(a.price_inr)||0} · ${escapeHtml(a.version)}<div class="dim">${escapeHtml(a.id)} · ${escapeHtml(a.description||'')}</div><button class="btn" data-del-store="${escapeHtml(a.id)}">Delete</button></div>`).join('')||'<div class="dim">No custom Store apps yet.</div>';
     body.querySelectorAll('[data-del-store]').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this custom Store app?'))return;const rr=await api('/api/admin/store/apps/'+encodeURIComponent(b.dataset.delStore),{method:'DELETE'});if(rr.error)alert(rr.error);else load();});
     body.querySelector('#admin-users-table').innerHTML='<tr><th>User</th><th>Role</th><th>Status</th><th>Plan</th><th>Request</th></tr>'+(users.users||[]).map(u=>`<tr><td>${escapeHtml(u.username)}</td><td>${escapeHtml(u.role)}</td><td>${escapeHtml(u.status)}</td><td>${escapeHtml(u.plan||'FREE')}</td><td>${escapeHtml(u.latest_request_status||'-')}</td></tr>`).join('');
@@ -2771,7 +2831,7 @@ function renderArchiveManagerApp(body){
   body.querySelector('#arc-list').onclick=async()=>{
     if(!file.files?.[0]){status.textContent='Select a ZIP archive first.';return;}
     const f=file.files[0];
-    if(!f.name.toLowerCase().endsWith('.zip')){status.textContent='Only ZIP archives are supported in BETA.';return;}
+    if(!f.name.toLowerCase().endsWith('.zip')){status.textContent='Only ZIP archives are supported.';return;}
     const form=new FormData(); form.append('archive',f,f.name);
     status.textContent='Reading archive…'; listing.innerHTML='';
     const r=await api('/api/archive/list',{method:'POST',body:form,timeoutMs:30000});
@@ -2844,7 +2904,7 @@ function renderSecurityCenterApp(body){
   const esc=escapeHtml;
   body.innerHTML=`<div class="stack"><h3>🔐 Security Center</h3><div class="note-card"><b>App Lock</b><div class="dim">Lock individual DeveloperHCR apps with a local PIN. This protects apps inside HCR; it is not Android/Windows OS encryption.</div><div class="row"><select id="sec-app-select" style="flex:1"></select><button class="btn primary" id="sec-lock-toggle">Lock / Unlock</button></div><div id="sec-lock-status" class="dim"></div></div><div class="note-card"><b>Account Security</b><div class="row"><button class="btn" id="sec-refresh">Refresh Security Summary</button><button class="btn" id="sec-quick">Open Quick Unlock Settings</button></div><pre id="sec-out" class="term-log"></pre></div></div>`;
   const sel=body.querySelector('#sec-app-select'),status=body.querySelector('#sec-lock-status');
-  const lockable=APPS.filter(a=>!['settings','security','store'].includes(a.id));
+  const lockable=APPS.filter(a=>platformAllowed(a) && !['settings','security','store'].includes(a.id));
   sel.innerHTML=lockable.map(a=>`<option value="${esc(a.id)}">${esc(a.glyph)} ${esc(a.name)}</option>`).join('');
   const refreshLocks=()=>{const locks=hcrLockedApps();status.textContent=locks.length?`Locked: ${locks.map(id=>APPS.find(a=>a.id===id)?.name||id).join(', ')}`:'No app locks configured.';};
   body.querySelector('#sec-lock-toggle').onclick=async()=>{try{const locked=await hcrConfigureAppLock(sel.value);status.textContent=locked?'App locked.':'App unlocked.';refreshLocks();}catch(e){status.textContent=e.message||String(e);}};
@@ -2883,7 +2943,7 @@ function renderHelpApp(body){
 
 async function renderAboutApp(body) {
   const sys = await api("/api/system");
-  body.innerHTML = `<div class="stack"><div style="font-size:1.25rem"><b>DeveloperHCR:AI Agent</b> — BETA</div><div class="dim">Version ${escapeHtml(sys.app_version)} · V2.0 BETA</div><hr><div><b>Purpose:</b> AI Agent + Local AI Studio + Desktop Environment + Browser + Store + Developer Tools.</div><div><b>Desktop:</b> Full-screen, landscape-first, movable, resizable, minimizable and maximizable windows with taskbar zoom controls.</div><div><b>AI:</b> HCR AI Agent supports configured Ollama/GGUF runtimes. Models are detected honestly; explicit Ollama model download is available from AI Models.</div><div><b>Access:</b> Free, ₹1, ₹10 and ₹100 tiers are defined. Admin/Admin are free with all features. Paid access is not treated as paid until a real payment provider/server verification is integrated.</div><div><b>Privacy:</b> Admin/Admin dashboards use aggregate usage/security/support data. Private/E2EE mode is never represented as implemented encryption unless the actual encryption boundary is configured.</div><div><b>Store:</b> HCR Store supports explicit app/plugin installation with HTTPS and archive path validation.</div><div><b>Updates:</b> Admin chooses the repository in Settings; the app checks releases and can download/validate an update archive. Apply/restart remains controlled.</div><div><b>Platform:</b> ${escapeHtml(sys.os)} ${escapeHtml(sys.os_release)} · ${escapeHtml(sys.arch)} · Python ${escapeHtml(sys.python)}</div><div class="dim">Existing modular features are preserved; V2.0 BETA remains a test release; later improvements are additive. Unsupported capabilities are labelled instead of shown as fake working buttons.</div></div>`;
+  body.innerHTML = `<div class="stack"><div style="font-size:1.25rem"><b>DeveloperHCR:AI Agent</b></div><div class="dim">Version 1.0 STABLE · DeveloperHCR</div><hr><div><b>Purpose:</b> AI Agent + Local AI Studio + Desktop Environment + Browser + Store + Developer Tools.</div><div><b>Desktop:</b> Full-screen, landscape-first, movable, resizable, minimizable and maximizable windows with taskbar zoom controls.</div><div><b>AI:</b> HCR AI Agent supports configured Ollama/GGUF runtimes. Models are detected honestly; explicit Ollama model download is available from AI Models.</div><div><b>Access:</b> Free, ₹1, ₹10 and ₹100 tiers are defined. Admin/Admin are free with all features. Paid access is not treated as paid until a real payment provider/server verification is integrated.</div><div><b>Privacy:</b> Admin/Admin dashboards use aggregate usage/security/support data. Private/E2EE mode is never represented as implemented encryption unless the actual encryption boundary is configured.</div><div><b>Store:</b> HCR Store supports explicit app/plugin installation with HTTPS and archive path validation.</div><div><b>Updates:</b> Admin chooses the repository in Settings; the app checks releases and can download/validate an update archive. Apply/restart remains controlled.</div><div><b>Platform:</b> ${escapeHtml(sys.os)} ${escapeHtml(sys.os_release)} · ${escapeHtml(sys.arch)} · Python ${escapeHtml(sys.python)}</div><div class="dim">Existing modular features are preserved; STABLE v1.0 is the current requested stable line; later version numbers are not introduced unless explicitly requested. Unsupported capabilities are labelled instead of shown as fake working buttons.</div></div>`;
 }
 
 boot();
@@ -2892,96 +2952,46 @@ boot();
 // ================= v1.1: HCR Store =================
 const unlockedFeatures = new Set(JSON.parse(localStorage.getItem("hcr-unlocked-features") || "[]"));
 async function renderStoreApp(body) {
-  const [r, settings] = await Promise.all([api("/api/store"), api("/api/settings")]);
-  if(r.error){body.innerHTML=`<div class="dim">${escapeHtml(r.error)}</div>`;return;}
-  body.innerHTML=`<div class="stack"><h3>HCR Store</h3><div class="dim">Built-in apps are already included. Optional remote apps install only after explicit user action and HTTPS validation. Items marked 🔒 need their own password (separate from your login) — ask the Admin if you don't have it.</div><div id="store-list"></div></div>`;
-  const localStore = APPS.map(a=>({app_id:a.id,name:a.name,version:"1.0.0",category:(a.feature?"Premium / Feature locked":"Built-in"),description:(a.feature?`Requires ${a.feature} access.`:"DeveloperHCR built-in app"),builtin:true,feature:a.feature||"",roleMin:a.roleMin||""}));
-  localStore.push({app_id:"camera",name:"HCR Camera Monitor",version:"1.0.0",category:"Utilities / Camera",description:"Visible camera preview with explicit Android/PC permission; camera stops when the app closes.",builtin:true,feature:"",roleMin:"",available:true,renderer:"camera"});
-  const storeApps = [...(r.apps||[])];
-  const seen = new Set(storeApps.map(a=>a.app_id||a.id));
-  localStore.forEach(a=>{if(!seen.has(a.app_id)) storeApps.push(a);});
-  if (["ADMIN","GUEST"].includes(currentUser?.role)) { for (const a of storeApps) { if (Number(a.price_inr) > 0) a.owner_free = true; } }
-  body.querySelector("#store-list").innerHTML=storeApps.map(a=>{
-    const key = a.app_id || a.id;
-    const roleLocked=(a.feature && !appAllowed(a)) || (a.roleMin && !(currentUser && (currentUser.role===a.roleMin)));
-    const passwordLocked = !!a.locked && !unlockedFeatures.has(key) && !["ADMIN","GUEST"].includes(currentUser?.role);
-    const paid = Number(a.price_inr || 0) > 0;
-    let action;
-    if (passwordLocked && paid) {
-      action = `<div class="stack store-lock-box" data-key="${escapeHtml(key)}">
-        <div class="row" style="justify-content:space-between"><span class="badge">🔒 PAID / LOCKED</span><b>₹${Number(a.price_inr)}</b></div>
-        <div class="row"><input type="password" class="store-pw-input" placeholder="Activation password" style="flex:1"><button class="btn store-unlock-btn">🔓 Unlock</button></div>
-        <div class="store-pw-error auth-error"></div>
-        <button class="btn store-paid-request" data-id="${escapeHtml(a.id || key)}" data-name="${escapeHtml(a.name||key)}" data-price="${Number(a.price_inr)}">Pay / Request ₹${Number(a.price_inr)}</button>
-        <div class="dim">Payment/request and activation are separate. After approval, use the app's activation password. Use the official Support Team contacts in Feedback & Support.</div>
-      </div>`;
-    } else if (passwordLocked) {
-      action = `<div class="stack store-lock-box" data-key="${escapeHtml(key)}">
-        <div class="row"><input type="password" class="store-pw-input" placeholder="Feature password" style="flex:1"><button class="btn store-unlock-btn">🔒 Unlock</button></div>
-        <div class="store-pw-error auth-error"></div>
-        ${whatsapp ? `<a href="${escapeHtml(whatsapp)}" target="_blank" rel="noopener" class="dim">Don't have the password? Ask on WhatsApp →</a>` : `<div class="dim">Don't have the password? Ask the Admin directly.</div>`}
-      </div>`;
-    } else if (roleLocked) {
-      action = `<button class="btn" disabled>🔒 Disabled — upgrade / permission required</button>`;
-    } else if (a.builtin) {
-      action = `<div class="row"><button class="btn" data-open="${escapeHtml(key)}">Open</button></div>`;
-    } else if (a.available === false) {
-      action = `<button class="btn" disabled>Not published yet</button>`;
-    } else if (Number(a.price_inr) > 0) {
-      if (["ADMIN","GUEST"].includes(currentUser?.role)) {
-        action = `<div class="owner-free-badge">✓ FREE — no payment required in this access mode</div><div class="dim">External package must still be published/installed before it can run.</div>`;
-      } else {
-        action = `<button class="btn store-paid-request" data-id="${escapeHtml(a.id)}" data-name="${escapeHtml(a.name||a.id)}" data-price="${Number(a.price_inr)}">Pay / Request ₹${Number(a.price_inr)}</button><div class="dim">First, you will enter the reason for this app. Then WhatsApp opens for payment/confirmation. Support: ${escapeHtml(supportEmail)}</div>`;
+  let remote={apps:[]};
+  try { remote=await api("/api/store"); } catch(_) {}
+  if(remote.error) remote={apps:[]};
+  const remoteApps=Array.isArray(remote.apps)?remote.apps:[];
+  const localCatalog=APPS.filter(platformAllowed).map(a=>({app_id:a.id,id:a.id,name:a.name,version:"1.0.0",category:
+    a.id.startsWith("game-")||a.id==="games"?"Games":(a.feature?"Premium":"Utilities"),
+    description:a.feature?`DeveloperHCR ${a.name} — ${a.feature} access.`:`DeveloperHCR ${a.name}.`,
+    icon:a.glyph,builtin:true,feature:a.feature||"",roleMin:a.roleMin||"",price_inr:0
+  }));
+  const merged=[...localCatalog]; const seen=new Set(merged.map(a=>a.app_id));
+  remoteApps.forEach(a=>{const k=a.app_id||a.id;if(!seen.has(k)){merged.push({...a,icon:a.icon||"📦"});seen.add(k);}});
+  const cats=["All",...new Set(merged.map(a=>a.category||"Other"))];
+  body.innerHTML=`<div class="stack store-redesign"><div class="row" style="justify-content:space-between"><div><h3 style="margin:0">🛍️ HCR Store</h3><div class="dim">Apps are <b>not installed by default</b>. Choose an app, then install it explicitly.</div></div><button class="btn" id="store-refresh">↻ Reload</button></div><div class="row store-cats" id="store-cats"></div><div id="store-list"></div></div>`;
+  const catsBox=body.querySelector("#store-cats"),list=body.querySelector("#store-list");
+  catsBox.innerHTML=cats.map(c=>`<button class="btn" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join("");
+  let active="All";
+  function draw(){
+    const q=(body.querySelector("#store-search")?.value||"").toLowerCase();
+    const rows=merged.filter(a=>(active==="All"||(a.category||"Other")===active)&&(!q||`${a.name} ${a.description}`.toLowerCase().includes(q)));
+    list.innerHTML=`<div class="row" style="margin-bottom:10px"><input id="store-search" placeholder="Search Store apps…" style="flex:1"><span class="dim">${rows.length} apps</span></div>`+
+      rows.map(a=>{const id=a.app_id||a.id, installed=isAppInstalled(id), locked=a.locked&&!unlockedFeatures.has(id)&&currentUser?.role!=="ADMIN";
+        let action=installed?`<button class="btn" data-open="${escapeHtml(id)}">Open</button>`:(locked?`<button class="btn" disabled>🔒 Locked</button>`:`<button class="btn primary" data-install="${escapeHtml(id)}" data-v="${escapeHtml(a.version||"1.0.0")}" data-src="${escapeHtml(a.source||"")}">Install</button>`);
+        return `<div class="store-card"><div class="store-app-icon">${escapeHtml(a.icon||"📦")}</div><div class="store-app-info"><b>${escapeHtml(a.name||id)}</b><div class="dim">${escapeHtml(a.category||"Other")} · v${escapeHtml(a.version||"1.0.0")}</div><div class="dim">${escapeHtml(a.description||"DeveloperHCR application")}</div></div><div class="store-action">${action}${installed?`<span class="badge">Installed</span>`:""}</div></div>`;
+      }).join("")||`<div class="dim">No apps found.</div>`;
+    body.querySelector("#store-search")?.addEventListener("input",draw);
+    body.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openApp(b.dataset.open));
+    body.querySelectorAll("[data-install]").forEach(b=>b.onclick=async()=>{
+      const id=b.dataset.install; b.disabled=true;b.textContent="Installing…";
+      let ok=true;
+      if(!APPS.some(a=>a.id===id)){
+        const rr=await api("/api/store/install",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({app_id:id,version:b.dataset.v,source:b.dataset.src})}); ok=!!rr.ok;
+        if(!ok){b.disabled=false;b.textContent="Install failed";alert(rr.error||"The Store package is not available yet.");return;}
       }
-    } else {
-      action = `<button class="btn" data-id="${escapeHtml(a.id)}" data-v="${escapeHtml(a.version||"1.0.0")}" data-src="${escapeHtml(a.source||"")}">Install</button>`;
-    }
-    return `<div class="note-card"><b>${a.locked?"🔒 ":""}${escapeHtml(a.name||a.id)}</b> · v${escapeHtml(a.version||"?")}<div class="dim">${escapeHtml(a.category||"App")} — ${escapeHtml(a.description||"")}</div>${action}</div>`;
-  }).join("");
-  body.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openApp(b.dataset.open));
-  body.querySelectorAll(".store-paid-request").forEach(b=>b.onclick=async()=>{
-    const reason = window.prompt("Aap yah app kis kaaran se lena chahte hain?", "Main is app ko DeveloperHCR mein use karna chahta/chahti hoon.");
-    if (!reason || !reason.trim()) return;
-    b.disabled = true; b.textContent = "Creating request…";
-    const rr = await api("/api/store/request", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({app_id:b.dataset.id,app_name:b.dataset.name,price_inr:Number(b.dataset.price),note:reason})});
-    if (rr.error) { b.disabled=false; b.textContent=`Pay / Request ₹${Number(b.dataset.price)}`; alert(rr.error); return; }
-    if (rr.whatsapp_url) window.open(rr.whatsapp_url, "_blank", "noopener");
-    b.textContent = "Request sent ✓";
-    playUISound("success");
-  });
-  body.querySelectorAll("[data-id]").forEach(b=>b.onclick=async()=>{
-    const rr=await api("/api/store/install",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({app_id:b.dataset.id,version:b.dataset.v,source:b.dataset.src})});
-    b.textContent=rr.ok?"Installed":"Failed: "+(rr.error||"");
-    if(rr.ok){
-      // Built-in/registered apps become desktop shortcuts immediately after
-      // an explicit Store install. Remote plugins still require their own
-      // runtime/manifest before they can be launched.
-      if(APPS.some(a=>a.id===rr.app_id)){
-        addDesktopShortcut(rr.app_id);
-        buildLauncher();
-      }
-      playUISound("success");
-    }
-  });
-  body.querySelectorAll(".store-lock-box").forEach(box=>{
-    const key = box.dataset.key;
-    const input = box.querySelector(".store-pw-input");
-    const err = box.querySelector(".store-pw-error");
-    const submit = async () => {
-      const pw = input.value;
-      if (!pw) { err.textContent = "Enter the feature password."; return; }
-      const rr = await api("/api/store/unlock", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({app_id:key, password:pw})});
-      if (rr.error) { err.textContent = rr.error; playUISound("error"); return; }
-      unlockedFeatures.add(key);
-      localStorage.setItem("hcr-unlocked-features", JSON.stringify([...unlockedFeatures]));
-      playUISound("success");
-      renderStoreApp(body);
-    };
-    box.querySelector(".store-unlock-btn").onclick = submit;
-    input.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
-  });
+      markAppInstalled(id); addDesktopShortcut(id); playUISound("success"); buildLauncher(); draw();
+    });
+  }
+  catsBox.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{active=b.dataset.cat;draw();});
+  body.querySelector("#store-refresh").onclick=()=>renderStoreApp(body);
+  draw();
 }
-
 
 // ================= V2.0 BETA+: Standalone game windows =================
 function renderVoxelWorldApp(body) {
@@ -3069,7 +3079,9 @@ function renderStandaloneGameApp(body, gameId) {
 async function renderGamesApp(body) {
   const r=await api("/api/games");
   body.innerHTML=`<div class="stack"><h3>🎮 HCR Games Hub</h3>
-    <div class="dim">Local games. No real-money gambling. Every game has a visible reset/stop path.</div>
+    <div class="dim">Local games. No real-money gambling. Every game has a visible reset/stop path.</div><div class="note-card"><b>🎮 Games Hub Settings</b><div class="dim">Games open in separate HCR windows. Preferences are saved locally.</div><div class="row"><label><input id="games-sound" type="checkbox" checked> Game sounds</label><label><input id="games-landscape" type="checkbox" checked> Prefer landscape</label><button class="btn" id="games-save-settings">Save</button></div><div id="games-settings-status" class="dim"></div></div>
+    <div class="note-card"><b>🧭 HCR Game Hub — Device Profile</b><div class="dim" id="games-device-details">Detecting Android / Windows / Linux / macOS / browser capabilities…</div><div class="row"><button class="btn" id="games-refresh-device">↻ Reload Device Details</button><button class="btn" id="games-connect-watch">⌚ Connect Watch</button></div><div id="games-device-status" class="dim"></div></div>
+    <div class="note-card"><b>🎮 Original HCR Games</b><div class="dim">Inspired-by style only — no Minecraft, Free Fire or other third-party game files are included.</div><div class="row"><button class="btn primary" data-open-game="game-voxel">HCR Block World</button><button class="btn" data-open-game="game-reflex">HCR Fire Arena</button></div><div class="dim">HCR Fire Arena is an original reflex/target challenge, not Garena Free Fire.</div></div>
     <div class="games-grid">
       <div class="note-card"><b>🐍 Snake 2D</b><div class="dim">Keyboard + touch controls.</div><button class="btn" data-open-game="game-snake">Open Game</button></div>
       <div class="note-card"><b>🏓 Pong 2D</b><div class="dim">Mouse + touch paddle.</div><button class="btn" data-open-game="game-pong">Open Game</button></div>
@@ -3091,6 +3103,11 @@ async function renderGamesApp(body) {
       ${(r.games||[]).filter(g=>!['dice','guess_number','snake_2d','pong_2d','tetris_2d','memory_2d','tic_tac_toe','reflex','cube_3d','orbit_3d','breakout_2d','minesweeper_2d','flappy_2d','maze_2d','starfield_3d','solar_3d'].includes(g.id)).map(g=>`<div class="note-card"><b>🎲 ${escapeHtml(g.name)}</b><div class="dim">${escapeHtml(g.description)}</div><button class="btn" data-open-game="games">Open Game</button></div>`).join("")}
     </div><div class="row"><button class="btn secondary" id="game-stop">Stop Game</button><button class="btn" id="game-reset">Reset</button></div><div id="game-stage" class="game-stage"></div><div id="game-output" class="term-log"></div></div>`;
   const stage=body.querySelector('#game-stage'); let cleanup=()=>{};
+  const fillDevice=()=>{const d=body.querySelector('#games-device-details'); if(!d)return; const ua=navigator.userAgent||''; const os=/Android/i.test(ua)?'Android':/Windows/i.test(ua)?'Windows':/Mac OS X/i.test(ua)?'macOS':/Linux/i.test(ua)?'Linux':'Other'; d.textContent=`OS: ${os} · Browser: ${navigator.userAgentData?.brands?.map(x=>x.brand).join(', ')||navigator.appName||'Browser'} · CPU: ${navigator.hardwareConcurrency||'unknown'} cores · RAM: ${navigator.deviceMemory?navigator.deviceMemory+' GB':'not exposed'} · Touch: ${navigator.maxTouchPoints>0?'Yes':'No'} · Screen: ${screen.width}×${screen.height}`;};
+  fillDevice(); body.querySelector('#games-refresh-device')?.addEventListener('click',fillDevice); body.querySelector('#games-connect-watch')?.addEventListener('click',()=>{body.querySelector('#games-device-status').textContent='Watch connection is available through supported browser/device APIs; no fake connection is reported.';});
+  let gamePrefs={sound:true,landscape:true}; try{gamePrefs=Object.assign(gamePrefs,JSON.parse(localStorage.getItem("hcr-games-prefs-v1")||"{}"));}catch(_){}
+  const gs=body.querySelector("#games-sound"),gl=body.querySelector("#games-landscape"); if(gs)gs.checked=gamePrefs.sound!==false;if(gl)gl.checked=gamePrefs.landscape!==false;
+  body.querySelector("#games-save-settings")?.addEventListener("click",()=>{gamePrefs={sound:!!gs.checked,landscape:!!gl.checked};localStorage.setItem("hcr-games-prefs-v1",JSON.stringify(gamePrefs));body.querySelector("#games-settings-status").textContent="Games settings saved.";if(gamePrefs.landscape)try{screen.orientation?.lock?.("landscape")}catch(_){}});
   const stop=()=>{try{cleanup();}catch(_){} cleanup=()=>{}; stage.innerHTML='<div class="dim">Choose a game and press Play.</div>';};
   body.querySelector('#game-stop').onclick=stop; body.querySelector('#game-reset').onclick=stop;
   const play=(fn)=>{stop();cleanup=fn()||(()=>{});};

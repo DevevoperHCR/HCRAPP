@@ -806,3 +806,86 @@ body.desktop-fullscreen.fullscreen-taskbar-visible #windows-layer{bottom:62px!im
 .support-contact-row a:hover,.admin-contact-list a:hover{text-decoration:underline}
 .admin-contact-list{display:flex;flex-direction:column;gap:6px;margin-top:8px;line-height:1.35}
 @media(max-width:600px){.support-contact-row{align-items:flex-start;flex-direction:column;gap:3px}}
+
+/* v3.0 global speed profiles: one setting affects the shared desktop/app UI. */
+:root { --hcr-speed-duration: 180ms; --hcr-speed-animation: 1s; }
+body.perf-battery { --hcr-speed-duration: 320ms; --hcr-speed-animation: 1.4s; }
+body.perf-balanced { --hcr-speed-duration: 180ms; --hcr-speed-animation: 1s; }
+body.perf-performance { --hcr-speed-duration: 100ms; --hcr-speed-animation: .65s; }
+body.perf-turbo { --hcr-speed-duration: 55ms; --hcr-speed-animation: .4s; }
+body.perf-battery *, body.perf-balanced *, body.perf-performance *, body.perf-turbo * {
+  transition-duration: var(--hcr-speed-duration) !important;
+  animation-duration: var(--hcr-speed-animation) !important;
+}
+
+/* HCR 3.0 Stable Beta additions */
+#boot-skip{margin-top:12px;min-width:150px}
+.boot-credit{font-size:.78rem;opacity:.72;margin-top:6px;letter-spacing:.02em}
+.win-settings{border:0;background:transparent;color:inherit;padding:4px 8px;cursor:pointer}
+.win-settings:hover{background:rgba(255,255,255,.09);border-radius:6px}
+
+/* STABLE v1.0 branding */
+#hcr-creator-watermark{position:fixed;left:50%;bottom:54px;transform:translateX(-50%);z-index:5;pointer-events:none;font-size:12px;letter-spacing:.08em;opacity:.55;font-weight:700;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.hcr-stable-v1 .login-brand{letter-spacing:.06em}
+.hcr-stable-v1 .auth-box{animation:hcrLoginIn .45s ease both}
+@keyframes hcrLoginIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+.win-settings{border:0;background:transparent;color:inherit;padding:4px 8px;cursor:pointer}
+.win-settings:hover{background:rgba(255,255,255,.09);border-radius:6px}
+
+/* Termux/Store redesign */
+.store-redesign{max-width:1100px;margin:auto}.store-cats{flex-wrap:wrap}.store-card{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--panel);margin:8px 0}.store-app-icon{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-size:30px;background:rgba(127,127,127,.12);border:1px solid var(--border)}.store-app-info{min-width:0}.store-action{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}@media(max-width:650px){.store-card{grid-template-columns:52px 1fr}.store-action{grid-column:1/-1;justify-content:flex-start}.store-app-icon{width:48px;height:48px;font-size:25px}}
+
+
+/* ---- Platform-specific HCR identity ---- */
+body[data-platform-ui="windows"] #desktop {
+  background: radial-gradient(circle at 70% 18%, rgba(47,111,237,.20), transparent 34%),
+              linear-gradient(135deg,#0a0d12,#111722 55%,#080a0f);
+}
+body[data-platform-ui="windows"] #taskbar {
+  height: 50px; padding: 0 12px; gap: 9px;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+body[data-platform-ui="windows"] .win { border-radius: 10px; box-shadow: 0 18px 50px rgba(0,0,0,.42); }
+body[data-platform-ui="windows"] .win-titlebar { min-height: 38px; }
+body[data-platform-ui="windows"] #app-launcher { width: 430px; border-radius: 14px; }
+body[data-platform-ui="windows"] .launcher-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+
+body[data-platform-ui="android"] {
+  font-family: Roboto, "Noto Sans", system-ui, sans-serif;
+}
+body[data-platform-ui="android"] #desktop {
+  background: radial-gradient(circle at 50% 0%, rgba(79,140,255,.22), transparent 40%),
+              linear-gradient(180deg,#0b0f18,#111827 70%,#0b0d12);
+}
+body[data-platform-ui="android"] #taskbar {
+  height: 58px; padding: 5px 8px; gap: 6px;
+  border-top: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+body[data-platform-ui="android"] #launcher-btn { width: 48px; height: 48px; border-radius: 14px; }
+body[data-platform-ui="android"] .tbtn { min-width: 42px; min-height: 42px; border-radius: 12px; }
+body[data-platform-ui="android"] .win { border-radius: 18px; border-color: rgba(255,255,255,.10); }
+body[data-platform-ui="android"] .win-titlebar { min-height: 52px; padding: 11px 14px; cursor: default; }
+body[data-platform-ui="android"] .win-body { padding: 14px; font-size: .92rem; }
+body[data-platform-ui="android"] .btn,
+body[data-platform-ui="android"] button.btn,
+body[data-platform-ui="android"] input,
+body[data-platform-ui="android"] select { min-height: 42px; }
+body[data-platform-ui="android"] #app-launcher { left: 8px; right: 8px; width: auto; border-radius: 18px; padding: 12px; }
+body[data-platform-ui="android"] .launcher-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 9px; }
+body[data-platform-ui="android"] .app-icon { min-height: 94px; border-radius: 16px; padding: 11px 5px; }
+body[data-platform-ui="android"] .app-icon .glyph { font-size: 1.8rem; }
+body[data-platform-ui="android"] .app-logo { border-radius: 14px; }
+
+/* Stable login polish: settings live in the upper corner; first-run setup is the only place that exposes Create Admin. */
+.login-corner-settings{position:fixed;top:18px;right:18px;z-index:10010;min-width:92px;backdrop-filter:blur(12px);background:rgba(18,25,40,.78);border-color:rgba(100,180,255,.28);}
+.login-credit{font-size:.72rem;letter-spacing:1.5px;color:var(--text-dim);margin:2px 0 14px;}
+.login-settings-panel{position:fixed;top:62px;right:18px;z-index:10011;width:min(300px,calc(100vw - 36px));padding:14px;border:1px solid var(--border);border-radius:16px;background:rgba(18,23,34,.96);box-shadow:0 22px 70px rgba(0,0,0,.55);backdrop-filter:blur(18px);display:grid;gap:8px;text-align:left;}
+.login-settings-panel[hidden]{display:none;}
+.login-settings-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.login-settings-note{font-size:.72rem;line-height:1.45;margin-top:4px;}
+.login-logo-animated img{animation:hcrLoginLogoIn .85s cubic-bezier(.2,.8,.2,1) both;}
+.auth-entry-animation{animation:hcrLoginCardIn .7s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes hcrLoginLogoIn{0%{opacity:0;transform:scale(.72) rotate(-8deg);filter:blur(8px);box-shadow:0 0 0 rgba(0,0,0,0)}60%{opacity:1;transform:scale(1.06) rotate(2deg);filter:blur(0);box-shadow:0 0 38px rgba(70,150,255,.28)}100%{opacity:1;transform:scale(1) rotate(0);}}
+@keyframes hcrLoginCardIn{0%{opacity:0;transform:translateY(18px) scale(.97);filter:blur(5px)}100%{opacity:1;transform:none;filter:none}}
+@media(max-width:700px){.login-corner-settings{top:10px;right:10px}.login-settings-panel{top:56px;right:10px}.login-credit{margin-bottom:10px;}}
