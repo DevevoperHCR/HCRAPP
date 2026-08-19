@@ -62,7 +62,7 @@ A local-first desktop, mobile and terminal environment for running the Developer
 </details>
 
 <details>
-<summary><strong>▼ Manual Guide — Windows</strong></summary>
+<summary><strong> Manual Guide — Windows</strong></summary>
 
 1. Extract the project folder to a normal writable location.
 2. Run `setup_windows.bat` once.
@@ -76,7 +76,7 @@ If Windows blocks a script, open Command Prompt in the project folder and run th
 </details>
 
 <details>
-<summary><strong>▼ Manual Guide — Linux / Kali Linux</strong></summary>
+<summary><strong> Manual Guide — Linux / Kali Linux</strong></summary>
 
 1. Open a terminal in the extracted project directory.
 2. Run `bash setup_linux.sh`.
@@ -89,7 +89,7 @@ Keep the project in a writable directory. Avoid running the project from a read-
 </details>
 
 <details>
-<summary><strong>▼ Manual Guide — Android / Termux</strong></summary>
+<summary><strong> Manual Guide — Android / Termux</strong></summary>
 
 1. Open Termux and enter the extracted project directory.
 2. Run:
@@ -113,7 +113,7 @@ The browser-compatible UI can still be used when a platform cannot provide a nat
 </details>
 
 <details>
-<summary><strong>▼ First Run and Daily Use</strong></summary>
+<summary><strong> First Run and Daily Use</strong></summary>
 
 ### First run
 - Create the user-facing Admin when no Admin exists.
@@ -135,7 +135,7 @@ The browser-compatible UI can still be used when a platform cannot provide a nat
 </details>
 
 <details>
-<summary><strong>▼ GitHub Release / Assets Arrow</strong></summary>
+<summary><strong> GitHub Release / Assets Arrow</strong></summary>
 
 GitHub itself provides an **Assets** section on a Release page. The small arrow beside **Assets** expands or collapses the downloadable files. That arrow is part of GitHub's interface and is not controlled by the README.
 
@@ -146,7 +146,7 @@ The README also uses the same expandable-arrow style (`<details>` / `<summary>`)
 </details>
 
 <details>
-<summary><strong>▼ Repository</strong></summary>
+<summary><strong> Repository</strong></summary>
 
 Official project repository:
 
@@ -155,7 +155,7 @@ https://github.com/DevevoperHCR/HCRAPP
 </details>
 
 <details>
-<summary><strong>▼ Included Files and Media</strong></summary>
+<summary><strong> Included Files and Media</strong></summary>
 
 - Application source and runtime modules.
 - Windows, Linux/Kali Linux and Termux setup/launcher scripts.
