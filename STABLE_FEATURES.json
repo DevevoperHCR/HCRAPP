@@ -1,0 +1,29 @@
+{
+  "release": "1.0 STABLE",
+  "creator": "Abhimanyu Verma",
+  "lineage": "DeveloperHCR 3.0 Windows/dual-mode base",
+  "features": [
+    "animated login UI and persistent remember-me session",
+    "one-time startup file check with persistent skip",
+    "landscape/portrait setting and settings access from every window",
+    "Windows-style desktop with only File Manager, Recycle Bin and This PC shortcuts",
+    "separate HCR Games Hub with local game settings and device capability details",
+    "original HCR Block World and HCR Fire Arena; no third-party game assets",
+    "working persistent alarms and timers with test sound and notification fallback",
+    "bundled UI notification sounds with browser-safe fallback",
+    "GGUF/AI model management with explicit download controls",
+    "EXE/Wine compatibility reporting and explicit execution",
+    "HCR Store with free/paid/locked app model and admin-controlled access",
+    "fixed official support: developerhcr@gmail.com and @developerhcr",
+    "creator branding on login/desktop/wallpaper layer",
+    "browser + terminal dual-mode preserved",
+    "drag/drop desktop shortcuts and reloadable launcher preserved",
+    "C/D-style storage abstraction and external device support preserved where OS exposes it"
+  ],
+  "notes": [
+    "No fake Minecraft or Free Fire files are included.",
+    "No WhatsApp support is included.",
+    "No artificial junk/padding was added.",
+    "The existing internal VERSION remains 3.0-beta-windows for backward compatibility; the user-facing stable line is 1.0 STABLE."
+  ]
+}
