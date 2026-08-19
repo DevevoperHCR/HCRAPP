@@ -5,7 +5,7 @@ A local-first desktop, mobile and terminal environment for running the Developer
 > **Important:** This README describes the project's features and operation only. It intentionally does not list a software version.
 
 <details>
-<summary><strong>▼ Features</strong></summary>
+<summary><strong> Features</strong></summary>
 
 ### Desktop and workspace
 - Windows-style desktop with taskbar, launcher, movable windows, minimize/maximize, resize and full-screen controls.
