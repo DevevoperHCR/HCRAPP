@@ -2,7 +2,6 @@
 
 A local-first desktop, mobile and terminal environment for running the DeveloperHCR workspace across Windows, Linux/Kali Linux, Android/Termux and browser-capable systems.
 
-<img width="1536" height="1024" alt="file_00000000068c821188b8b6d4a652ebd4" src="https://github.com/user-attachments/assets/55ec34d0-7a14-45b3-a4f2-7002ea8713ec" />
 
 
 > **Important:** This README describes the project's features and operation only. It intentionally does not list a software version.
@@ -176,5 +175,5 @@ https://github.com/DevevoperHCR/HCRAPP
 - Native desktop launching depends on the operating system and its available Python/runtime capabilities; the browser/headless UI is retained as a compatibility path.
 - Network-dependent features require network access, while the local workspace and core UI are designed to remain local-first.
 - 
-<img width="1536" height="1024" alt="file_00000000068c821188b8b6d4a652ebd4" src="https://github.com/user-attachments/assets/595e72e3-e650-4eaa-8e3f-9442f2db4993" />
+
 
