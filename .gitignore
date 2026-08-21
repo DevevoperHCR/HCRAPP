@@ -1,16 +1,36 @@
+Environment
+
 .env
 .env.*
 !.env.example
-__pycache__/
+
+Python
+
+pycache/
 *.py[cod]
+
+Python testing/cache
+
 .pytest_cache/
 .mypy_cache/
+
+Virtual environments
+
 .venv/
 venv/
-data/*.db
-data/*.sqlite
+
+Database files
+
+data/.db
+data/.sqlite
 data/*.sqlite3
+
+HCR/Jarvis generated data
+
 data/jarvis/screens/
 data/jarvis/recordings/
+
+Logs and temporary files
+
 *.log
 *.tmp
