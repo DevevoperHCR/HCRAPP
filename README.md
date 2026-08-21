@@ -3,6 +3,7 @@
 A local-first desktop, mobile and terminal environment for running the DeveloperHCR workspace across Windows, Linux/Kali Linux, Android/Termux and browser-capable systems.
 
 <img width="1536" height="1024" alt="file_00000000eb688211bb174697b04f07b7" src="https://github.com/user-attachments/assets/7df59a72-7d11-4be0-aaf4-f2ddc1501a0e" />
+
 https://youtu.be/fNrx3FiA4iE?si=uv52U_D9mncXoqkj
 
 > **Important:** This README describes the project's features and operation only. It intentionally does not list a software version.
